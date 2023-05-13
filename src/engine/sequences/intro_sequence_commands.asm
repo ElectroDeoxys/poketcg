@@ -318,8 +318,7 @@ LoadOpeningScene:
 	xor a
 	ld [wIntroSequencePalsNeedUpdate], a
 	call AdvanceIntroSequenceCmdPtrBy2
-	call EnableLCD
-	ret
+	jp EnableLCD
 
 IntroSequenceEmptyFunc:
 	ret

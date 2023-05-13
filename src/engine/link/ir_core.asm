@@ -355,8 +355,7 @@ ExecuteReceivedIRCommands:
 .CallFunction
 	call LoadRegistersFromIRDataBuffer
 	call .jp_hl
-	call StoreRegistersInIRDataBuffer
-	ret
+	jp StoreRegistersInIRDataBuffer
 
 ; returns carry set if request sent was not acknowledged
 TrySendIRRequest:

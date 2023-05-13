@@ -475,8 +475,7 @@ IsClairvoyanceActive::
 	ccf
 	ret nc
 	ld a, OMANYTE
-	call CountPokemonIDInPlayArea
-	ret
+	jp CountPokemonIDInPlayArea
 
 ; returns carry if turn holder's arena card is paralyzed, asleep, confused,
 ; and/or toxic gas in play, meaning that attack and/or pkmn power cannot be used

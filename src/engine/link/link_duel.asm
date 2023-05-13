@@ -87,8 +87,7 @@ _SetUpAndStartLinkDuel:
 	ldh [hWhoseTurn], a
 	call ExchangeRNG
 	bank1call StartDuel_VSLinkOpp
-	call SwitchToCGBDoubleSpeed
-	ret
+	jp SwitchToCGBDoubleSpeed
 
 .error
 	ld a, -1
@@ -102,8 +101,7 @@ _SetUpAndStartLinkDuel:
 	ldtx hl, TransmissionErrorText
 	call DrawWideTextBox_WaitForInput
 	call RestoreVBlankFunction
-	call ResetSerial
-	ret
+	jp ResetSerial
 
 .ExchangeNamesAndDecks
 	ld de, wDefaultText
@@ -121,8 +119,7 @@ _SetUpAndStartLinkDuel:
 	ld hl, wPlayerDeck
 	ld de, wOpponentDeck
 	ld c, DECK_SIZE
-	call SerialExchangeBytes
-	ret
+	jp SerialExchangeBytes
 
 ; handles player choice of number of prize cards
 ; pressing left/right makes it decrease/increase respectively

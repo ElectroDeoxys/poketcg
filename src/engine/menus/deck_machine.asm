@@ -82,7 +82,7 @@ HandleDeckMissingCardsList:
 	jr .loop
 
 .selection_made
-	ld a, [hffb3]
+	ldh a, [hffb3]
 	cp $ff
 	ret z
 	jr .open_card_pge
@@ -119,14 +119,12 @@ HandleDeckMissingCardsList:
 	ld [hl], e
 	inc hl
 	ld [hl], d
-	call PrintConfirmationCardList
-	ret
+	jp PrintConfirmationCardList
 
 .ClearScreenAndPrintDeckTitle
 	call EmptyScreenAndLoadFontDuelAndHandCardsIcons
 	call .PrintDeckIndexAndName
-	call EnableLCD
-	ret
+	jp EnableLCD
 
 ; prints text in the form "X.<DECK NAME> deck"
 ; where X is the deck index in the list
@@ -161,8 +159,7 @@ HandleDeckMissingCardsList:
 	lb de, 3, 1
 	ld hl, wDefaultText
 	call InitTextPrinting
-	call ProcessText
-	ret
+	jp ProcessText
 
 GiftCenter_SendCard:
 	xor a
@@ -298,7 +295,7 @@ GiftCenter_ReceiveCard:
 	call DrawListCursor_Invisible
 	ld a, [wCardListCursorPos]
 	ld [wTempCardListCursorPos], a
-	ld a, [hffb3]
+	ldh a, [hffb3]
 	cp $ff
 	jr nz, .asm_aff5
 	ld hl, wNameBuffer
@@ -355,8 +352,7 @@ Func_b088:
 	ld [hl], d
 	ld a, SYM_BOX_RIGHT
 	ld [wCursorAlternateTile], a
-	call PrintCardSelectionList
-	ret
+	jp PrintCardSelectionList
 
 .Func_b0b2
 	ld bc, wTempCardCollection
@@ -454,8 +450,7 @@ PrintCardToSendText:
 	lb de, 1, 1
 	call InitTextPrinting
 	ldtx hl, CardToSendText
-	call ProcessTextFromID
-	ret
+	jp ProcessTextFromID
 
 PrintReceivedTheseCardsText:
 	call EmptyScreenAndDrawTextBox
@@ -478,8 +473,7 @@ EmptyScreenAndDrawTextBox:
 	call PrepareMenuGraphics
 	lb de, 0, 0
 	lb bc, 20, 13
-	call DrawRegularTextBox
-	ret
+	jp DrawRegularTextBox
 
 Func_b177::
 	ld a, [wGiftCenterChoice]
@@ -715,7 +709,7 @@ HandleDeckMachineSelection:
 	ld [wTempCardListVisibleOffset], a
 	ld a, [wCardListCursorPos]
 	ld [wTempDeckMachineCursorPos], a
-	ld a, [hffb3]
+	ldh a, [hffb3]
 	or a
 	ret
 
@@ -809,8 +803,7 @@ ClearScreenAndDrawDeckMachineScreen:
 	call GetSavedDeckPointers
 	call PrintVisibleDeckMachineEntries
 	call GetSavedDeckCount
-	call EnableLCD
-	ret
+	jp EnableLCD
 
 ; prints wDeckMachineTitleText as title text
 SetDeckMachineTitleText:
@@ -820,8 +813,7 @@ SetDeckMachineTitleText:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	call ProcessTextFromID
-	ret
+	jp ProcessTextFromID
 
 ; save all sSavedDecks pointers in wMachineDeckPtrs
 GetSavedDeckPointers:
@@ -1062,8 +1054,7 @@ PrintDeckMachineEntry:
 	jr .loop
 .done
 	ld a, c
-	call DisableSRAM
-	ret
+	jp DisableSRAM
 
 ; counts how many decks in sSavedDecks are not empty
 ; stores value in wNumSavedDecks
@@ -1086,8 +1077,7 @@ GetSavedDeckCount:
 .got_count
 	ld a, e
 	ld [wNumSavedDecks], a
-	call DisableSRAM
-	ret
+	jp DisableSRAM
 
 ; prints "[wNumSavedDecks]/60"
 PrintNumSavedDecks:
@@ -1104,8 +1094,7 @@ PrintNumSavedDecks:
 	lb de, 14, 1
 	call InitTextPrinting
 	ld hl, wDefaultText
-	call ProcessText
-	ret
+	jp ProcessText
 
 ; prints "X/Y" where X is the current list index
 ; and Y is the total number of saved decks
@@ -1128,8 +1117,7 @@ Func_b568:
 	lb de, 14, 1
 	call InitTextPrinting
 	ld hl, wDefaultText
-	call ProcessText
-	ret
+	jp ProcessText
 
 ; handles player choice in what deck to save
 ; in the Deck Save Machine
@@ -1239,8 +1227,7 @@ CheckIfCanBuildSavedDeck:
 	ld l, a
 	ld bc, DECK_NAME_SIZE
 	add hl, bc
-	call CheckIfHasEnoughCardsToBuildDeck
-	ret
+	jp CheckIfHasEnoughCardsToBuildDeck
 
 ; switches to SRAM bank 0 and stores current SRAM bank in wTempBankSRAM
 ; skips if current SRAM bank is already 0
@@ -1277,9 +1264,7 @@ SafelySwitchToTempSRAMBank:
 	ld b, a
 	ld a, [wTempBankSRAM]
 	cp b
-	jr z, .skip
-	call BankswitchSRAM
-.skip
+	call nz, BankswitchSRAM
 	pop bc
 	pop af
 	ret
@@ -1429,8 +1414,7 @@ DrawListScrollArrows:
 	ld a, SYM_BOX_RIGHT
 .got_tile_2
 	lb bc, 19, 11
-	call WriteByteToBGMap0
-	ret
+	jp WriteByteToBGMap0
 
 ; handles the deck menu for when the player
 ; needs to make space for new deck to build
@@ -1674,8 +1658,7 @@ TryBuildDeckMachineDeck:
 	call AddDeckToCollection
 	pop hl
 	ld a, DECK_STRUCT_SIZE
-	call ClearNBytesFromHL
-	ret
+	jp ClearNBytesFromHL
 
 ; collects cards missing from player's collection
 ; and shows its confirmation list
@@ -2124,8 +2107,7 @@ HandleAutoDeckMenu:
 	call .CreateAutoDeckPointerList
 	call PrintVisibleDeckMachineEntries
 	call SafelySwitchToSRAM0
-	call EnableLCD
-	ret
+	jp EnableLCD
 
 ; writes to wMachineDeckPtrs the pointers
 ; to the Auto Decks in sAutoDecks

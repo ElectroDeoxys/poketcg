@@ -10,16 +10,14 @@ SetMainSGBBorder:
 	ld b, $2
 .asm_70013
 	ld a, b
-	call SetSGBBorder
-	ret
+	jp SetSGBBorder
 
 SetIntroSGBBorder:
 	ld a, [wConsole]
 	cp CONSOLE_SGB
 	ret nz ; exit if not SGB
 	ld a, $0
-	call SetSGBBorder
-	ret
+	jp SetSGBBorder
 
 AtrcEnPacket_Disable:
 	sgb ATRC_EN, 1 ; sgb_command, length
@@ -295,8 +293,7 @@ DecompressSGBData:
 	call InitDataDecompression
 	pop bc
 	pop de
-	call DecompressData
-	ret
+	jp DecompressData
 
 ; fills a 20x13 rectangle in v0BGMap0
 ; with values ascending bytes starting at $80

@@ -742,7 +742,7 @@ CardAlbum:
 	call DrawListCursor_Invisible
 	ld a, [wCardListCursorPos]
 	ld [wTempCardListCursorPos], a
-	ld a, [hffb3]
+	ldh a, [hffb3]
 	cp $ff
 	jr nz, .open_card_page
 	ldh a, [hCurMenuItem]
@@ -862,8 +862,7 @@ CardAlbum:
 	lb de, 0, 2
 	lb bc, 20, 16
 	call DrawRegularTextBox
-	call EnableLCD
-	ret
+	jp EnableLCD
 
 ; counts number of cards in wOwnedCardsCountList
 ; that is not set as CARD_NOT_OWNED
@@ -887,10 +886,10 @@ CardAlbum:
 	xor a
 	ld [wTileMapFill], a
 	call EmptyScreen
-	ld a, [hffb4]
+	ldh a, [hffb4]
 	dec a
 	jr nz, .draw_box
-	ld [hffb4], a
+	ldh [hffb4], a
 	call Set_OBJ_8x8
 	call ZeroObjectPositions
 	ld a, $01
@@ -947,8 +946,7 @@ CardAlbum:
 .has_promotional
 	ldtx hl, ViewWhichCardFileText
 	call DrawWideTextBox_PrintText
-	call EnableLCD
-	ret
+	jp EnableLCD
 
 .BoosterPacksMenuData
 	textitem 7,  1, BoosterPackTitleText

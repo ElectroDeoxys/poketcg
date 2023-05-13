@@ -250,8 +250,7 @@ ContinueDrawingTextBoxCGB::
 	; bottom line (border) of the text box
 	ld a, SYM_BOX_BOTTOM
 	lb de, SYM_BOX_BTM_L, SYM_BOX_BTM_R
-	call CopyCurrentLineTilesAndAttrCGB
-	ret
+	jp CopyCurrentLineTilesAndAttrCGB
 
 ; d = id of top left tile
 ; e = id of top right tile
@@ -269,8 +268,7 @@ CopyCurrentLineAttrCGB::
 	ld e, a
 	ld d, a
 	call CopyLine
-	call BankswitchVRAM0
-	ret
+	jp BankswitchVRAM0
 
 ; DrawRegularTextBox branches here on SGB console
 DrawRegularTextBoxSGB::
@@ -323,8 +321,7 @@ ColorizeTextBoxSGB::
 	ld [wTempSGBPacket + 2], a
 .send_packet
 	ld hl, wTempSGBPacket
-	call SendSGB
-	ret
+	jp SendSGB
 
 AttrBlkPacket_TextBox::
 	sgb ATTR_BLK, 1 ; sgb_command, length

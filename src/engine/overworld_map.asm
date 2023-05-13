@@ -258,8 +258,7 @@ OverworldMap_UpdateCursorAnimation:
 	ld [wWhichSprite], a
 	ld a, [wOverworldMapCursorAnimation]
 	inc a
-	call StartNewSpriteAnimation
-	ret
+	jp StartNewSpriteAnimation
 
 ; begin walking the player across the overworld
 ; from wOverworldMapStartingPosition to wOverworldMapSelection

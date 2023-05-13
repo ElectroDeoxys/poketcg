@@ -481,8 +481,7 @@ _DrawYourOrOppPlayAreaScreen::
 	call DrawYourOrOppPlayArea_Icons
 
 .done
-	call EnableLCD
-	ret
+	jp EnableLCD
 
 Func_82b6:
 	ld a, [wCheckMenuPlayAreaWhichDuelist]
@@ -730,8 +729,7 @@ DrawInPlayArea_ActiveCardGfx:
 	lb bc, 8, 6
 	call FillRectangle
 	bank1call ApplyBGP7OrSGB2ToCardImage
-	call SwapTurn
-	ret
+	jp SwapTurn
 
 ; draws prize cards depending on the turn
 ; loaded in wCheckMenuPlayAreaWhichDuelist
@@ -1681,15 +1679,13 @@ _DrawAIPeekScreen::
 	ld a, [wIsSwapTurnPending]
 	or a
 	ret z
-	call SwapTurn
-	ret
+	jp SwapTurn
 
 LoadCursorTile:
 	ld de, v0Tiles0
 	ld hl, .tile_data
 	ld b, 16
-	call SafeCopyDataHLtoDE
-	ret
+	jp SafeCopyDataHLtoDE
 
 .tile_data:
 	db $e0, $c0, $98, $b0, $84, $8c, $83, $82
@@ -2053,8 +2049,7 @@ _DrawPlayAreaToPlacePrizeCards::
 	lb hl, 1, 4
 	lb bc, 4, 3
 	call FillRectangle
-	call SwapTurn
-	ret
+	jp SwapTurn
 
 .player_icon_coordinates
 	db 15, 11

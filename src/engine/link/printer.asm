@@ -126,8 +126,7 @@ _RequestToPrintCard:
 	lb hl, 12,  1
 	lb de,  2, 68
 	lb bc, 16, 12
-	call FillRectangle
-	ret
+	jp FillRectangle
 
 ; writes the tiles necessary to draw
 ; the card's information in sGfxBuffer0
@@ -860,8 +859,7 @@ _PrintCardList:
 	call TwoByteNumberToTxSymbol_TrimLeadingZeros
 	ld hl, wStringBuffer
 	call ProcessText
-	call AddToPrinterGfxBuffer
-	ret
+	jp AddToPrinterGfxBuffer
 
 ; loads this card's type icon and text
 ; if it's a new card type that hasn't been printed yet
@@ -961,8 +959,7 @@ ShowPrinterTransmitting:
 	call LoadScene
 	ldtx hl, NowPrintingPleaseWaitText
 	call DrawWideTextBox_PrintText
-	call EnableLCD
-	ret
+	jp EnableLCD
 
 ; compresses $28 tiles in sGfxBuffer5
 ; and writes it in sGfxBuffer5 + $28 tiles.

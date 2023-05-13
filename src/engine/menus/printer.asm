@@ -38,7 +38,7 @@ PrinterMenu_PokemonCards:
 .asm_abca
 	call HandleCardSelectionInput
 	jr nc, .loop_frame_1
-	ld a, [hffb3]
+	ldh a, [hffb3]
 	cp $ff
 	jr nz, .asm_abd7
 	ret
@@ -117,7 +117,7 @@ PrinterMenu_PokemonCards:
 	ld [wTempCardListNumCursorPositions], a
 	ld a, [wCardListCursorPos]
 	ld [wTempCardListCursorPos], a
-	ld a, [hffb3]
+	ldh a, [hffb3]
 	cp $ff
 	jr nz, .asm_ac92
 
@@ -146,7 +146,7 @@ PrinterMenu_PokemonCards:
 	call DoFrame
 	call HandleCardSelectionInput
 	jr nc, .loop_frame
-	ld a, [hffb3]
+	ldh a, [hffb3]
 	or a
 	jr nz, .asm_acd5
 	ld hl, wFilteredCardList
@@ -184,8 +184,7 @@ PrinterMenu_PokemonCards:
 	lb bc, 20, 4
 	call BankswitchVRAM1
 	call FillRectangle
-	call BankswitchVRAM0
-	ret
+	jp BankswitchVRAM0
 
 Data_ad05:
 	db 3 ; x pos
@@ -221,7 +220,7 @@ PrinterMenu_CardList:
 	call DoFrame
 	call HandleCardSelectionInput
 	jr nc, .loop_frame
-	ld a, [hffb3]
+	ldh a, [hffb3]
 	or a
 	ret nz
 	bank1call PrintCardList
@@ -291,7 +290,7 @@ PrinterMenu_PrintQuality:
 	call DoFrame
 	call HandleCardSelectionInput
 	jr nc, .loop_frame
-	ld a, [hffb3]
+	ldh a, [hffb3]
 	cp $ff
 	jr z, .asm_ade2
 	call EnableSRAM

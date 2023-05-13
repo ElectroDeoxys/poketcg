@@ -118,8 +118,7 @@ OpenGlossaryScreen:
 .page_two
 	ldtx hl, GlossaryMenuPage2Text
 .page_one
-	call ProcessTextFromID
-	ret
+	jp ProcessTextFromID
 
 ; display glossary description.
 .print_description

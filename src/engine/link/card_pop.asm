@@ -70,8 +70,7 @@ _DoCardPop:
 	call LoadScene
 	pop hl
 	call PrintScrollableText_NoTextBoxLabel
-	call RestoreVBlankFunction
-	ret
+	jp RestoreVBlankFunction
 
 ; handles all communications to the other device to do Card Pop!
 ; returns carry if Card Pop! is unsuccessful

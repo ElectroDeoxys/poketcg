@@ -297,8 +297,7 @@ AIPickPrizeCards:
 	ld a, e
 	add DUELVARS_PRIZE_CARDS
 	call GetTurnDuelistVariable
-	call AddCardToHand
-	ret
+	jp AddCardToHand
 
 .prize_flags
 	db $1 << 0
@@ -367,8 +366,7 @@ CheckIfSelectedAttackIsUnusable:
 	call CheckEnergyNeededForAttack
 	ret c ; can't be used
 	ld a, ATTACK_FLAG2_ADDRESS | FLAG_2_BIT_5_F
-	call CheckLoadedAttackFlag
-	ret
+	jp CheckLoadedAttackFlag
 
 ; load selected attack from Pokémon in hTempPlayAreaLocation_ff9d
 ; and checks if there is enough energy to execute the selected attack
@@ -615,8 +613,7 @@ CheckIfCardCanBePlayed:
 	ret c
 	call LoadNonPokemonCardEffectCommands
 	ld a, EFFECTCMDTYPE_INITIAL_EFFECT_1
-	call TryExecuteEffectCommandFunction
-	ret
+	jp TryExecuteEffectCommandFunction
 
 ; loads all the energy cards
 ; in hand in wDuelTempList
@@ -2767,5 +2764,4 @@ HandleLegendaryArticunoEnergyScoring:
 	jr z, .articuno_deck
 	ret
 .articuno_deck
-	call ScoreLegendaryArticunoCards
-	ret
+	jp ScoreLegendaryArticunoCards

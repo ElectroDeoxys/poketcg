@@ -50,8 +50,7 @@ _AddStarterDeck:
 	inc [hl]
 	dec c
 	jr nz, .loop_extra_cards
-	call DisableSRAM
-	ret
+	jp DisableSRAM
 
 .StarterCardIDs
 	; main deck, extra cards
@@ -128,8 +127,7 @@ InitSaveData:
 	ld [sTotalCardPopsDone], a
 	ld [sReceivedLegendaryCards], a
 	farcall InitPromotionalCardAndDeckCounterSaveData
-	call DisableSRAM
-	ret
+	jp DisableSRAM
 
 ; input:
 ;    a = Deck ID
@@ -178,5 +176,4 @@ CopyDeckNameAndCards:
 	ld h, [hl]
 	ld l, a
 	ld de, wDefaultText
-	call CopyText
-	ret
+	jp CopyText

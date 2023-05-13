@@ -21,8 +21,7 @@ InitSGB::
 	ld hl, Pal01Packet_InitSGB
 	call SendSGB
 	ld hl, MaskEnPacket_Cancel
-	call SendSGB
-	ret
+	jp SendSGB
 
 DataSndPacket1::
 	sgb DATA_SND, 1 ; sgb_command, length
@@ -152,8 +151,7 @@ SendSGB::
 	dec b
 	jr nz, .send_packets_loop
 	ld bc, 4
-	call Wait
-	ret
+	jp Wait
 
 ; SGB hardware detection
 ; return carry if SGB detected and disable multi-controller mode before returning

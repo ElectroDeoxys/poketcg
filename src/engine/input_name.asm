@@ -116,8 +116,7 @@ InputPlayerName:
 	jr nc, .loop
 	; if the player selected the end button,
 	; end its naming.
-	call FinalizeInputName
-	ret
+	jp FinalizeInputName
 .on_b_button
 	ld a, [wNamingScreenBufferLength]
 	or a
@@ -220,8 +219,7 @@ DrawNamingScreenBG:
 	lb de, 2, 4
 	call InitTextPrinting
 	call ProcessTextFromID
-	call EnableLCD
-	ret
+	jp EnableLCD
 .data
 	textitem $0f, $10, EndText ; "End"
 	db $ff
@@ -229,8 +227,7 @@ DrawNamingScreenBG:
 DrawTextboxForKeyboard:
 	lb de, 0, 3 ; x, y
 	lb bc, 20, 15 ; w, h
-	call DrawRegularTextBox
-	ret
+	jp DrawRegularTextBox
 
 PrintPlayerNameFromInput:
 	ld hl, wNamingScreenNamePosition
@@ -255,8 +252,7 @@ PrintPlayerNameFromInput:
 	call InitTextPrinting
 	; print the input from the user.
 	ld hl, wNamingScreenBuffer
-	call ProcessText
-	ret
+	jp ProcessText
 .char_underbar
 	db $56
 REPT 10
@@ -1068,8 +1064,7 @@ ProcessTextWithUnderbar:
 	jr .loop2
 .print_name
 	ld hl, wDefaultText
-	call ProcessText
-	ret
+	jp ProcessText
 .underbar_data
 	db TX_HALFWIDTH
 REPT MAX_DECK_NAME_LENGTH
@@ -1099,8 +1094,7 @@ Func_1ae99:
 	lb de, 2, 4
 	call InitTextPrinting
 	call ProcessTextFromID
-	call EnableLCD
-	ret
+	jp EnableLCD
 
 Func_1aec3:
 	ld a, [wNamingScreenCursorX]

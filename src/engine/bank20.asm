@@ -493,8 +493,7 @@ GetTileOffsetPointerAndSwitchVRAM:
 ; if bottom bit in wd4cb is set     = VRAM1
 	ld a, [wd4cb]
 	and $1
-	call BankswitchVRAM
-	ret
+	jp BankswitchVRAM
 
 ; converts wVRAMTileOffset to address in VRAM
 ; and stores it in wVRAMPointer
@@ -1335,8 +1334,7 @@ Func_80c64: ; unreferenced
 	ld [wLineSeparation], a
 	xor a
 	ld hl, .menu_parameters
-	call InitializeMenuParameters
-	ret
+	jp InitializeMenuParameters
 
 .menu_parameters
 	db 1, 13 ; cursor x, cursor y

@@ -49,7 +49,6 @@ SetupResetBackUpRamScreen:
 	call LoadSymbolsFont
 	call SetDefaultConsolePalettes
 	lb de, $38, $7f
-	call SetupText
-	ret
+	jp SetupText
 
 	ret ; stray ret

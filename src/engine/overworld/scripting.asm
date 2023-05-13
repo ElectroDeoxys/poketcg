@@ -125,8 +125,7 @@ DetermineImakuniAndChallengeHall:
 	xor a
 	ld [wEventVars + EVENT_VAR_BYTES - 1], a
 	call DetermineImakuniRoom
-	call DetermineChallengeHallEvent
-	ret
+	jp DetermineChallengeHallEvent
 
 ; Determines what room Imakuni is in when you reset
 ; Skips current room and does not occur if you haven't talked to Imakuni
@@ -515,8 +514,7 @@ PrintInteractableObjectText:
 	ld h, [hl]
 	ld l, a
 	call Func_cc32
-	call CloseAdvancedDialogueBox
-	ret
+	jp CloseAdvancedDialogueBox
 
 Func_cc32:
 	push hl
@@ -540,8 +538,7 @@ Script_LegendaryCardLeftSpark:
 Script_LegendaryCardBottomLeft:
 Script_LegendaryCardBottomRight:
 Script_LegendaryCardRightSpark:
-	call CloseAdvancedDialogueBox
-	ret
+	jp CloseAdvancedDialogueBox
 
 ; Enters into the script loop, continuing until wBreakScriptLoop > 0
 ; When the loop is broken, it resumes normal code execution where script ended
@@ -688,7 +685,7 @@ ScriptCommand_AskQuestionJump:
 	ld l, c
 	ld h, b
 	call Func_c8ed
-	ld a, [hCurMenuItem]
+	ldh a, [hCurMenuItem]
 	ld [wScriptControlByte], a
 	jr c, .no_jump
 	call GetScriptArgs3AfterPointer
@@ -1659,14 +1656,14 @@ ShowMultichoiceTextbox:
 	call DoFrameIfLCDEnabled
 	call HandleMenuInput
 	jr nc, .wait_input
-	ld a, [hCurMenuItem]
+	ldh a, [hCurMenuItem]
 	cp e
 	jr z, .got_result
 	ld a, [wd417]
 	or a
 	jr z, .wait_input
 	ld e, a
-	ld [hCurMenuItem], a
+	ldh [hCurMenuItem], a
 
 .got_result
 	pop hl
@@ -1974,8 +1971,7 @@ ScriptCommand_JumpIfEventLessThan:
 GetEventValueBC:
 	ld a, c
 	ld c, b
-	call GetEventValue
-	ret
+	jp GetEventValue
 
 ScriptCommand_MaxOutEventValue:
 	ld a, c
