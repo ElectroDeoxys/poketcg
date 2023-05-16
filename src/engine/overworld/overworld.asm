@@ -838,7 +838,7 @@ HandlePlayerMoveModeInput:
 	and A_BUTTON
 	jr z, .done
 	call FindNPCOrObject
-	jr .done
+
 .done
 	ret
 

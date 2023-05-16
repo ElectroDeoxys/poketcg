@@ -369,8 +369,7 @@ PrintCardSetListEntries:
 	ld [wUnableToScrollDown], a
 	ld a, SYM_BOX_BTM_R
 .got_down_cursor_tile
-	ld b, 19
-	ld c, 17
+	lb bc, 19, 17
 	call WriteByteToBGMap0
 	pop bc
 	ret
@@ -931,8 +930,7 @@ CardAlbum:
 	; still has no promotional, print empty Card Set name
 	ld a, TRUE
 	ld [wUnavailableAlbumCardSets + CARD_SET_PROMOTIONAL], a
-	ld e, 11
-	ld d, 5
+	lb de, 5, 11
 	call InitTextPrinting
 	ldtx hl, EmptyPromotionalCardText
 	call ProcessTextFromID

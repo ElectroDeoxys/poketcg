@@ -1466,7 +1466,6 @@ Func_80cd7:
 	ld [wLoadedNPCTempIndex], a
 	call ClearSpriteAnimations
 	call .DrawNPCSprite
-	jr .PrintNPCInfo
 
 .PrintNPCInfo
 	lb de, 0, 4

@@ -2718,8 +2718,7 @@ SortCurDeckCardsByID:
 ; it finds (assuming wCurDeckCards is sorted by ID)
 ; also counts the total number of the different cards
 CreateCurDeckUniqueCardList:
-	ld b, 0
-	ld c, $0
+	lb bc, 0, $0
 	ld hl, wCurDeckCards
 	ld de, wUniqueDeckCardList
 .loop

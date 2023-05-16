@@ -1062,8 +1062,7 @@ GetSavedDeckCount:
 	call EnableSRAM
 	ld hl, sSavedDecks
 	ld bc, DECK_STRUCT_SIZE
-	ld d, NUM_DECK_SAVE_MACHINE_SLOTS
-	ld e, 0
+	lb de, NUM_DECK_SAVE_MACHINE_SLOTS, 0
 .loop
 	ld a, [hl]
 	or a

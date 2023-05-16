@@ -1066,8 +1066,7 @@ ScriptCommand_TakeCard:
 	jp IncreaseScriptPointerBy2
 
 ScriptCommand_JumpIfAnyEnergyCardsInCollection:
-	ld c, GRASS_ENERGY
-	ld b, 0
+	lb bc, 0, GRASS_ENERGY
 .loop
 	ld a, c
 	call GetCardCountInCollection

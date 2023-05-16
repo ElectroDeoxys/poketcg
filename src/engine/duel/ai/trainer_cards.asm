@@ -2042,8 +2042,7 @@ AIDecide_PokemonBreeder:
 	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
 	call GetTurnDuelistVariable
 	ld c, a
-	ld e, $00
-	ld d, $00
+	lb de, $00, $00
 
 ; find highest score in wce08
 .loop_score_1
@@ -2137,8 +2136,7 @@ AIDecide_PokemonBreeder:
 	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
 	call GetTurnDuelistVariable
 	ld c, a
-	ld e, $00
-	ld d, $00
+	lb de, $00, $00
 
 ; find highest score in wce08 with at least
 ; 2 energy cards attached
