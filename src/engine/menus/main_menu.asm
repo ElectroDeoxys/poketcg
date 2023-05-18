@@ -12,10 +12,7 @@ _GameLoop::
 	ld a, PLAYER_TURN
 	ldh [hWhoseTurn], a
 	farcall Func_c1f8
-	farcall HandleTitleScreen
-	ld a, [wStartMenuChoice]
-	ld hl, MainMenuFunctionTable
-	call JumpToFunctionInTable
+	call MainMenu_NewGame
 	jr c, .main_menu_loop ; return to main menu
 	jr _GameLoop ; virtually restart game
 
@@ -44,12 +41,8 @@ MainMenu_NewGame:
 	farcall SetMainSGBBorder
 	ld a, MUSIC_OVERWORLD
 	ld [wDefaultSong], a
-	call PlayDefaultSong
-	farcall DrawPlayerPortraitAndPrintNewGameText
-	ld a, GAME_EVENT_OVERWORLD
-	ld [wGameEvent], a
-	farcall $03, ExecuteGameEvent
-	or a
+
+	farcall CustomDuel
 	ret
 
 MainMenu_ContinueFromDiary:

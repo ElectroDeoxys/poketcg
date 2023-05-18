@@ -113,6 +113,13 @@ DEF AI_ENERGY_TRANS_TO_BENCH EQU $e ; moves energy cards away from Arena card
 	const AIACTION_KO_SWITCH     ; $4
 	const AIACTION_TAKE_PRIZE    ; $5
 
+	const_def 1
+	const AIRESPONSE_DO_TURN       ; $1
+	const AIRESPONSE_START_DUEL    ; $2
+	const AIRESPONSE_FORCED_SWITCH ; $3
+	const AIRESPONSE_KO_SWITCH     ; $4
+	const AIRESPONSE_TAKE_PRIZE    ; $5
+
 ; this bit is set when the AI decides to use Peek on their Prize cards,
 ; with the following bits deciding which one to Peek. That is:
 ;	%10'0000 = first prize card

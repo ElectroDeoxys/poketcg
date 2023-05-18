@@ -5,11 +5,6 @@ DisplayPlayerNamingScreen:
 	ld a, TX_END
 	call FillMemoryWithA
 
-	; get player's name
-	; from the user into hl.
-	ld hl, wNameBuffer
-	farcall InputPlayerName
-
 	farcall WhiteOutDMGPals
 	call DoFrameIfLCDEnabled
 	call DisableLCD

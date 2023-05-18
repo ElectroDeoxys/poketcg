@@ -1849,7 +1849,11 @@ wCurCardListPtr:: ; cfd8
 wCardConfirmationText:: ; cfda
 	ds $2
 
-	ds $2
+wCustomPlayerDeckID:: ; cfdc
+	ds $1
+
+wCustomAIDeckID:: ; cfdd
+	ds $1
 
 ; the tile to draw in place of the cursor, in case
 ; the cursor is not to be drawn
@@ -2944,7 +2948,13 @@ wCardReceived:: ; d697
 wd698:: ; d698
 	ds $4
 
-	ds $6e4
+wAIResponse:: ; d69c
+	ds $1
+
+wAIResponseParam:: ; d69d
+	ds $1
+
+	ds $6e2
 
 SECTION "WRAM1 Audio", WRAMX
 

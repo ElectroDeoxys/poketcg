@@ -288,6 +288,7 @@ DuelMainInterface:
 	; DUELIST_TYPE_AI_OPP
 	xor a
 	ld [wVBlankCounter], a
+	inc a
 	ld [wSkipDuelistIsThinkingDelay], a
 	ldtx hl, DuelistIsThinkingText
 	call DrawWideTextBox_PrintTextNoDelay
@@ -6167,7 +6168,7 @@ AIMakeDecision:
 	ldh [hOppActionTableIndex], a
 	ld hl, wSkipDuelistIsThinkingDelay
 	ld a, [hl]
-	ld [hl], $0
+	ld [hl], TRUE
 	or a
 	jr nz, .skip_delay
 .delay_loop
@@ -8374,4 +8375,61 @@ DecideLinkDuelVariables:
 	or a
 	ret
 
-	ret ; stray ret
+CustomDuel:
+	; mark custom duelists as ready to be overwritten
+	ld a, $fe
+	ld hl, wCustomPlayerDeckID
+	ld [hli], a ; wCustomPlayerDeckID
+	ld [hl], a  ; wCustomAIDeckID
+
+; wait for script overwrite
+.loop_wait
+	call DoFrame 
+	ld a, [hl]
+	cp $fe
+	jr z, .loop_wait
+
+	call .Prepare
+
+	ld a, PLAYER_TURN
+	ldh [hWhoseTurn], a
+	ld a, DUELIST_TYPE_PLAYER
+	ld [wPlayerDuelistType], a
+	ld a, [wNPCDuelDeckID]
+	ld [wOpponentDeckID], a
+	call .LoadPlayerDeck
+	call .LoadOpponentDeck
+
+	; overwrite duel theme
+	xor a
+	ld [wDuelTheme], a
+
+	jp StartDuel
+
+.Prepare:
+	ld a, [wCustomAIDeckID]
+	ld [wNPCDuelDeckID], a
+	farcall _GetChallengeMachineDuelConfigurations
+	ld a, PRIZES_6 ; all duels have 6 prize cards
+	ld [wNPCDuelPrizes], a
+	ret
+
+.LoadPlayerDeck:
+	ld a, [wCustomPlayerDeckID]
+	inc a
+	inc a
+	jp LoadDeck
+
+.LoadOpponentDeck:
+	call SwapTurn
+	ld a, [wNPCDuelDeckID]
+	inc a
+	inc a
+	call LoadDeck
+	; set opponent as controlled by AI
+	ld a, DUELVARS_DUELIST_TYPE
+	call GetTurnDuelistVariable
+	ld a, [wOpponentDeckID]
+	or DUELIST_TYPE_AI_OPP
+	ld [hl], a
+	jp SwapTurn

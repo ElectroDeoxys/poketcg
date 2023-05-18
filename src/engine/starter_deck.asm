@@ -76,17 +76,6 @@ InitSaveData:
 	or b
 	jr nz, .loop_clear
 
-; add the starter decks
-	ld a, CHARMANDER_AND_FRIENDS_DECK
-	ld hl, sSavedDeck1
-	call CopyDeckNameAndCards
-	ld a, SQUIRTLE_AND_FRIENDS_DECK
-	ld hl, sSavedDeck2
-	call CopyDeckNameAndCards
-	ld a, BULBASAUR_AND_FRIENDS_DECK
-	ld hl, sSavedDeck3
-	call CopyDeckNameAndCards
-
 ; marks all cards in Collection to not owned
 	call EnableSRAM
 	ld hl, sCardCollection
@@ -115,7 +104,7 @@ InitSaveData:
 ; saved configuration options
 	ld a, 2
 	ld [sPrinterContrastLevel], a
-	ld a, $2
+	xor a
 	ld [sTextSpeed], a
 	ld [wTextSpeed], a
 

@@ -67,7 +67,7 @@ AIDoAction_KOSwitch::
 
 AIDoAction_TakePrize::
 	ld a, AIACTION_TAKE_PRIZE
-	jr AIDoAction ; this line is not needed
+;	fallthrough
 
 ; calls the appropriate AI routine to handle action,
 ; depending on the deck ID (see engine/duel/ai/deck_ai.asm)
