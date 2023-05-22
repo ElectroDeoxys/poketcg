@@ -67,10 +67,6 @@ _AIProcessHandTrainerCards:
 	call TryExecuteEffectCommandFunction
 	jp c, .next_in_data
 
-; AI can randomly choose not to play card.
-	farcall AIChooseRandomlyNotToDoAction
-	jr c, .next_in_data
-
 ; call routine to decide whether to play Trainer card
 	pop de
 	pop hl

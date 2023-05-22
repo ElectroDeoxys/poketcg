@@ -280,6 +280,8 @@ RestartPracticeDuelTurn:
 ; an AI opponent (print "Waiting..." and a reduced menu) or a link opponent (print "<Duelist> is thinking").
 DuelMainInterface:
 	call DrawDuelMainScene
+	ld a, MAIN_INTERFACE_SCREEN
+	ld [wCurrentScreen], a
 	ld a, [wDuelistType]
 	cp DUELIST_TYPE_PLAYER
 	jr z, PrintDuelMenuAndHandleInput
@@ -1696,13 +1698,32 @@ HandleDuelSetup:
 	call InitializeDuelVariables
 	call SwapTurn
 	call PlayShuffleAndDrawCardsAnimation_BothDuelists
+
+	; to have consistent shuffled decks, we need
+	; to switch the order of the player and opp
+	ld a, [wCustomDuelFlags]
+	bit 0, a
+	jr z, .first_opponent
+.first_player
 	call ShuffleDeckAndDrawSevenCards
 	ldh [hTemp_ffa0], a
 	call SwapTurn
 	call ShuffleDeckAndDrawSevenCards
 	call SwapTurn
 	ld c, a
+	jr .shuffled
 
+.first_opponent
+	call SwapTurn
+	call ShuffleDeckAndDrawSevenCards
+	call SwapTurn
+	push af
+	call ShuffleDeckAndDrawSevenCards
+	ldh [hTemp_ffa0], a
+	pop af
+	ld c, a
+
+.shuffled
 ; check if any Basic Pokémon cards were drawn
 	ldh a, [hTemp_ffa0]
 	ld b, a
@@ -1717,7 +1738,6 @@ HandleDuelSetup:
 
 ;.player_drew_no_basic_pkmn
 .ensure_player_basic_pkmn_loop
-	call DisplayNoBasicPokemonInHandScreenAndText
 	call InitializeDuelVariables
 	call PlayShuffleAndDrawCardsAnimation_TurnDuelist
 	call ShuffleDeckAndDrawSevenCards
@@ -1727,7 +1747,6 @@ HandleDuelSetup:
 .opp_drew_no_basic_pkmn
 	call SwapTurn
 .ensure_opp_basic_pkmn_loop
-	call DisplayNoBasicPokemonInHandScreenAndText
 	call InitializeDuelVariables
 	call PlayShuffleAndDrawCardsAnimation_TurnDuelist
 	call ShuffleDeckAndDrawSevenCards
@@ -1736,15 +1755,10 @@ HandleDuelSetup:
 	jr .hand_cards_ok
 
 .neither_drew_basic_pkmn
-	ldtx hl, NeitherPlayerHasBasicPkmnText
-	call DrawWideTextBox_WaitForInput
-	call DisplayNoBasicPokemonInHandScreen
 	call InitializeDuelVariables
 	call SwapTurn
-	call DisplayNoBasicPokemonInHandScreen
 	call InitializeDuelVariables
 	call SwapTurn
-	call PrintReturnCardsToDeckDrawAgain
 	jp HandleDuelSetup
 
 .hand_cards_ok
@@ -1752,11 +1766,20 @@ HandleDuelSetup:
 	push af
 	ld a, PLAYER_TURN
 	ldh [hWhoseTurn], a
-	call ChooseInitialArenaAndBenchPokemon
+
 	call SwapTurn
 	call ChooseInitialArenaAndBenchPokemon
 	call SwapTurn
 	jp c, .error
+
+	ld hl, wOpponentArenaCard
+	ld de, wAIResponseParams
+	ld bc, MAX_PLAY_AREA_POKEMON
+	call CopyDataHLtoDE
+	ld a, AIRESPONSE_PLAY_INITIAL_POKEMON
+	call PublishAIResponse
+
+	call ChooseInitialArenaAndBenchPokemon
 	call DrawPlayAreaToPlacePrizeCards
 	ldtx hl, PlacingThePrizesText
 	call DrawWideTextBox_WaitForInput
@@ -1783,9 +1806,11 @@ HandleDuelSetup:
 	call DrawDuelBoxMessage
 	ldtx hl, CoinTossToDecideWhoPlaysFirstText
 	call DrawWideTextBox_WaitForInput
-	ldh a, [hWhoseTurn]
-	cp PLAYER_TURN
-	jr nz, .opponent_turn
+
+	; switch side between instances
+	ld a, [wCustomDuelFlags]
+	rra
+	jr nc, .opponent_turn
 
 ; player flips coin
 	ld de, wDefaultText
@@ -1806,6 +1831,7 @@ HandleDuelSetup:
 
 .opponent_turn
 ; opp flips coin
+	call SwapTurn
 	ld de, wDefaultText
 	call CopyOpponentName
 	ld hl, $0000
@@ -1838,7 +1864,7 @@ HandleDuelSetup:
 
 .place_prize
 	push de
-	ld b, 20 ; frames to delay
+	ld b, 5 ; frames to delay
 .loop_delay
 	call DoFrame
 	call CheckSkipDelayAllowed
@@ -1934,6 +1960,10 @@ ChooseInitialArenaAndBenchPokemon:
 	call DrawDuelBoxMessage
 	ldtx hl, ChooseBasicPkmnToPlaceInArenaText
 	call DrawWideTextBox_WaitForInput
+
+	ld a, INITIAL_HAND_SCREEN
+	ld [wCurrentScreen], a
+
 	ld a, PRACTICEDUEL_DRAW_SEVEN_CARDS
 	call DoPracticeDuelAction
 .choose_arena_loop
@@ -1951,11 +1981,9 @@ ChooseInitialArenaAndBenchPokemon:
 	ldh a, [hTempCardIndex_ff98]
 	ldtx hl, PlacedInTheArenaText
 	call DisplayCardDetailScreen
-	jr .choose_bench
 
 ; after choosing the active Pokemon, let the player place 0 or more basic Pokemon
 ; cards in the bench. loop until the player decides to stop placing Pokemon cards.
-.choose_bench
 	call EmptyScreen
 	ld a, BOXMSG_BENCH_POKEMON
 	call DrawDuelBoxMessage
@@ -2065,18 +2093,6 @@ IsLoadedCard1BasicPokemon:
 	or a
 	ret ; nz
 
-DisplayNoBasicPokemonInHandScreenAndText:
-	ldtx hl, ThereAreNoBasicPokemonInHand
-	call DrawWideTextBox_WaitForInput
-	call DisplayNoBasicPokemonInHandScreen
-;	fallthrough
-
-; prints ReturnCardsToDeckAndDrawAgainText in a textbox and calls ExchangeRNG
-PrintReturnCardsToDeckDrawAgain:
-	ldtx hl, ReturnCardsToDeckAndDrawAgainText
-	call DrawWideTextBox_WaitForInput
-	jp ExchangeRNG
-
 ; display a bare list of seven hand cards of the turn duelist, and the duelist's name above
 ; used to let the player know that there are no basic Pokemon in the hand and need to redraw
 DisplayNoBasicPokemonInHandScreen:
@@ -2175,11 +2191,6 @@ PlayShuffleAndDrawCardsAnimation:
 ; get the shuffling animation from input value of b
 	call ResetAnimationQueue
 	ld hl, sp+$03
-	; play animation 3 times
-	ld a, [hl]
-	call PlayDuelAnimation
-	ld a, [hl]
-	call PlayDuelAnimation
 	ld a, [hl]
 	call PlayDuelAnimation
 
@@ -2992,9 +3003,12 @@ DisplayDuelistTurnScreen:
 	ld c, BOXMSG_PLAYERS_TURN
 	ldh a, [hWhoseTurn]
 	cp PLAYER_TURN
+	ld a, PLAYERS_TURN_SCREEN
 	jr z, .got_turn
+	ld a, OPPS_TURN_SCREEN
 	inc c ; BOXMSG_OPPONENTS_TURN
 .got_turn
+	ld [wCurrentScreen], a
 	ld a, c
 	call DrawDuelBoxMessage
 	ldtx hl, DuelistTurnText
@@ -3194,6 +3208,7 @@ DisplayCardList:
 	call PrintCardListItems
 	call LoadSelectedCardGfx
 	call EnableLCD
+	call SetAwaitingInputFlag
 .wait_button
 	call DoFrame
 	call .UpdateListOnDPadInput
@@ -3216,6 +3231,7 @@ DisplayCardList:
 	jr nz, .open_card_page
 	; display the item selection menu (PLAY|CHECK or SELECT|CHECK) for the selected card
 	; open the card page if CHECK is selected
+	call ResetAwaitingInputFlag
 	ldh a, [hCurMenuItem]
 	call GetCardInDuelTempList_OnlyDeckIndex
 	call CardListItemSelectionMenu
@@ -3224,6 +3240,7 @@ DisplayCardList:
 	ldh a, [hTempCardIndex_ff98]
 	or a
 	ret
+
 .select_pressed
 	; sort cards by ID if SELECT is pressed and return to the first item
 	ld a, [wSortCardListByID]
@@ -3236,8 +3253,10 @@ DisplayCardList:
 	ld [hl], a
 	ld a, 1
 	ld [wSortCardListByID], a
+	call ResetAwaitingInputFlag
 	call EraseCursor
 	jr .reload_list
+
 .open_card_page
 	; open the card page directly, without an item selection menu
 	; in this mode, D_UP and D_DOWN can be used to open the card page
@@ -3252,6 +3271,7 @@ DisplayCardList:
 	bit D_DOWN_F, a
 	jr nz, .down_pressed
 	; if B pressed, exit card page and reload the card list
+	call ResetAwaitingInputFlag
 	call DrawCardListScreenLayout
 	jp DisplayCardList
 .up_pressed
@@ -3277,8 +3297,10 @@ DisplayCardList:
 	inc hl
 	ld [hl], a
 	jr .open_card_page
+
 .b_pressed
 	ldh a, [hCurMenuItem]
+	call ResetAwaitingInputFlag
 	scf
 	ret
 
@@ -3335,10 +3357,12 @@ CardListItemSelectionMenu:
 	ld hl, ItemSelectionMenuParameters
 	xor a
 	call InitializeMenuParameters
+	call SetAwaitingInputFlag
 .wait_a_or_b
 	call DoFrame
 	call HandleMenuInput
 	jr nc, .wait_a_or_b
+	call ResetAwaitingInputFlag
 	cp -1
 	jr z, .b_pressed
 	; A pressed
@@ -4661,6 +4685,8 @@ DisplayEnergyOrTrainerCardPage:
 ; print the text at hl
 _DisplayCardDetailScreen:
 	push hl
+	ld a, CARD_DETAIL_SCREEN
+	ld [wCurrentScreen], a
 	call DrawLargePictureOfCard
 	ld a, 18
 	call CopyCardNameAndLevel
@@ -4669,6 +4695,8 @@ _DisplayCardDetailScreen:
 	call LoadTxRam2
 	pop hl
 	call DrawWideTextBox_WaitForInput
+	xor a
+	ld [wCurrentScreen], a
 	ret
 
 ; draw a large picture of the card loaded in wLoadedCard1, including its image
@@ -8376,18 +8404,15 @@ DecideLinkDuelVariables:
 	ret
 
 CustomDuel:
-	; mark custom duelists as ready to be overwritten
-	ld a, $fe
-	ld hl, wCustomPlayerDeckID
-	ld [hli], a ; wCustomPlayerDeckID
-	ld [hl], a  ; wCustomAIDeckID
+	; mark duel ready to be init
+	ld hl, wCustomDuelFlags
+	ld [hl], (1 << 7)
 
 ; wait for script overwrite
 .loop_wait
 	call DoFrame 
-	ld a, [hl]
-	cp $fe
-	jr z, .loop_wait
+	bit 7, [hl]
+	jr nz, .loop_wait
 
 	call .Prepare
 

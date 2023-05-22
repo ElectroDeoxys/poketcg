@@ -4221,34 +4221,34 @@ AnimData161::
 
 AnimData163::
 	frame_table AnimFrameTable78
-	frame_data 25, 6, 0, 0
-	frame_data 26, 6, 0, 0
-	frame_data 27, 6, 0, 0
-	frame_data 28, 6, 0, 0
-	frame_data 29, 6, 0, 0
-	frame_data 30, 6, 0, 0
+	frame_data 25, 2, 0, 0
+	frame_data 26, 2, 0, 0
+	frame_data 27, 2, 0, 0
+	frame_data 28, 2, 0, 0
+	frame_data 29, 2, 0, 0
+	frame_data 30, 2, 0, 0
 	frame_data 30, -1, 0, 0
 	frame_data 0, 0, 0, 0
 
 AnimData164::
 	frame_table AnimFrameTable78
-	frame_data 31, 6, 0, 0
-	frame_data 32, 6, 0, 0
-	frame_data 33, 6, 0, 0
-	frame_data 34, 6, 0, 0
-	frame_data 35, 6, 0, 0
-	frame_data 36, 6, 0, 0
+	frame_data 31, 2, 0, 0
+	frame_data 32, 2, 0, 0
+	frame_data 33, 2, 0, 0
+	frame_data 34, 2, 0, 0
+	frame_data 35, 2, 0, 0
+	frame_data 36, 2, 0, 0
 	frame_data 36, -1, 0, 0
 	frame_data 0, 0, 0, 0
 
 AnimData165::
 	frame_table AnimFrameTable78
-	frame_data 37, 6, 0, 0
-	frame_data 38, 6, 0, 0
-	frame_data 39, 6, 0, 0
-	frame_data 40, 6, 0, 0
-	frame_data 41, 6, 0, 0
-	frame_data 42, 6, 0, 0
+	frame_data 37, 2, 0, 0
+	frame_data 38, 2, 0, 0
+	frame_data 39, 2, 0, 0
+	frame_data 40, 2, 0, 0
+	frame_data 41, 2, 0, 0
+	frame_data 42, 2, 0, 0
 	frame_data 42, -1, 0, 0
 	frame_data 0, 0, 0, 0
 

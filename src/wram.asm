@@ -151,7 +151,15 @@ wOtherIRCommunicationParams:: ; c5ef
 wCardPopNameSearchResult:: ; c5f3
 	ds $1
 
-	ds $c
+wCustomPlayerDeckID:: ds $1 ; c5f4
+wCustomAIDeckID::     ds $1 ; c5f5
+
+; bit 0: set if is server
+; bit 1: waiting for input
+; bit 7: set if init pending
+wCustomDuelFlags::    ds $1 ; c5f6
+
+	ds $9
 
 SECTION "WRAM0 Text Engine", WRAM0
 
@@ -1849,11 +1857,7 @@ wCurCardListPtr:: ; cfd8
 wCardConfirmationText:: ; cfda
 	ds $2
 
-wCustomPlayerDeckID:: ; cfdc
-	ds $1
-
-wCustomAIDeckID:: ; cfdd
-	ds $1
+	ds $2
 
 ; the tile to draw in place of the cursor, in case
 ; the cursor is not to be drawn
@@ -2950,11 +2954,13 @@ wd698:: ; d698
 
 wAIResponse:: ; d69c
 	ds $1
+wAIResponseParams:: ; d69d
+	ds $10
 
-wAIResponseParam:: ; d69d
+wCurrentScreen:: ; d6ad
 	ds $1
 
-	ds $6e2
+	ds $6d2
 
 SECTION "WRAM1 Audio", WRAMX
 

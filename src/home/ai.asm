@@ -114,3 +114,29 @@ AIDoAction::
 	call BankswitchROM
 	ld a, c
 	ret
+
+; a = AIRESPONSE_*
+; prerequisite for all params to already
+; be written to wAIResponseParams!
+PublishAIResponse::
+	ld [wAIResponse], a
+.loop_wait
+	call DoFrame
+	ld a, [wAIResponse]
+	or a
+	jr nz, .loop_wait
+	ret
+
+SetAwaitingInputFlag::
+	push hl
+	ld hl, wCustomDuelFlags
+	set 1, [hl]
+	pop hl
+	ret
+
+ResetAwaitingInputFlag::
+	push hl
+	ld hl, wCustomDuelFlags
+	res 1, [hl]
+	pop hl
+	ret
