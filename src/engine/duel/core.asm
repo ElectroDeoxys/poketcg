@@ -280,8 +280,6 @@ RestartPracticeDuelTurn:
 ; an AI opponent (print "Waiting..." and a reduced menu) or a link opponent (print "<Duelist> is thinking").
 DuelMainInterface:
 	call DrawDuelMainScene
-	ld a, MAIN_INTERFACE_SCREEN
-	ld [wCurrentScreen], a
 	ld a, [wDuelistType]
 	cp DUELIST_TYPE_PLAYER
 	jr z, PrintDuelMenuAndHandleInput
@@ -1008,7 +1006,7 @@ DuelMenu_Attack:
 	call LoadCardDataToBuffer1_FromDeckIndex
 
 .wait_for_input
-	call DoFrame
+	call DoInputFrame
 	ldh a, [hKeysPressed]
 	and START
 	jr nz, .display_selected_attack_info
@@ -1397,6 +1395,8 @@ DisplayDrawNCardsScreen:
 	push de
 	push bc
 	ld [wNumCardsTryingToDraw], a
+	ld a, DUELISTS_SCREEN
+	ld [wCurrentScreen], a
 	xor a
 	ld [wNumCardsBeingDrawn], a
 	ld a, DUELVARS_NUMBER_OF_CARDS_NOT_IN_DECK
@@ -2324,6 +2324,8 @@ Func_4f2d:
 ; which depend on the type of duelist holding the turn.
 ; includes the background, both arena Pokemon, and both HUDs.
 DrawDuelMainScene::
+	ld a, MAIN_INTERFACE_SCREEN
+	ld [wCurrentScreen], a
 	ld a, DUELVARS_DUELIST_TYPE
 	call GetTurnDuelistVariable
 	cp DUELIST_TYPE_PLAYER
@@ -5903,6 +5905,8 @@ DrawHPBar:
 ; when an opponent's Pokemon card attacks, this displays a screen
 ; containing the description and information of the used attack
 DisplayOpponentUsedAttackScreen:
+	ld a, USED_ATTACK_SCREEN
+	ld [wCurrentScreen], a
 	call ZeroObjectPositionsAndToggleOAMCopy
 	call EmptyScreen
 	call LoadDuelCardSymbolTiles
@@ -5936,6 +5940,8 @@ DisplayUsedTrainerCardDetailScreen::
 ; "Used xxx" text in a text box. this function is used to show the player
 ; the information of a trainer card being used by the opponent.
 PrintUsedTrainerCardDescription:
+	ld a, [wCurrentScreen]
+	push af
 	ld a, USED_TRAINER_SCREEN
 	ld [wCurrentScreen], a
 	call EmptyScreen
@@ -5951,7 +5957,10 @@ PrintUsedTrainerCardDescription:
 	call ProcessTextFromPointerToID
 	call SetOneLineSeparation
 	ldtx hl, UsedText
-	jp DrawWideTextBox_WaitForInput
+	call DrawWideTextBox_WaitForInput
+	pop af
+	ld [wCurrentScreen], a
+	ret
 
 ; save data of the current duel to sCurrentDuel
 ; byte 0 is $01, bytes 1 and 2 are the checksum, byte 3 is [wDuelType]
@@ -6480,6 +6489,10 @@ OppAction_DrawCard:
 OppAction_FinishTurnWithoutAttacking:
 	call DrawDuelMainScene
 	call ClearNonTurnTemporaryDuelvars
+
+	ld a, AIRESPONSE_FINISH_TURN_WO_ATK
+	call PublishAIResponse
+
 	ldtx hl, FinishedTurnWithoutAttackingText
 	call DrawWideTextBox_WaitForInput
 	ld a, 1
@@ -6596,6 +6609,10 @@ OppAction_BeginUseAttack:
 	ld d, a
 	ldh a, [hTemp_ffa0]
 	ld e, a
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_TRY_ATTACK
+	call PublishAIResponse
+
 	call CopyAttackDataAndDamage_FromDeckIndex
 	call UpdateArenaCardIDsAndClearTwoTurnDuelVars
 	ld a, $01
@@ -7847,6 +7864,9 @@ _TossCoin::
 	ld [wCoinTossNumHeads], a
 
 .print_coin_tally
+	ld a, COIN_TOSS_SCREEN
+	ld [wCurrentScreen], a
+
 ; skip printing text if it's only one coin toss
 	ld a, [wCoinTossTotalNum]
 	cp 2
@@ -7872,6 +7892,8 @@ _TossCoin::
 	ld a, [wCoinTossDuelistType]
 	or a
 	jr z, .asm_7236
+	ld a, AIRESPONSE_TOSS_COIN
+	call PublishAIResponse
 	call Func_7324
 	jr .asm_723c
 
@@ -7986,17 +8008,17 @@ _TossCoin::
 	ld a, [hl]
 	ld hl, wCoinTossTotalNum
 	cp [hl]
-	call z, WaitForWideTextBoxInput
+	call z, .confirm_result
 	call Func_7324
 	ld a, [wCoinTossTotalNum]
 	ld hl, wCoinTossNumHeads
 	or [hl]
 	jr nz, .asm_72e2
-	call z, WaitForWideTextBoxInput
+	call z, .confirm_result
 	jr .asm_72e2
 
 .asm_72dc
-	call WaitForWideTextBoxInput
+	call .confirm_result
 	call Func_72ff
 
 .asm_72e2
@@ -8015,6 +8037,11 @@ _TossCoin::
 	ret z
 	scf
 	ret
+
+.confirm_result
+	ld a, COIN_TOSS_CONFIRM_SCREEN
+	ld [wCurrentScreen], a
+	jp WaitForWideTextBoxInput
 
 Func_72ff:
 	ldh [hff96], a
@@ -8045,7 +8072,7 @@ Func_7324:
 	jr z, Func_7338
 
 ; delay coin flip for AI opponent
-	ld a, 30
+	ld a, 10
 .asm_732f
 	call DoFrame
 	dec a

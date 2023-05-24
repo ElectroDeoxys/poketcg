@@ -592,10 +592,17 @@ AIDecide_SuperPotion2:
 	ret
 
 AIPlay_Defender:
+	ld hl, wAIResponseParams
+	ld a, DEFENDER
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
 	ldh [hTempCardIndex_ff9f], a
+	ld [hli], a
 	xor a
 	ldh [hTemp_ffa0], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -763,10 +770,17 @@ AIPlay_Pluspower:
 	ld a, [wCurrentAIFlags]
 	or AI_FLAG_USED_PLUSPOWER
 	ld [wCurrentAIFlags], a
+	ld hl, wAIResponseParams
+	ld a, PLUSPOWER
+	ld [hli], a
 	ld a, [wAITrainerCardParameter]
 	ld [wAIPluspowerAttack], a
 	ld a, [wAITrainerCardToPlay]
 	ldh [hTempCardIndex_ff9f], a
+	ld [hli], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4531,8 +4545,15 @@ AIDecide_ItemFinder:
 	ret
 
 AIPlay_Imakuni:
+	ld hl, wAIResponseParams
+	ld a, IMAKUNI_CARD
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
 	ldh [hTempCardIndex_ff9f], a
+	ld [hli], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
