@@ -313,7 +313,7 @@ PrintDuelMenuAndHandleInput:
 	call SetMenuItem
 
 .handle_input
-	call DoFrame
+	call DoInputFrame
 	ldh a, [hKeysHeld]
 	and B_BUTTON
 	jr z, .b_not_held
@@ -1684,8 +1684,7 @@ Func_4b38:
 	call InitTextPrinting
 	call PrintTextNoDelay
 	ldtx hl, YouReceivedTheseCardsText
-	call DrawWideTextBox_WaitForInput
-	ret
+	jp DrawWideTextBox_WaitForInput
 
 ; handles the initial duel actions:
 ; - drawing starting hand and placing the Basic Pokemon cards
@@ -3208,9 +3207,8 @@ DisplayCardList:
 	call PrintCardListItems
 	call LoadSelectedCardGfx
 	call EnableLCD
-	call SetAwaitingInputFlag
 .wait_button
-	call DoFrame
+	call DoInputFrame
 	call .UpdateListOnDPadInput
 	call HandleCardListInput
 	jr nc, .wait_button
@@ -3231,7 +3229,6 @@ DisplayCardList:
 	jr nz, .open_card_page
 	; display the item selection menu (PLAY|CHECK or SELECT|CHECK) for the selected card
 	; open the card page if CHECK is selected
-	call ResetAwaitingInputFlag
 	ldh a, [hCurMenuItem]
 	call GetCardInDuelTempList_OnlyDeckIndex
 	call CardListItemSelectionMenu
@@ -3253,7 +3250,6 @@ DisplayCardList:
 	ld [hl], a
 	ld a, 1
 	ld [wSortCardListByID], a
-	call ResetAwaitingInputFlag
 	call EraseCursor
 	jr .reload_list
 
@@ -3271,7 +3267,6 @@ DisplayCardList:
 	bit D_DOWN_F, a
 	jr nz, .down_pressed
 	; if B pressed, exit card page and reload the card list
-	call ResetAwaitingInputFlag
 	call DrawCardListScreenLayout
 	jp DisplayCardList
 .up_pressed
@@ -3300,7 +3295,6 @@ DisplayCardList:
 
 .b_pressed
 	ldh a, [hCurMenuItem]
-	call ResetAwaitingInputFlag
 	scf
 	ret
 
@@ -3357,12 +3351,10 @@ CardListItemSelectionMenu:
 	ld hl, ItemSelectionMenuParameters
 	xor a
 	call InitializeMenuParameters
-	call SetAwaitingInputFlag
 .wait_a_or_b
-	call DoFrame
+	call DoInputFrame
 	call HandleMenuInput
 	jr nc, .wait_a_or_b
-	call ResetAwaitingInputFlag
 	cp -1
 	jr z, .b_pressed
 	; A pressed
@@ -4942,7 +4934,7 @@ DisplayPlayAreaScreen:
 	ld a, [wNumPlayAreaItems]
 	ld [wNumMenuItems], a
 .asm_604c
-	call DoFrame
+	call DoInputFrame
 	call SelectingBenchPokemonMenu
 	jr nc, .asm_6061
 	cp $02
@@ -5944,6 +5936,8 @@ DisplayUsedTrainerCardDetailScreen::
 ; "Used xxx" text in a text box. this function is used to show the player
 ; the information of a trainer card being used by the opponent.
 PrintUsedTrainerCardDescription:
+	ld a, USED_TRAINER_SCREEN
+	ld [wCurrentScreen], a
 	call EmptyScreen
 	call SetNoLineSeparation
 	lb de, 1, 1
@@ -5957,8 +5951,7 @@ PrintUsedTrainerCardDescription:
 	call ProcessTextFromPointerToID
 	call SetOneLineSeparation
 	ldtx hl, UsedText
-	call DrawWideTextBox_WaitForInput
-	ret
+	jp DrawWideTextBox_WaitForInput
 
 ; save data of the current duel to sCurrentDuel
 ; byte 0 is $01, bytes 1 and 2 are the checksum, byte 3 is [wDuelType]
@@ -6385,6 +6378,8 @@ ResetDoFrameFunction_Bank1:
 ; print the AttachedEnergyToPokemonText, given the energy card to attach in hTempCardIndex_ff98,
 ; and the PLAY_AREA_* of the turn holder's Pokemon to attach the energy to in hTempPlayAreaLocation_ff9d
 PrintAttachedEnergyToPokemon:
+	ld a, CARD_DETAIL_SCREEN
+	ld [wCurrentScreen], a
 	ldh a, [hTempPlayAreaLocation_ff9d]
 	add DUELVARS_ARENA_CARD
 	call GetTurnDuelistVariable
@@ -6392,12 +6387,13 @@ PrintAttachedEnergyToPokemon:
 	ldh a, [hTempCardIndex_ff98]
 	call LoadCardNameToTxRam2
 	ldtx hl, AttachedEnergyToPokemonText
-	call DrawWideTextBox_WaitForInput
-	ret
+	jp DrawWideTextBox_WaitForInput
 
 ; print the PokemonEvolvedIntoPokemonText, given the Pokemon card to evolve in wPreEvolutionPokemonCard,
 ; and the evolved Pokemon card in hTempCardIndex_ff98. also play a sound effect.
 PrintPokemonEvolvedIntoPokemon:
+	ld a, CARD_DETAIL_SCREEN
+	ld [wCurrentScreen], a
 	ld a, SFX_POKEMON_EVOLUTION
 	call PlaySFX
 	ld a, [wPreEvolutionPokemonCard]
@@ -6405,8 +6401,7 @@ PrintPokemonEvolvedIntoPokemon:
 	ldh a, [hTempCardIndex_ff98]
 	call LoadCardNameToTxRam2_b
 	ldtx hl, PokemonEvolvedIntoPokemonText
-	call DrawWideTextBox_WaitForInput
-	ret
+	jp DrawWideTextBox_WaitForInput
 
 ; handle the opponent's turn in a link duel
 ; loop until either [wOpponentTurnEnded] or [wDuelFinished] is non-0
@@ -6493,12 +6488,19 @@ OppAction_FinishTurnWithoutAttacking:
 
 ; attach an energy card from hand to the arena or a benched Pokemon
 OppAction_PlayEnergyCard:
+	ld hl, wAIResponseParams
 	ldh a, [hTempPlayAreaLocation_ffa1]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ff9d], a
 	ld e, a
 	ldh a, [hTemp_ffa0]
+	ld [hli], a
 	ldh [hTempCardIndex_ff98], a
 	call PutHandCardInPlayArea
+
+	ld a, AIRESPONSE_ATTACH_ENERGY
+	call PublishAIResponse
+
 	ldh a, [hTemp_ffa0]
 	call LoadCardDataToBuffer1_FromDeckIndex
 	call DrawLargePictureOfCard
@@ -6524,11 +6526,16 @@ OppAction_EvolvePokemonCard:
 OppAction_PlayBasicPokemonCard:
 	ldh a, [hTemp_ffa0]
 	ldh [hTempCardIndex_ff98], a
+	ld [wAIResponseParams], a
 	call PutHandPokemonCardInPlayArea
 	ldh [hTempPlayAreaLocation_ff9d], a
 	add DUELVARS_ARENA_CARD_STAGE
 	call GetTurnDuelistVariable
 	ld [hl], 0
+
+	ld a, AIRESPONSE_PLAY_POKEMON
+	call PublishAIResponse
+
 	ldh a, [hTemp_ffa0]
 	ldtx hl, PlacedOnTheBenchText
 	call DisplayCardDetailScreen
@@ -6770,8 +6777,7 @@ LoadCardNameToTxRam2_b:
 	ret
 
 DrawWideTextBox_WaitForInput_Bank1:
-	call DrawWideTextBox_WaitForInput
-	ret
+	jp DrawWideTextBox_WaitForInput
 
 Func_6ba2:
 	call DrawWideTextBox_PrintText

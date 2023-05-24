@@ -147,10 +147,19 @@ _AIProcessHandTrainerCards:
 
 ; makes AI use Potion card.
 AIPlay_Potion:
+	ld hl, wAIResponseParams
+	ld a, POTION
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
+	ldh a, [hTemp_ffa0]
 	ld e, a
 	call GetCardDamageAndMaxHP
 	cp 20
@@ -1407,8 +1416,15 @@ AIDecide_GustOfWind:
 	ret
 
 AIPlay_Bill:
+	ld hl, wAIResponseParams
+	ld a, BILL
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -2275,8 +2291,16 @@ AIPlay_ProfessorOak:
 	ld a, [wCurrentAIFlags]
 	or AI_FLAG_USED_PROFESSOR_OAK | AI_FLAG_MODIFIED_HAND
 	ld [wCurrentAIFlags], a
+
+	ld hl, wAIResponseParams
+	ld a, PROFESSOR_OAK
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret

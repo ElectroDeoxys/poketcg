@@ -40,6 +40,11 @@ DoFrame::
 	pop af
 	ret
 
+DoInputFrame::
+	call SetAwaitingInputFlag
+	call DoFrame
+	jp ResetAwaitingInputFlag
+
 ; handle D-pad repeat counter
 ; used to quickly scroll through menus when a relevant D-pad key is held
 HandleDPadRepeat::

@@ -714,20 +714,17 @@ SetCursorParametersForTextBox_Default::
 ; wait until A or B is pressed.
 ; return carry if A is pressed, nc if B is pressed. erase the cursor either way
 WaitForButtonAorB::
-	call SetAwaitingInputFlag
-	call DoFrame
+	call DoInputFrame
 	call RefreshMenuCursor
 	ldh a, [hKeysPressed]
 	bit A_BUTTON_F, a
 	jr nz, .a_pressed
 	bit B_BUTTON_F, a
 	jr z, WaitForButtonAorB
-	call ResetAwaitingInputFlag
 	call EraseCursor
 	scf
 	ret
 .a_pressed
-	call ResetAwaitingInputFlag
 	call EraseCursor
 	or a
 	ret
@@ -850,14 +847,12 @@ WaitForWideTextBoxInput::
 	call InitializeMenuParameters
 	call EnableLCD
 
-	call SetAwaitingInputFlag
 .wait_A_or_B_loop
-	call DoFrame
+	call DoInputFrame
 	call RefreshMenuCursor
 	ldh a, [hKeysPressed]
 	and A_BUTTON | B_BUTTON
 	jr z, .wait_A_or_B_loop
-	call ResetAwaitingInputFlag
 
 	jp EraseCursor
 

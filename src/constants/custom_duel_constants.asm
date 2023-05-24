@@ -1,5 +1,8 @@
 	const_def 1
 	const AIRESPONSE_PLAY_INITIAL_POKEMON ; $1
+	const AIRESPONSE_PLAY_TRAINER         ; $2
+	const AIRESPONSE_ATTACH_ENERGY        ; $3
+	const AIRESPONSE_PLAY_POKEMON         ; $4
 
 	const_def 1
 	const INITIAL_HAND_SCREEN   ; $1
@@ -7,3 +10,4 @@
 	const OPPS_TURN_SCREEN      ; $3
 	const CARD_DETAIL_SCREEN    ; $4
 	const MAIN_INTERFACE_SCREEN ; $5
+	const USED_TRAINER_SCREEN   ; $6
