@@ -1401,8 +1401,6 @@ DisplayDrawNCardsScreen:
 	push de
 	push bc
 	ld [wNumCardsTryingToDraw], a
-	ld a, DUELISTS_SCREEN
-	ld [wCurrentScreen], a
 	xor a
 	ld [wNumCardsBeingDrawn], a
 	ld a, DUELVARS_NUMBER_OF_CARDS_NOT_IN_DECK
@@ -1966,9 +1964,6 @@ ChooseInitialArenaAndBenchPokemon:
 	ldtx hl, ChooseBasicPkmnToPlaceInArenaText
 	call DrawWideTextBox_WaitForInput
 
-	ld a, INITIAL_HAND_SCREEN
-	ld [wCurrentScreen], a
-
 	ld a, PRACTICEDUEL_DRAW_SEVEN_CARDS
 	call DoPracticeDuelAction
 .choose_arena_loop
@@ -2330,8 +2325,6 @@ Func_4f2d:
 ; which depend on the type of duelist holding the turn.
 ; includes the background, both arena Pokemon, and both HUDs.
 DrawDuelMainScene::
-	ld a, MAIN_INTERFACE_SCREEN
-	ld [wCurrentScreen], a
 	ld a, DUELVARS_DUELIST_TYPE
 	call GetTurnDuelistVariable
 	cp DUELIST_TYPE_PLAYER
@@ -3009,13 +3002,14 @@ DisplayDuelistTurnScreen:
 	call EmptyScreen
 	ld c, BOXMSG_PLAYERS_TURN
 	ldh a, [hWhoseTurn]
+	ld [wAIResponseParams], a
 	cp PLAYER_TURN
-	ld a, PLAYERS_TURN_SCREEN
 	jr z, .got_turn
-	ld a, OPPS_TURN_SCREEN
 	inc c ; BOXMSG_OPPONENTS_TURN
 .got_turn
-	ld [wCurrentScreen], a
+	ld a, AIRESPONSE_START_TURN
+	call PublishAIResponse
+
 	ld a, c
 	call DrawDuelBoxMessage
 	ldtx hl, DuelistTurnText
@@ -4685,8 +4679,6 @@ DisplayEnergyOrTrainerCardPage:
 ; print the text at hl
 _DisplayCardDetailScreen:
 	push hl
-	ld a, CARD_DETAIL_SCREEN
-	ld [wCurrentScreen], a
 	call DrawLargePictureOfCard
 	ld a, 18
 	call CopyCardNameAndLevel
@@ -4695,8 +4687,6 @@ _DisplayCardDetailScreen:
 	call LoadTxRam2
 	pop hl
 	call DrawWideTextBox_WaitForInput
-	xor a
-	ld [wCurrentScreen], a
 	ret
 
 ; draw a large picture of the card loaded in wLoadedCard1, including its image
@@ -5911,8 +5901,6 @@ DrawHPBar:
 ; when an opponent's Pokemon card attacks, this displays a screen
 ; containing the description and information of the used attack
 DisplayOpponentUsedAttackScreen:
-	ld a, USED_ATTACK_SCREEN
-	ld [wCurrentScreen], a
 	call ZeroObjectPositionsAndToggleOAMCopy
 	call EmptyScreen
 	call LoadDuelCardSymbolTiles
@@ -5946,10 +5934,6 @@ DisplayUsedTrainerCardDetailScreen::
 ; "Used xxx" text in a text box. this function is used to show the player
 ; the information of a trainer card being used by the opponent.
 PrintUsedTrainerCardDescription:
-	ld a, [wCurrentScreen]
-	push af
-	ld a, USED_TRAINER_SCREEN
-	ld [wCurrentScreen], a
 	call EmptyScreen
 	call SetNoLineSeparation
 	lb de, 1, 1
@@ -5963,10 +5947,7 @@ PrintUsedTrainerCardDescription:
 	call ProcessTextFromPointerToID
 	call SetOneLineSeparation
 	ldtx hl, UsedText
-	call DrawWideTextBox_WaitForInput
-	pop af
-	ld [wCurrentScreen], a
-	ret
+	jp DrawWideTextBox_WaitForInput
 
 ; save data of the current duel to sCurrentDuel
 ; byte 0 is $01, bytes 1 and 2 are the checksum, byte 3 is [wDuelType]
@@ -6393,8 +6374,6 @@ ResetDoFrameFunction_Bank1:
 ; print the AttachedEnergyToPokemonText, given the energy card to attach in hTempCardIndex_ff98,
 ; and the PLAY_AREA_* of the turn holder's Pokemon to attach the energy to in hTempPlayAreaLocation_ff9d
 PrintAttachedEnergyToPokemon:
-	ld a, CARD_DETAIL_SCREEN
-	ld [wCurrentScreen], a
 	ldh a, [hTempPlayAreaLocation_ff9d]
 	add DUELVARS_ARENA_CARD
 	call GetTurnDuelistVariable
@@ -6407,8 +6386,6 @@ PrintAttachedEnergyToPokemon:
 ; print the PokemonEvolvedIntoPokemonText, given the Pokemon card to evolve in wPreEvolutionPokemonCard,
 ; and the evolved Pokemon card in hTempCardIndex_ff98. also play a sound effect.
 PrintPokemonEvolvedIntoPokemon:
-	ld a, CARD_DETAIL_SCREEN
-	ld [wCurrentScreen], a
 	ld a, SFX_POKEMON_EVOLUTION
 	call PlaySFX
 	ld a, [wPreEvolutionPokemonCard]
@@ -7870,9 +7847,6 @@ _TossCoin::
 	ld [wCoinTossNumHeads], a
 
 .print_coin_tally
-	ld a, COIN_TOSS_SCREEN
-	ld [wCurrentScreen], a
-
 ; skip printing text if it's only one coin toss
 	ld a, [wCoinTossTotalNum]
 	cp 2
@@ -8045,8 +8019,6 @@ _TossCoin::
 	ret
 
 .confirm_result
-	ld a, COIN_TOSS_CONFIRM_SCREEN
-	ld [wCurrentScreen], a
 	jp WaitForWideTextBoxInput
 
 Func_72ff:

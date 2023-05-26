@@ -2957,10 +2957,7 @@ wAIResponse:: ; d69c
 wAIResponseParams:: ; d69d
 	ds $10
 
-wCurrentScreen:: ; d6ad
-	ds $1
-
-	ds $6d2
+	ds $6d3
 
 SECTION "WRAM1 Audio", WRAMX
 
