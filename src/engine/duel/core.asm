@@ -6507,13 +6507,20 @@ OppAction_PlayEnergyCard:
 
 ; evolve a Pokemon card in the arena or in the bench
 OppAction_EvolvePokemonCard:
+	ld hl, wAIResponseParams
 	ldh a, [hTempPlayAreaLocation_ffa1]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ff9d], a
 	ldh a, [hTemp_ffa0]
+	ld [hli], a
 	ldh [hTempCardIndex_ff98], a
 	call LoadCardDataToBuffer1_FromDeckIndex
 	call DrawLargePictureOfCard
 	call EvolvePokemonCardIfPossible
+
+	ld a, AIRESPONSE_EVOLVE_POKEMON
+	call PublishAIResponse
+
 	call PrintPokemonEvolvedIntoPokemon
 	call ProcessPlayedPokemonCard
 	jp DrawDuelMainScene

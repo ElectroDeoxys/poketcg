@@ -9,3 +9,4 @@
 	const AIRESPONSE_BETWEEN_TURNS        ; $8
 	const AIRESPONSE_NEXT_TURN            ; $9
 	const AIRESPONSE_START_TURN           ; $a
+	const AIRESPONSE_EVOLVE_POKEMON       ; $b
