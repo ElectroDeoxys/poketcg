@@ -83,6 +83,10 @@ MainDuelLoop:
 	or a
 	jr nz, .duel_finished
 	call UpdateSubstatusConditions_EndOfTurn
+
+	ld a, AIRESPONSE_BETWEEN_TURNS
+	call PublishAIResponse
+
 	call HandleBetweenTurnsEvents
 	call FinishQueuedAnimations
 	call ExchangeRNG
@@ -97,6 +101,8 @@ MainDuelLoop:
 
 .next_turn
 	call SwapTurn
+	ld a, AIRESPONSE_NEXT_TURN
+	call PublishAIResponse
 	jr MainDuelLoop
 
 .practice_duel

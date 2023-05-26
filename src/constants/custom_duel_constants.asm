@@ -6,6 +6,8 @@
 	const AIRESPONSE_FINISH_TURN_WO_ATK   ; $5
 	const AIRESPONSE_TRY_ATTACK           ; $6
 	const AIRESPONSE_TOSS_COIN            ; $7
+	const AIRESPONSE_BETWEEN_TURNS        ; $8
+	const AIRESPONSE_NEXT_TURN            ; $9
 
 	const_def 1
 	const INITIAL_HAND_SCREEN      ; $1
