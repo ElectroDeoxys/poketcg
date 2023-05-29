@@ -2213,6 +2213,10 @@ Func_1bb4::
 	xor a
 	ldh [hTempPlayAreaLocation_ff9d], a
 	call PrintFailedEffectText
+	
+	ld a, AIRESPONSE_AFTER_ATTACK
+	call PublishAIResponse
+
 	call WaitForWideTextBoxInput
 	jp ExchangeRNG
 
