@@ -11,3 +11,4 @@
 	const AIRESPONSE_NEXT_TURN            ; $a
 	const AIRESPONSE_START_TURN           ; $b
 	const AIRESPONSE_EVOLVE_POKEMON       ; $c
+	const AIRESPONSE_SHOW_TRAINER         ; $d
