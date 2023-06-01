@@ -159,7 +159,13 @@ wCustomAIDeckID::     ds $1 ; c5f5
 ; bit 7: set if init pending
 wCustomDuelFlags::    ds $1 ; c5f6
 
-	ds $9
+wCustomPlayerPortrait:: ; c5f7
+	ds $1
+
+wCustomPlayerName:: ; c5f8
+	ds $2
+
+	ds $6
 
 SECTION "WRAM0 Text Engine", WRAM0
 

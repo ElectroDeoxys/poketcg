@@ -262,6 +262,7 @@ LoadScene::
 ; draws player's portrait at b,c
 DrawPlayerPortrait::
 	ld a, PLAYER_PIC
+DrawCustomPlayerPortrait::
 	ld [wCurPortrait], a
 	ld a, TILEMAP_PLAYER
 ;	fallthrough

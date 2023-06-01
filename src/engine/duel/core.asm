@@ -1578,17 +1578,23 @@ DeckAndHandIconsCGBPalData:
 ; also draw an horizontal line separating the two sides.
 DrawDuelistPortraitsAndNames:
 	call LoadSymbolsFont
+
 	; player's name
 	ld de, wDefaultText
-	push de
-	call CopyPlayerName
+	ld hl, wCustomPlayerName
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	call CopyText
 	lb de, 0, 11
 	call InitTextPrinting
-	pop hl
+	ld hl, wDefaultText
 	call ProcessText
 	; player's portrait
+	ld a, [wCustomPlayerPortrait]
 	lb bc, 0, 5
-	call DrawPlayerPortrait
+	call DrawCustomPlayerPortrait
+
 	; opponent's name (aligned to the right)
 	ld de, wDefaultText
 	push de
@@ -8450,6 +8456,17 @@ CustomDuel:
 	jp StartDuel
 
 .Prepare:
+	ld a, [wCustomPlayerDeckID]
+	ld [wNPCDuelDeckID], a
+	farcall _GetChallengeMachineDuelConfigurations
+	ld hl, wCustomPlayerPortrait
+	ld a, [wOpponentPortrait]
+	ld [hli], a
+	ld a, [wOpponentName + 0]
+	ld [hli], a ; wCustomPlayerName
+	ld a, [wOpponentName + 1]
+	ld [hli], a
+
 	ld a, [wCustomAIDeckID]
 	ld [wNPCDuelDeckID], a
 	farcall _GetChallengeMachineDuelConfigurations
