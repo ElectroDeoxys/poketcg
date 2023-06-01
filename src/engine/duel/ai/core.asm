@@ -251,6 +251,10 @@ PickRandomBenchPokemon:
 	ret
 
 AIPickPrizeCards:
+	ld a, DUELVARS_PRIZES
+	call GetTurnDuelistVariable
+	push af
+
 	ld a, [wNumberPrizeCardsToTake]
 	ld b, a
 .loop
@@ -262,7 +266,13 @@ AIPickPrizeCards:
 	dec b
 	jr nz, .loop
 .done
-	ret
+
+	ld b, a
+	pop af ; initial prize cards
+	xor b
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_PICK_PRIZES
+	jp PublishAIResponse
 
 ; picks a prize card at random
 ; and adds it to the hand.

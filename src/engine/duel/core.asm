@@ -3582,6 +3582,9 @@ TurnDuelistTakePrizes:
 	jr nz, .opponent
 
 ; player
+	ld a, AIRESPONSE_TAKE_PRIZES
+	call PublishAIResponse
+
 	ldtx hl, WillDrawNPrizesText
 	call DrawWideTextBox_WaitForInput
 	ld a, [wNumberPrizeCardsToTake]
@@ -3612,11 +3615,6 @@ TurnDuelistTakePrizes:
 	cp DUELIST_TYPE_LINK_OPP
 	jr z, .link_opponent
 	call AIDoAction_TakePrize
-	ld c, 60
-.delay_loop
-	call DoFrame
-	dec c
-	jr nz, .delay_loop
 	jr .asm_586f
 
 .link_opponent

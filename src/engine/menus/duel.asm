@@ -1941,7 +1941,7 @@ _SelectPrizeCards::
 .loop_handle_input
 	ld a, $1
 	ld [wVBlankOAMCopyToggle], a
-	call DoFrame
+	call DoInputFrame
 	call YourOrOppPlayAreaScreen_HandleInput
 	jr nc, .loop_handle_input
 	cp $ff
