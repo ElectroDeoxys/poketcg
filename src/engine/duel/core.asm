@@ -956,7 +956,7 @@ HandleEnergyDiscardMenuInput:
 	inc b
 	call WriteTwoDigitNumberInTxSymbolFormat
 .wait_input
-	call DoFrame
+	call DoInputFrame
 	call HandleCardListInput
 	jr nc, .wait_input
 	cp $ff ; B pressed?
@@ -1677,8 +1677,7 @@ DisplayPlayerDrawCardScreen:
 ; a is the card's deck index
 DisplayCardDetailScreen:
 	call LoadCardDataToBuffer1_FromDeckIndex
-	call _DisplayCardDetailScreen
-	ret
+	jp _DisplayCardDetailScreen
 
 Func_4b38:
 	ld a, [wDuelTempList]
@@ -3510,7 +3509,7 @@ OpenCardPage:
 	jr c, .done ; done if trying to advance past the last page with START or A_BUTTON
 	call EnableLCD
 .input_loop
-	call DoFrame
+	call DoInputFrame
 	ldh a, [hDPadHeld]
 	ld b, a
 	ld a, [wCardPageExitKeys]
@@ -4690,8 +4689,7 @@ _DisplayCardDetailScreen:
 	ld hl, 0
 	call LoadTxRam2
 	pop hl
-	call DrawWideTextBox_WaitForInput
-	ret
+	jp DrawWideTextBox_WaitForInput
 
 ; draw a large picture of the card loaded in wLoadedCard1, including its image
 ; and a header indicating the type of card (TRAINER, ENERGY, PoKéMoN)
@@ -6188,17 +6186,7 @@ CheckSkipDelayAllowed:
 AIMakeDecision:
 	ldh [hOppActionTableIndex], a
 	ld hl, wSkipDuelistIsThinkingDelay
-	ld a, [hl]
 	ld [hl], TRUE
-	or a
-	jr nz, .skip_delay
-.delay_loop
-	call DoFrame
-	ld a, [wVBlankCounter]
-	cp 60
-	jr c, .delay_loop
-
-.skip_delay
 	ldh a, [hOppActionTableIndex]
 	ld hl, wOpponentTurnEnded
 	ld [hl], 0
@@ -6553,6 +6541,22 @@ OppAction_PlayBasicPokemonCard:
 ; if successful, discard the required energy cards for retreat and
 ; swap the retreated card with a Pokemon card from the bench
 OppAction_AttemptRetreat:
+	ldh a, [hTempPlayAreaLocation_ffa1]
+	ld [wAIResponseParams], a
+
+	ld hl, hTempRetreatCostCards
+	ld de, wAIResponseParams + 1
+.loop_copy_cards
+	ld a, [hli]
+	cp $ff
+	jr z, .done_copy
+	ld [de], a
+	inc de
+	jr .loop_copy_cards
+.done_copy
+	ld a, AIRESPONSE_ATTEMPT_RETREAT
+	call PublishAIResponse
+
 	ld a, DUELVARS_ARENA_CARD
 	call GetTurnDuelistVariable
 	push af
@@ -7415,6 +7419,9 @@ ReplaceKnockedOutPokemon:
 	call AIDoAction_KOSwitch
 	ldh a, [hTemp_ffa0]
 	ldh [hTempPlayAreaLocation_ff9d], a
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_KO_SWITCH
+	call PublishAIResponse
 	jr .replace_pokemon
 
 ; wait for link opponent to replace the knocked out Pokemon with one from bench

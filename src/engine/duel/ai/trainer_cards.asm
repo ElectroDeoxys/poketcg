@@ -983,10 +983,19 @@ AIPlay_Switch:
 	ld a, [wCurrentAIFlags]
 	or AI_FLAG_USED_SWITCH
 	ld [wCurrentAIFlags], a
+
+	ld hl, wAIResponseParams
+	ld a, SWITCH
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	xor a
@@ -1451,12 +1460,21 @@ AIDecide_Bill:
 	ret
 
 AIPlay_EnergyRemoval:
+	ld hl, wAIResponseParams
+	ld a, ENERGY_REMOVAL
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
 	ld a, [wce1a]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -3249,10 +3267,18 @@ AIDecide_ImposterProfessorOak:
 	ret
 
 AIPlay_EnergySearch:
+	ld hl, wAIResponseParams
+	ld a, ENERGY_SEARCH
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4796,8 +4822,15 @@ AIDecide_PokemonFlute:
 	ret
 
 AIPlay_ClefairyDollOrMysteriousFossil:
+	ld hl, wAIResponseParams
+	ld a, CLEFAIRY_DOLL
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4834,15 +4867,26 @@ AIDecide_ClefairyDollOrMysteriousFossil:
 	ret
 
 AIPlay_Pokeball:
+	ld hl, wAIResponseParams
+	ld a, POKE_BALL
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
+	ld a, [wAITrainerCardParameter]
+	ld [hli], a
+
 	ldtx de, TrainerCardSuccessCheckText
 	bank1call TossCoin
 	ldh [hTemp_ffa0], a
 	jr nc, .asm_219bc
+
 	ld a, [wAITrainerCardParameter]
 	ldh [hTempPlayAreaLocation_ffa1], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
 	jr .asm_219c0
+
 .asm_219bc
 	ld a, $ff
 	ldh [hTempPlayAreaLocation_ffa1], a

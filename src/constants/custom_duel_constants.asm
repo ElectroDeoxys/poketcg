@@ -14,3 +14,5 @@
 	const AIRESPONSE_SHOW_TRAINER         ; $0d
 	const AIRESPONSE_PICK_PRIZES          ; $0e
 	const AIRESPONSE_TAKE_PRIZES          ; $0f
+	const AIRESPONSE_KO_SWITCH            ; $10
+	const AIRESPONSE_ATTEMPT_RETREAT      ; $11
