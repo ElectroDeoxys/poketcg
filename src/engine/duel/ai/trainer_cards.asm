@@ -1968,12 +1968,21 @@ AIDecide_SuperEnergyRemoval:
 	ret
 
 AIPlay_PokemonBreeder:
+	ld hl, wAIResponseParams
+	ld a, POKEMON_BREEDER
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
 	ld a, [wce1a]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -3827,8 +3836,15 @@ PickPokedexCards:
 	ret
 
 AIPlay_FullHeal:
+	ld hl, wAIResponseParams
+	ld a, FULL_HEAL
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4207,11 +4223,21 @@ AIPlay_Maintenance:
 	ld a, [wCurrentAIFlags]
 	or AI_FLAG_MODIFIED_HAND
 	ld [wCurrentAIFlags], a
+
+	ld hl, wAIResponseParams
+	ld a, MAINTENANCE
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wce1a]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
 	ld a, [wce1b]
+	ld [hli], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ldh [hTempPlayAreaLocation_ffa1], a
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
@@ -5512,12 +5538,21 @@ AIDecide_ComputerSearch_Anger:
 	ret
 
 AIPlay_PokemonTrader:
+	ld hl, wAIResponseParams
+	ld a, POKEMON_TRADER
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
 	ld a, [wce1a]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
+	ld a, AIRESPONSE_PLAY_TRAINER
+	call PublishAIResponse
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret

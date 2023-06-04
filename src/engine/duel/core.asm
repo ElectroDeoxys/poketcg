@@ -84,9 +84,6 @@ MainDuelLoop:
 	jr nz, .duel_finished
 	call UpdateSubstatusConditions_EndOfTurn
 
-	ld a, AIRESPONSE_BETWEEN_TURNS
-	call PublishAIResponse
-
 	call HandleBetweenTurnsEvents
 	call FinishQueuedAnimations
 	call ExchangeRNG
@@ -6824,6 +6821,9 @@ HandleBetweenTurnsEvents:
 	; either:
 	; 1. turn holder's arena Pokemon is paralyzed, asleep, poisoned or double poisoned
 	; 2. non-turn holder's arena Pokemon is asleep, poisoned or double poisoned
+	ld a, AIRESPONSE_BETWEEN_TURNS
+	call PublishAIResponse
+
 	call ResetAnimationQueue
 	call ZeroObjectPositionsAndToggleOAMCopy
 	call EmptyScreen
