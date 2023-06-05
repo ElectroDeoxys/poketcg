@@ -226,4 +226,85 @@ OpponentTitlesAndDeckNames:
 	tx StrangeLifeformText
 	tx ImakuniDeckName
 
+	tx EmptyText
+	tx AllFightingPokemonText
+
+	tx EmptyText
+	tx BenchAttackText
+
+	tx EmptyText
+	tx BattleContestText
+
+	tx EmptyText
+	tx SqueakingMouseText
+
+	tx EmptyText
+	tx GreatQuakeText
+
+	tx EmptyText
+	tx BoneAttackText
+
+	tx EmptyText
+	tx BlueWaterText
+
+	tx EmptyText
+	tx OnTheBeachText
+
+	tx EmptyText
+	tx ParalyzeText
+
+	tx EmptyText
+	tx EnergyRemovalText
+
+	tx EmptyText
+	tx CutePokemonText
+
+	tx EmptyText
+	tx PokemonFluteText
+
+	tx EmptyText
+	tx YellowFlashText
+
+	tx EmptyText
+	tx ElectricShockText
+
+	tx EmptyText
+	tx InsectCollectionText
+
+	tx EmptyText
+	tx JungleText
+
+	tx EmptyText
+	tx PsychicPowerText
+
+	tx EmptyText
+	tx DreamEaterHaunterText
+
+	tx EmptyText
+	tx ScavengingSlowbroText
+
+	tx EmptyText
+	tx ScienceCorpsText
+
+	tx EmptyText
+	tx ReplaceEmAllText
+
+	tx EmptyText
+	tx ChariSaurText
+
+	tx EmptyText
+	tx TrafficLightText
+
+	tx EmptyText
+	tx FirePokemonText
+
+	tx EmptyText
+	tx PsychicMachampText
+
+	tx EmptyText
+	tx WaterBeetleText
+
+	tx EmptyText
+	tx MysteriousPokemonText
+
 	assert_table_length NUM_DECK_IDS

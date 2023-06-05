@@ -368,5 +368,221 @@ DeckIDDuelConfigurations:
 	tx StrangeLifeformText ; rank
 	dw NULL ; element
 
+	db ALL_FIGHTING_POKEMON_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db BENCH_ATTACK_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db BATTLE_CONTEST_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db SQUEAKING_MOUSE_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db GREAT_QUAKE_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db BONE_ATTACK_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db BLUE_WATER_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db ON_THE_BEACH_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db PARALYZE_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db ENERGY_REMOVAL_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db CUTE_POKEMON_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db POKEMON_FLUTE_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db YELLOW_FLASH_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db ELECTRIC_SHOCK_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db INSECT_COLLECTION_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db JUNGLE_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db PSYCHIC_POWER_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db DREAM_EATER_HAUNTER_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db SCAVENGING_SLOWBRO_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db SCIENCE_CORPS_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db REPLACE_EM_ALL_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db CHARI_SAUR_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db TRAFFIC_LIGHT_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db FIRE_POKEMON_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db PSYCHIC_MACHAMP_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db WATER_BEETLE_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
+	db MYSTERIOUS_POKEMON_DECK_ID ; deck ID
+	db IMAKUNI2_PIC ; NPC portrait
+	tx ImakuniNPCName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_DUEL_THEME_1 ; theme
+	tx StrangeLifeformText ; rank
+	dw NULL ; element
+
 	assert_table_length NUM_AI_DECK_IDS
 	db -1 ; end

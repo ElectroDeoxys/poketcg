@@ -882,3 +882,12 @@ Palette160::
 	rgb 31, 12, 16
 	rgb 22,  0, 10
 	rgb  3,  0,  2
+
+Palette161::
+	db 0
+	db 1
+
+	rgb 31, 27, 24
+	rgb  0, 14, 19
+	rgb 28,  0,  0
+	rgb  1,  0,  0

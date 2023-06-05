@@ -48,5 +48,6 @@ PortraitGfxData:
 	portrait TILESET_JESSICA,   PALETTE_158, SGBData_JessicaPortraitPals      ; JESSICA_PIC
 	portrait TILESET_STEPHANIE, PALETTE_159, SGBData_StephaniePortraitPals    ; STEPHANIE_PIC
 	portrait TILESET_AARON,     PALETTE_160, SGBData_AaronPortraitPals        ; AARON_PIC
+	portrait TILESET_IMAKUNI2,  PALETTE_161, SGBData_AaronPortraitPals        ; IMAKUNI2_PIC
 	portrait TILESET_PLAYER,    PALETTE_120, SGBData_LinkOpponentPortraitPals ; LINK_OPP_PIC
 	assert_table_length NUM_PICS

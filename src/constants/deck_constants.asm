@@ -65,6 +65,34 @@ ENDM
 	deck_const FLAMETHROWER_DECK           ; $34
 	deck_const RESHUFFLE_DECK              ; $35
 	deck_const IMAKUNI_DECK                ; $36
+
+	deck_const ALL_FIGHTING_POKEMON_DECK   ; $37
+	deck_const BENCH_ATTACK_DECK           ; $38
+	deck_const BATTLE_CONTEST_DECK         ; $39
+	deck_const SQUEAKING_MOUSE_DECK        ; $3a
+	deck_const GREAT_QUAKE_DECK            ; $3b
+	deck_const BONE_ATTACK_DECK            ; $3c
+	deck_const BLUE_WATER_DECK             ; $3d
+	deck_const ON_THE_BEACH_DECK           ; $3e
+	deck_const PARALYZE_DECK               ; $3f
+	deck_const ENERGY_REMOVAL_DECK         ; $40
+	deck_const CUTE_POKEMON_DECK           ; $41
+	deck_const POKEMON_FLUTE_DECK          ; $42
+	deck_const YELLOW_FLASH_DECK           ; $43
+	deck_const ELECTRIC_SHOCK_DECK         ; $44
+	deck_const INSECT_COLLECTION_DECK      ; $45
+	deck_const JUNGLE_DECK                 ; $46
+	deck_const PSYCHIC_POWER_DECK          ; $47
+	deck_const DREAM_EATER_HAUNTER_DECK    ; $48
+	deck_const SCAVENGING_SLOWBRO_DECK     ; $49
+	deck_const SCIENCE_CORPS_DECK          ; $4a
+	deck_const REPLACE_EM_ALL_DECK         ; $4b
+	deck_const CHARI_SAUR_DECK             ; $4c
+	deck_const TRAFFIC_LIGHT_DECK          ; $4d
+	deck_const FIRE_POKEMON_DECK           ; $4e
+	deck_const PSYCHIC_MACHAMP_DECK        ; $4f
+	deck_const WATER_BEETLE_DECK           ; $50
+	deck_const MYSTERIOUS_POKEMON_DECK     ; $51
 DEF NUM_VALID_DECKS EQU const_value
 DEF NUM_DECK_IDS EQU const_value - 2
 

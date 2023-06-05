@@ -53,4 +53,32 @@ DeckAIPointerTable::
 	dw AIActionTable_GeneralDecks        ; FLAMETHROWER_DECK
 	dw AIActionTable_GeneralDecks        ; RESHUFFLE_DECK
 	dw AIActionTable_GeneralNoRetreat    ; IMAKUNI_DECK
+
+	dw AIActionTable_GeneralDecks        ; ALL_FIGHTING_POKEMON_DECK
+	dw AIActionTable_GeneralDecks        ; BENCH_ATTACK_DECK
+	dw AIActionTable_GeneralDecks        ; BATTLE_CONTEST_DECK
+	dw AIActionTable_GeneralDecks        ; SQUEAKING_MOUSE_DECK
+	dw AIActionTable_GeneralDecks        ; GREAT_QUAKE_DECK
+	dw AIActionTable_GeneralDecks        ; BONE_ATTACK_DECK
+	dw AIActionTable_GeneralDecks        ; BLUE_WATER_DECK
+	dw AIActionTable_GeneralDecks        ; ON_THE_BEACH_DECK
+	dw AIActionTable_GeneralDecks        ; PARALYZE_DECK
+	dw AIActionTable_GeneralDecks        ; ENERGY_REMOVAL_DECK
+	dw AIActionTable_GeneralDecks        ; CUTE_POKEMON_DECK
+	dw AIActionTable_GeneralDecks        ; POKEMON_FLUTE_DECK
+	dw AIActionTable_GeneralDecks        ; YELLOW_FLASH_DECK
+	dw AIActionTable_GeneralDecks        ; ELECTRIC_SHOCK_DECK
+	dw AIActionTable_GeneralDecks        ; INSECT_COLLECTION_DECK
+	dw AIActionTable_GeneralDecks        ; JUNGLE_DECK
+	dw AIActionTable_GeneralDecks        ; PSYCHIC_POWER_DECK
+	dw AIActionTable_GeneralDecks        ; DREAM_EATER_HAUNTER_DECK
+	dw AIActionTable_GeneralDecks        ; SCAVENGING_SLOWBRO_DECK
+	dw AIActionTable_GeneralDecks        ; SCIENCE_CORPS_DECK
+	dw AIActionTable_GeneralDecks        ; REPLACE_EM_ALL_DECK
+	dw AIActionTable_GeneralDecks        ; CHARI_SAUR_DECK
+	dw AIActionTable_GeneralDecks        ; TRAFFIC_LIGHT_DECK
+	dw AIActionTable_GeneralDecks        ; FIRE_POKEMON_DECK
+	dw AIActionTable_GeneralDecks        ; PSYCHIC_MACHAMP_DECK
+	dw AIActionTable_GeneralDecks        ; WATER_BEETLE_DECK
+	dw AIActionTable_GeneralDecks        ; MYSTERIOUS_POKEMON_DECK
 	assert_table_length NUM_DECK_IDS

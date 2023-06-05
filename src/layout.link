@@ -48,7 +48,6 @@ ROMX $04
 	"Map Scripts"
 	"Menus 3"
 	"Sprite Animations"
-	"Scenes"
 	"Challenge Machine"
 	"Map Objects"
 ROMX $05
@@ -79,7 +78,6 @@ ROMX $08
 ROMX $0b
 	"Effect Functions"
 ROMX $0c
-	"Decks"
 	"Cards"
 ROMX $0d
 	"Text 1"
@@ -146,6 +144,7 @@ ROMX $2d
 	"Palettes1"
 ROMX $2e
 	"Palettes2"
+	"New Gfx"
 ROMX $31
 	"Card Gfx 1"
 ROMX $32

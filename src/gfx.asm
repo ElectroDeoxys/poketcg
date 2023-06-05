@@ -1399,6 +1399,12 @@ SECTION "Palettes1", ROMX
 SECTION "Palettes2", ROMX
 	INCLUDE "data/palettes2.asm"
 
+SECTION "New Gfx", ROMX
+
+Imakuni2Gfx::
+	dw 36
+	INCBIN "gfx/duelists/imakuni2.2bpp"
+
 SECTION "Card Gfx 1", ROMX
 
 CardGraphics::
