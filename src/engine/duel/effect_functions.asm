@@ -1,4 +1,7 @@
 Poison50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, PoisonCheckText
 	call TossCoin_BankB
 	ret nc
@@ -12,6 +15,9 @@ DoublePoisonEffect:
 	jr QueueStatusCondition
 
 Paralysis50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, ParalysisCheckText
 	call TossCoin_BankB
 	ret nc
@@ -21,6 +27,9 @@ ParalysisEffect:
 	jr QueueStatusCondition
 
 Confusion50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, ConfusionCheckText
 	call TossCoin_BankB
 	ret nc
@@ -30,6 +39,9 @@ ConfusionEffect:
 	jr QueueStatusCondition
 
 Sleep50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, SleepCheckText
 	call TossCoin_BankB
 	ret nc
@@ -1513,6 +1525,9 @@ LureSwitchEffect:
 
 ; If heads, defending Pokemon can't retreat next turn
 AcidEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, AcidCheckText
 	call TossCoin_BankB
 	ret nc
@@ -1533,6 +1548,9 @@ FoulOdorEffect:
 
 ; If heads, prevent all damage done to user next turn
 StiffenEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, IfHeadsNoDamageNextTurnText
 	call TossCoin_BankB
 	jp nc, SetWasUnsuccessful
@@ -1578,6 +1596,11 @@ Flip2Coins30DamageEffect:
 	call LoadTxRam3
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 2
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
+	call PublishAIResponse
+
+	ld a, 2
 	call TossCoinATimes_BankB
 	ld e, a
 	add a
@@ -1605,6 +1628,8 @@ FoulGas_AIEffect:
 
 ; If heads, defending Pokemon becomes poisoned. If tails, defending Pokemon becomes confused
 FoulGas_PoisonOrConfusionEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
 	ldtx de, PoisonedIfHeadsConfusedIfTailsText
 	call TossCoin_BankB
 	jp c, PoisonEffect
@@ -1784,6 +1809,11 @@ BigEggsplosion_MultiplierEffect:
 	ld hl, 20
 	call LoadTxRam3
 	ld a, [wTotalAttachedEnergies]
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
+	call PublishAIResponse
+
+	ld a, [wTotalAttachedEnergies]
 	ldtx de, DamageCheckIfHeadsXDamageText
 	call TossCoinATimes_BankB
 ;	fallthrough
@@ -1813,6 +1843,9 @@ Thrash_AIEffect:
 ; If heads 10 more damage; if tails, 10 damage to itself
 Thrash_ModifierEffect:
 Thunderpunch_ModifierEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, IfHeadPlus10IfTails10ToYourselfText
 	call TossCoin_BankB
 	ldh [hTemp_ffa0], a
@@ -1874,6 +1907,11 @@ PsyduckFurySwipes_MultiplierEffect:
 	ld hl, 10
 	call LoadTxRam3
 	ldtx de, DamageCheckIfHeadsXDamageText
+	ld a, 3
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
+	call PublishAIResponse
+
 	ld a, 3
 	call TossCoinATimes_BankB
 	call ATimes10
@@ -1969,6 +2007,9 @@ HornHazard_AIEffect:
 	jp SetExpectedAIDamage
 
 HornHazard_NoDamage50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, DamageCheckIfTailsNoDamageText
 	call TossCoin_BankB
 	jr c, .heads
@@ -2415,6 +2456,9 @@ VenomPowder_AIEffect:
 	jp UpdateExpectedAIDamage
 
 VenomPowder_PoisonConfusion50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, VenomPowderCheckText
 	call TossCoin_BankB
 	ret nc ; return if tails
@@ -2516,6 +2560,11 @@ PetalDance_MultiplierEffect:
 	ld hl, 40
 	call LoadTxRam3
 	ldtx de, DamageCheckIfHeadsXDamageText
+	ld a, 3
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
+	call PublishAIResponse
+
 	ld a, 3
 	call TossCoinATimes_BankB
 	add a
@@ -2663,6 +2712,9 @@ OmanyteWaterGunEffect:
 	jp ApplyExtraWaterEnergyDamageBonus
 
 WithdrawEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, IfHeadsNoDamageNextTurnText
 	call TossCoin_BankB
 	jp nc, SetWasUnsuccessful
@@ -2826,6 +2878,9 @@ SeadraWaterGunEffect:
 	jp ApplyExtraWaterEnergyDamageBonus
 
 AgilityEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, IfHeadsDoNotReceiveDamageOrEffectText
 	call TossCoin_BankB
 	ret nc ; return if tails
@@ -2835,6 +2890,9 @@ AgilityEffect:
 	jp ApplySubstatus1ToDefendingCard
 
 HideInShellEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, IfHeadsNoDamageNextTurnText
 	call TossCoin_BankB
 	jp nc, SetWasUnsuccessful
@@ -2849,6 +2907,9 @@ QuickAttackAIEffect:
 	jp SetExpectedAIDamage
 
 QuickAttackDamageBoostEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ld hl, 20
 	call LoadTxRam3
 	ldtx de, DamageCheckIfHeadsPlusDamageText
@@ -2960,6 +3021,9 @@ ApplyAmnesiaToAttack:
 
 ; the rest of the routine if for Opponent
 ; to announce which attack was used for Amnesia.
+	ld a, AIRESPONSE_SHOW_AMNESIA_ATTACK
+	call PublishAIResponse
+
 	call SwapTurn
 	ld a, DUELVARS_ARENA_CARD
 	call GetTurnDuelistVariable
@@ -2988,6 +3052,9 @@ PoliwagWaterGunEffect:
 ClampEffect:
 	ld a, ATK_ANIM_HIT_EFFECT
 	ld [wLoadedAttackAnimation], a
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, SuccessCheckIfHeadsAttackIsSuccessfulText
 	call TossCoin_BankB
 	jp c, ParalysisEffect
@@ -3003,6 +3070,9 @@ CloysterSpikeCannon_AIEffect:
 	jp SetExpectedAIDamage
 
 Blizzard_BenchDamage50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, DamageToOppBenchIfHeadsDamageToYoursIfTailsText
 	call TossCoin_BankB
 	ldh [hTemp_ffa0], a ; store coin result
@@ -3250,6 +3320,9 @@ RapidashStomp_AIEffect:
 
 RapidashStomp_DamageBoostEffect:
 TaurosStomp_DamageBoostEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ld hl, 10
 	call LoadTxRam3
 	ldtx de, DamageCheckIfHeadsPlusDamageText
@@ -3361,6 +3434,9 @@ MoltresLv35DiveBomb_AIEffect:
 
 MoltresLv35DiveBomb_Success50PercentEffect:
 MoltresLv37DiveBomb_Success50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, SuccessCheckIfHeadsAttackIsSuccessfulText
 	call TossCoin_BankB
 	jr c, .heads
@@ -3546,6 +3622,11 @@ DancingEmbers_MultiplierEffect:
 	ld hl, 10
 	call LoadTxRam3
 	ldtx de, DamageCheckIfHeadsXDamageText
+	ld a, 8
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
+	call PublishAIResponse
+
 	ld a, 8
 	call TossCoinATimes_BankB
 	call ATimes10
@@ -4937,6 +5018,9 @@ FirstAid_DamageCheck:
 	ret
 
 SpacingOut_Success50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, SuccessCheckIfHeadsAttackIsSuccessfulText
 	call TossCoin_BankB
 	ldh [hTemp_ffa0], a
@@ -5066,6 +5150,11 @@ FuryAttack_MultiplierEffect:
 	call LoadTxRam3
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 2
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
+	call PublishAIResponse
+
+	ld a, 2
 	call TossCoinATimes_BankB
 	call ATimes10
 	jp SetDefiniteDamage
@@ -5138,6 +5227,11 @@ StoneBarrage_MultiplierEffect:
 .tails
 ; store resulting damage
 	ldh a, [hTemp_ffa0]
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
+	call PublishAIResponse
+
+	ldh a, [hTemp_ffa0]
 	ld l, a
 	ld h, 10
 	call HtimesL
@@ -5165,12 +5259,20 @@ SandslashFurySwipes_MultiplierEffect:
 	call LoadTxRam3
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 3
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
+	call PublishAIResponse
+
+	ld a, 3
 	call TossCoinATimes_BankB
 	add a
 	call ATimes10
 	jp SetDefiniteDamage
 
 TantrumEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, IfTailsYourPokemonBecomesConfusedText
 	call TossCoin_BankB
 	ret c ; return if heads
@@ -5341,6 +5443,9 @@ Ram_RecoilSwitchEffect:
 	jp HandleSwitchDefendingPokemonEffect
 
 LeerEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, IfHeadsOpponentCannotAttackText
 	call TossCoin_BankB
 	jp nc, SetWasUnsuccessful
@@ -5449,6 +5554,9 @@ Peek_SelectEffect:
 	ret
 
 BoneAttackEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, IfHeadsOpponentCannotAttackText
 	call TossCoin_BankB
 	ret nc
@@ -5558,6 +5666,9 @@ MagnemiteSelfdestructEffect:
 
 ZapdosThunder_Recoil50PercentEffect:
 RaichuThunder_Recoil50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ld hl, 30
 	call LoadTxRam3
 	ldtx de, IfTailsDamageToYourselfTooText
@@ -5697,6 +5808,11 @@ CometPunch_MultiplierEffect:
 	call LoadTxRam3
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 4
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
+	call PublishAIResponse
+
+	ld a, 4
 	call TossCoinATimes_BankB
 	add a ; a = 2 * heads
 	call ATimes10
@@ -5708,6 +5824,9 @@ Fly_AIEffect:
 	jp SetExpectedAIDamage
 
 Fly_Success50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, SuccessCheckIfHeadsAttackIsSuccessfulText
 	call TossCoin_BankB
 	jr c, .heads
@@ -5722,6 +5841,9 @@ Fly_Success50PercentEffect:
 	jp ApplySubstatus1ToDefendingCard
 
 ThunderJolt_Recoil50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ld hl, 10
 	call LoadTxRam3
 	ldtx de, IfTailsDamageToYourselfTooText
@@ -6410,12 +6532,20 @@ JolteonDoubleKick_MultiplierEffect:
 	call LoadTxRam3
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 2
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
+	call PublishAIResponse
+
+	ld a, 2
 	call TossCoinATimes_BankB
 	add a ; a = 2 * heads
 	call ATimes10
 	jp SetDefiniteDamage
 
 TailWagEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, IfHeadsOpponentCannotAttackText
 	call TossCoin_BankB
 	jp nc, SetWasUnsuccessful
@@ -6708,6 +6838,11 @@ DragoniteLv45Slam_MultiplierEffect:
 	call LoadTxRam3
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 2
+	ld [wAIResponseParams], a
+	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
+	call PublishAIResponse
+
+	ld a, 2
 	call TossCoinATimes_BankB
 	add a
 	add a
@@ -6737,6 +6872,9 @@ LeekSlap_SetUsedThisDuelFlag:
 	ret
 
 LeekSlap_NoDamage50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, DamageCheckIfTailsNoDamageText
 	call TossCoin_BankB
 	ret c
@@ -7168,6 +7306,9 @@ AISelectConversionColor:
 	ret
 
 ScrunchEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, IfHeadsNoDamageNextTurnText
 	call TossCoin_BankB
 	jp nc, SetWasUnsuccessful

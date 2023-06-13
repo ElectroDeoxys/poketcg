@@ -7894,8 +7894,6 @@ _TossCoin::
 	ld a, [wCoinTossDuelistType]
 	or a
 	jr z, .asm_7236
-	ld a, AIRESPONSE_TOSS_COIN
-	call PublishAIResponse
 	call Func_7324
 	jr .asm_723c
 
