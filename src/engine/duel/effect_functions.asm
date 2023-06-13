@@ -1428,6 +1428,9 @@ SpitPoison_AIEffect:
 
 ; If heads, defending Pokemon becomes poisoned
 SpitPoison_Poison50PercentEffect:
+	ld a, AIRESPONSE_PREATK_COIN_TOSS
+	call PublishAIResponse
+
 	ldtx de, PoisonCheckText
 	call TossCoin_BankB
 	jp c, PoisonEffect

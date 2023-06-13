@@ -15,6 +15,11 @@
 	const AIRESPONSE_TAKE_PRIZES          ; $0e
 	const AIRESPONSE_KO_SWITCH            ; $0f
 	const AIRESPONSE_ATTEMPT_RETREAT      ; $10
+	const AIRESPONSE_HEAL_PARALYSIS       ; $11
+	const AIRESPONSE_POISON_DAMAGE        ; $12
+	const AIRESPONSE_PLAYER_SLEEP_CHECK   ; $13
+	const AIRESPONSE_AI_SLEEP_CHECK       ; $14
+	const AIRESPONSE_HEAL_SLEEP           ; $15
 
 	const_def $80
 	const AIRESPONSE_PREATK_COIN_TOSS     ; $80

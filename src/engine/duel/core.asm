@@ -6849,7 +6849,11 @@ HandleBetweenTurnsEvents:
 	and CNF_SLP_PRZ
 	cp PARALYZED
 	jr nz, .discard_pluspower
+
 	; heal paralysis
+	ld a, AIRESPONSE_HEAL_PARALYSIS
+	call PublishAIResponse
+
 	ld a, DOUBLE_POISONED
 	and [hl]
 	ld [hl], a
@@ -6859,9 +6863,9 @@ HandleBetweenTurnsEvents:
 	ld a, DUEL_ANIM_HEAL
 	call PlayBetweenTurnsAnimation
 	call WaitForWideTextBoxInput
-
 .discard_pluspower
 	call DiscardAttachedPluspowers
+
 	call SwapTurn
 	ld a, DUELVARS_ARENA_CARD
 	call GetTurnDuelistVariable
@@ -7010,6 +7014,15 @@ HandleSleepCheck:
 	ret nz ; quit if not asleep
 
 	push hl
+	ld a, DUELVARS_DUELIST_TYPE
+	call GetTurnDuelistVariable
+	cp DUELIST_TYPE_PLAYER
+	ld a, AIRESPONSE_PLAYER_SLEEP_CHECK
+	jr z, .ok
+	ld a, AIRESPONSE_AI_SLEEP_CHECK
+.ok
+	call PublishAIResponse
+
 	ld a, [wTempNonTurnDuelistCardID]
 	ld e, a
 	call LoadCardDataToBuffer1_FromCardID
@@ -7020,6 +7033,7 @@ HandleSleepCheck:
 	xor a
 	ld [hli], a
 	ld [hl], a
+
 	ldtx de, PokemonsSleepCheckText
 	call TossCoin
 	ld a, DUEL_ANIM_SLEEP
@@ -7044,12 +7058,17 @@ HandleSleepCheck:
 	pop af
 	call PlayBetweenTurnsAnimation
 	pop hl
+	ld a, AIRESPONSE_HEAL_SLEEP
+	call PublishAIResponse
 	jp WaitForWideTextBoxInput
 
 HandlePoisonDamage:
 	or a
 	bit POISONED_F , [hl]
 	ret z ; quit if not poisoned
+
+	ld a, AIRESPONSE_POISON_DAMAGE
+	call PublishAIResponse
 
 ; load damage and text according to normal/double poison
 	push hl
