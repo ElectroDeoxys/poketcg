@@ -118,7 +118,7 @@ AIDoAction::
 ; a = AIRESPONSE_*
 ; prerequisite for all params to already
 ; be written to wAIResponseParams!
-PublishAIResponse::
+TransmitAIResponse::
 	ld [wAIResponse], a
 .loop_wait
 	call DoFrame

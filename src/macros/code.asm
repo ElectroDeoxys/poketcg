@@ -67,3 +67,8 @@ MACRO retbc
 	push bc
 	ret
 ENDM
+
+MACRO transmit
+	ld a, \1
+	call TransmitAIResponse
+ENDM

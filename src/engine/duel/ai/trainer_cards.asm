@@ -156,8 +156,7 @@ AIPlay_Potion:
 	ld a, [wAITrainerCardParameter]
 	ld [hli], a
 	ldh [hTemp_ffa0], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ldh a, [hTemp_ffa0]
 	ld e, a
@@ -600,8 +599,7 @@ AIPlay_Defender:
 	ld [hli], a
 	xor a
 	ldh [hTemp_ffa0], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
@@ -778,8 +776,7 @@ AIPlay_Pluspower:
 	ld a, [wAITrainerCardToPlay]
 	ldh [hTempCardIndex_ff9f], a
 	ld [hli], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
@@ -993,8 +990,7 @@ AIPlay_Switch:
 	ld a, [wAITrainerCardParameter]
 	ld [hli], a
 	ldh [hTemp_ffa0], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
@@ -1445,8 +1441,7 @@ AIPlay_Bill:
 	ld a, [wAITrainerCardToPlay]
 	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
@@ -1472,8 +1467,7 @@ AIPlay_EnergyRemoval:
 	ld a, [wce1a]
 	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
@@ -1980,8 +1974,7 @@ AIPlay_PokemonBreeder:
 	ld a, [wce1a]
 	ld [hli], a
 	ldh [hTemp_ffa0], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
@@ -2339,8 +2332,7 @@ AIPlay_ProfessorOak:
 	ld a, [wAITrainerCardToPlay]
 	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
@@ -3285,8 +3277,7 @@ AIPlay_EnergySearch:
 	ld a, [wAITrainerCardParameter]
 	ld [hli], a
 	ldh [hTemp_ffa0], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
@@ -3842,8 +3833,7 @@ AIPlay_FullHeal:
 	ld a, [wAITrainerCardToPlay]
 	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
@@ -4235,8 +4225,7 @@ AIPlay_Maintenance:
 	ldh [hTemp_ffa0], a
 	ld a, [wce1b]
 	ld [hli], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ldh [hTempPlayAreaLocation_ffa1], a
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
@@ -4603,8 +4592,7 @@ AIPlay_Imakuni:
 	ld a, [wAITrainerCardToPlay]
 	ldh [hTempCardIndex_ff9f], a
 	ld [hli], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
@@ -4854,8 +4842,7 @@ AIPlay_ClefairyDollOrMysteriousFossil:
 	ld a, [wAITrainerCardToPlay]
 	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
@@ -4909,8 +4896,7 @@ AIPlay_Pokeball:
 
 	ld a, [wAITrainerCardParameter]
 	ldh [hTempPlayAreaLocation_ffa1], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 	jr .asm_219c0
 
 .asm_219bc
@@ -5550,8 +5536,7 @@ AIPlay_PokemonTrader:
 	ld a, [wce1a]
 	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
-	ld a, AIRESPONSE_PLAY_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_TRAINER
 
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision

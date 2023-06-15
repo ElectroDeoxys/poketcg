@@ -1,6 +1,5 @@
 Poison50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, PoisonCheckText
 	call TossCoin_BankB
@@ -15,8 +14,7 @@ DoublePoisonEffect:
 	jr QueueStatusCondition
 
 Paralysis50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, ParalysisCheckText
 	call TossCoin_BankB
@@ -27,8 +25,7 @@ ParalysisEffect:
 	jr QueueStatusCondition
 
 Confusion50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, ConfusionCheckText
 	call TossCoin_BankB
@@ -39,8 +36,7 @@ ConfusionEffect:
 	jr QueueStatusCondition
 
 Sleep50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, SleepCheckText
 	call TossCoin_BankB
@@ -1428,8 +1424,7 @@ SpitPoison_AIEffect:
 
 ; If heads, defending Pokemon becomes poisoned
 SpitPoison_Poison50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, PoisonCheckText
 	call TossCoin_BankB
@@ -1528,8 +1523,7 @@ LureSwitchEffect:
 
 ; If heads, defending Pokemon can't retreat next turn
 AcidEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, AcidCheckText
 	call TossCoin_BankB
@@ -1551,8 +1545,7 @@ FoulOdorEffect:
 
 ; If heads, prevent all damage done to user next turn
 StiffenEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, IfHeadsNoDamageNextTurnText
 	call TossCoin_BankB
@@ -1600,8 +1593,7 @@ Flip2Coins30DamageEffect:
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 2
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_N_COIN_TOSSES
 
 	ld a, 2
 	call TossCoinATimes_BankB
@@ -1631,8 +1623,7 @@ FoulGas_AIEffect:
 
 ; If heads, defending Pokemon becomes poisoned. If tails, defending Pokemon becomes confused
 FoulGas_PoisonOrConfusionEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 	ldtx de, PoisonedIfHeadsConfusedIfTailsText
 	call TossCoin_BankB
 	jp c, PoisonEffect
@@ -1813,8 +1804,7 @@ BigEggsplosion_MultiplierEffect:
 	call LoadTxRam3
 	ld a, [wTotalAttachedEnergies]
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_N_COIN_TOSSES
 
 	ld a, [wTotalAttachedEnergies]
 	ldtx de, DamageCheckIfHeadsXDamageText
@@ -1846,8 +1836,7 @@ Thrash_AIEffect:
 ; If heads 10 more damage; if tails, 10 damage to itself
 Thrash_ModifierEffect:
 Thunderpunch_ModifierEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, IfHeadPlus10IfTails10ToYourselfText
 	call TossCoin_BankB
@@ -1912,8 +1901,7 @@ PsyduckFurySwipes_MultiplierEffect:
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 3
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_N_COIN_TOSSES
 
 	ld a, 3
 	call TossCoinATimes_BankB
@@ -2010,8 +1998,7 @@ HornHazard_AIEffect:
 	jp SetExpectedAIDamage
 
 HornHazard_NoDamage50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, DamageCheckIfTailsNoDamageText
 	call TossCoin_BankB
@@ -2459,8 +2446,7 @@ VenomPowder_AIEffect:
 	jp UpdateExpectedAIDamage
 
 VenomPowder_PoisonConfusion50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, VenomPowderCheckText
 	call TossCoin_BankB
@@ -2565,8 +2551,7 @@ PetalDance_MultiplierEffect:
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 3
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_N_COIN_TOSSES
 
 	ld a, 3
 	call TossCoinATimes_BankB
@@ -2715,8 +2700,7 @@ OmanyteWaterGunEffect:
 	jp ApplyExtraWaterEnergyDamageBonus
 
 WithdrawEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, IfHeadsNoDamageNextTurnText
 	call TossCoin_BankB
@@ -2881,8 +2865,7 @@ SeadraWaterGunEffect:
 	jp ApplyExtraWaterEnergyDamageBonus
 
 AgilityEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, IfHeadsDoNotReceiveDamageOrEffectText
 	call TossCoin_BankB
@@ -2893,8 +2876,7 @@ AgilityEffect:
 	jp ApplySubstatus1ToDefendingCard
 
 HideInShellEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, IfHeadsNoDamageNextTurnText
 	call TossCoin_BankB
@@ -2910,8 +2892,7 @@ QuickAttackAIEffect:
 	jp SetExpectedAIDamage
 
 QuickAttackDamageBoostEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ld hl, 20
 	call LoadTxRam3
@@ -3024,8 +3005,7 @@ ApplyAmnesiaToAttack:
 
 ; the rest of the routine if for Opponent
 ; to announce which attack was used for Amnesia.
-	ld a, AIRESPONSE_SHOW_AMNESIA_ATTACK
-	call PublishAIResponse
+	transmit AIRESPONSE_SHOW_AMNESIA_ATTACK
 
 	call SwapTurn
 	ld a, DUELVARS_ARENA_CARD
@@ -3055,8 +3035,7 @@ PoliwagWaterGunEffect:
 ClampEffect:
 	ld a, ATK_ANIM_HIT_EFFECT
 	ld [wLoadedAttackAnimation], a
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, SuccessCheckIfHeadsAttackIsSuccessfulText
 	call TossCoin_BankB
@@ -3073,8 +3052,7 @@ CloysterSpikeCannon_AIEffect:
 	jp SetExpectedAIDamage
 
 Blizzard_BenchDamage50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, DamageToOppBenchIfHeadsDamageToYoursIfTailsText
 	call TossCoin_BankB
@@ -3323,8 +3301,7 @@ RapidashStomp_AIEffect:
 
 RapidashStomp_DamageBoostEffect:
 TaurosStomp_DamageBoostEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ld hl, 10
 	call LoadTxRam3
@@ -3437,8 +3414,7 @@ MoltresLv35DiveBomb_AIEffect:
 
 MoltresLv35DiveBomb_Success50PercentEffect:
 MoltresLv37DiveBomb_Success50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, SuccessCheckIfHeadsAttackIsSuccessfulText
 	call TossCoin_BankB
@@ -3627,8 +3603,7 @@ DancingEmbers_MultiplierEffect:
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 8
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_N_COIN_TOSSES
 
 	ld a, 8
 	call TossCoinATimes_BankB
@@ -5021,8 +4996,7 @@ FirstAid_DamageCheck:
 	ret
 
 SpacingOut_Success50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, SuccessCheckIfHeadsAttackIsSuccessfulText
 	call TossCoin_BankB
@@ -5154,8 +5128,7 @@ FuryAttack_MultiplierEffect:
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 2
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_N_COIN_TOSSES
 
 	ld a, 2
 	call TossCoinATimes_BankB
@@ -5231,8 +5204,7 @@ StoneBarrage_MultiplierEffect:
 ; store resulting damage
 	ldh a, [hTemp_ffa0]
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_N_COIN_TOSSES
 
 	ldh a, [hTemp_ffa0]
 	ld l, a
@@ -5263,8 +5235,7 @@ SandslashFurySwipes_MultiplierEffect:
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 3
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_N_COIN_TOSSES
 
 	ld a, 3
 	call TossCoinATimes_BankB
@@ -5273,8 +5244,7 @@ SandslashFurySwipes_MultiplierEffect:
 	jp SetDefiniteDamage
 
 TantrumEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, IfTailsYourPokemonBecomesConfusedText
 	call TossCoin_BankB
@@ -5446,8 +5416,7 @@ Ram_RecoilSwitchEffect:
 	jp HandleSwitchDefendingPokemonEffect
 
 LeerEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, IfHeadsOpponentCannotAttackText
 	call TossCoin_BankB
@@ -5557,8 +5526,7 @@ Peek_SelectEffect:
 	ret
 
 BoneAttackEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, IfHeadsOpponentCannotAttackText
 	call TossCoin_BankB
@@ -5669,8 +5637,7 @@ MagnemiteSelfdestructEffect:
 
 ZapdosThunder_Recoil50PercentEffect:
 RaichuThunder_Recoil50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ld hl, 30
 	call LoadTxRam3
@@ -5812,8 +5779,7 @@ CometPunch_MultiplierEffect:
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 4
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_N_COIN_TOSSES
 
 	ld a, 4
 	call TossCoinATimes_BankB
@@ -5827,8 +5793,7 @@ Fly_AIEffect:
 	jp SetExpectedAIDamage
 
 Fly_Success50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, SuccessCheckIfHeadsAttackIsSuccessfulText
 	call TossCoin_BankB
@@ -5844,8 +5809,7 @@ Fly_Success50PercentEffect:
 	jp ApplySubstatus1ToDefendingCard
 
 ThunderJolt_Recoil50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ld hl, 10
 	call LoadTxRam3
@@ -6536,8 +6500,7 @@ JolteonDoubleKick_MultiplierEffect:
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 2
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_N_COIN_TOSSES
 
 	ld a, 2
 	call TossCoinATimes_BankB
@@ -6546,8 +6509,7 @@ JolteonDoubleKick_MultiplierEffect:
 	jp SetDefiniteDamage
 
 TailWagEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, IfHeadsOpponentCannotAttackText
 	call TossCoin_BankB
@@ -6842,8 +6804,7 @@ DragoniteLv45Slam_MultiplierEffect:
 	ldtx de, DamageCheckIfHeadsXDamageText
 	ld a, 2
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_PREATK_N_COIN_TOSSES
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_N_COIN_TOSSES
 
 	ld a, 2
 	call TossCoinATimes_BankB
@@ -6875,8 +6836,7 @@ LeekSlap_SetUsedThisDuelFlag:
 	ret
 
 LeekSlap_NoDamage50PercentEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, DamageCheckIfTailsNoDamageText
 	call TossCoin_BankB
@@ -6916,6 +6876,8 @@ Rampage_AIEffect:
 	jp SetDefiniteAIDamage
 
 Rampage_Confusion50PercentEffect:
+	transmit AIRESPONSE_PREATK_COIN_TOSS
+
 	ld e, PLAY_AREA_ARENA
 	call GetCardDamageAndMaxHP
 	call AddToDamage
@@ -7309,8 +7271,7 @@ AISelectConversionColor:
 	ret
 
 ScrunchEffect:
-	ld a, AIRESPONSE_PREATK_COIN_TOSS
-	call PublishAIResponse
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 
 	ldtx de, IfHeadsNoDamageNextTurnText
 	call TossCoin_BankB

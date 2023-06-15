@@ -98,8 +98,7 @@ MainDuelLoop:
 
 .next_turn
 	call SwapTurn
-	ld a, AIRESPONSE_NEXT_TURN
-	call PublishAIResponse
+	transmit AIRESPONSE_NEXT_TURN
 	jr MainDuelLoop
 
 .practice_duel
@@ -1781,8 +1780,7 @@ HandleDuelSetup:
 	ld de, wAIResponseParams
 	ld bc, MAX_PLAY_AREA_POKEMON
 	call CopyDataHLtoDE
-	ld a, AIRESPONSE_PLAY_INITIAL_POKEMON
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_INITIAL_POKEMON
 
 	call ChooseInitialArenaAndBenchPokemon
 	call DrawPlayAreaToPlacePrizeCards
@@ -3009,8 +3007,7 @@ DisplayDuelistTurnScreen:
 	jr z, .got_turn
 	inc c ; BOXMSG_OPPONENTS_TURN
 .got_turn
-	ld a, AIRESPONSE_START_TURN
-	call PublishAIResponse
+	transmit AIRESPONSE_START_TURN
 
 	ld a, c
 	call DrawDuelBoxMessage
@@ -3578,8 +3575,7 @@ TurnDuelistTakePrizes:
 	jr nz, .opponent
 
 ; player
-	ld a, AIRESPONSE_TAKE_PRIZES
-	call PublishAIResponse
+	transmit AIRESPONSE_TAKE_PRIZES
 
 	ldtx hl, WillDrawNPrizesText
 	call DrawWideTextBox_WaitForInput
@@ -6462,8 +6458,7 @@ OppAction_FinishTurnWithoutAttacking:
 	call DrawDuelMainScene
 	call ClearNonTurnTemporaryDuelvars
 
-	ld a, AIRESPONSE_FINISH_TURN_WO_ATK
-	call PublishAIResponse
+	transmit AIRESPONSE_FINISH_TURN_WO_ATK
 
 	ldtx hl, FinishedTurnWithoutAttackingText
 	call DrawWideTextBox_WaitForInput
@@ -6483,8 +6478,7 @@ OppAction_PlayEnergyCard:
 	ldh [hTempCardIndex_ff98], a
 	call PutHandCardInPlayArea
 
-	ld a, AIRESPONSE_ATTACH_ENERGY
-	call PublishAIResponse
+	transmit AIRESPONSE_ATTACH_ENERGY
 
 	ldh a, [hTemp_ffa0]
 	call LoadCardDataToBuffer1_FromDeckIndex
@@ -6507,8 +6501,7 @@ OppAction_EvolvePokemonCard:
 	call DrawLargePictureOfCard
 	call EvolvePokemonCardIfPossible
 
-	ld a, AIRESPONSE_EVOLVE_POKEMON
-	call PublishAIResponse
+	transmit AIRESPONSE_EVOLVE_POKEMON
 
 	call PrintPokemonEvolvedIntoPokemon
 	call ProcessPlayedPokemonCard
@@ -6525,8 +6518,7 @@ OppAction_PlayBasicPokemonCard:
 	call GetTurnDuelistVariable
 	ld [hl], 0
 
-	ld a, AIRESPONSE_PLAY_POKEMON
-	call PublishAIResponse
+	transmit AIRESPONSE_PLAY_POKEMON
 
 	ldh a, [hTemp_ffa0]
 	ldtx hl, PlacedOnTheBenchText
@@ -6551,8 +6543,7 @@ OppAction_AttemptRetreat:
 	inc de
 	jr .loop_copy_cards
 .done_copy
-	ld a, AIRESPONSE_ATTEMPT_RETREAT
-	call PublishAIResponse
+	transmit AIRESPONSE_ATTEMPT_RETREAT
 
 	ld a, DUELVARS_ARENA_CARD
 	call GetTurnDuelistVariable
@@ -6578,8 +6569,7 @@ OppAction_AttemptRetreat:
 OppAction_PlayTrainerCard:
 	call LoadNonPokemonCardEffectCommands
 
-	ld a, AIRESPONSE_SHOW_TRAINER
-	call PublishAIResponse
+	transmit AIRESPONSE_SHOW_TRAINER
 
 	call DisplayUsedTrainerCardDetailScreen
 	call PrintUsedTrainerCardDescription
@@ -6609,8 +6599,7 @@ OppAction_BeginUseAttack:
 	ldh a, [hTemp_ffa0]
 	ld e, a
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_TRY_ATTACK
-	call PublishAIResponse
+	transmit AIRESPONSE_TRY_ATTACK
 
 	call CopyAttackDataAndDamage_FromDeckIndex
 	call UpdateArenaCardIDsAndClearTwoTurnDuelVars
@@ -6821,8 +6810,7 @@ HandleBetweenTurnsEvents:
 	; either:
 	; 1. turn holder's arena Pokemon is paralyzed, asleep, poisoned or double poisoned
 	; 2. non-turn holder's arena Pokemon is asleep, poisoned or double poisoned
-	ld a, AIRESPONSE_BETWEEN_TURNS
-	call PublishAIResponse
+	transmit AIRESPONSE_BETWEEN_TURNS
 
 	call ResetAnimationQueue
 	call ZeroObjectPositionsAndToggleOAMCopy
@@ -6851,8 +6839,7 @@ HandleBetweenTurnsEvents:
 	jr nz, .discard_pluspower
 
 	; heal paralysis
-	ld a, AIRESPONSE_HEAL_PARALYSIS
-	call PublishAIResponse
+	transmit AIRESPONSE_HEAL_PARALYSIS
 
 	ld a, DOUBLE_POISONED
 	and [hl]
@@ -7021,7 +7008,7 @@ HandleSleepCheck:
 	jr z, .ok
 	ld a, AIRESPONSE_AI_SLEEP_CHECK
 .ok
-	call PublishAIResponse
+	call TransmitAIResponse
 
 	ld a, [wTempNonTurnDuelistCardID]
 	ld e, a
@@ -7058,8 +7045,7 @@ HandleSleepCheck:
 	pop af
 	call PlayBetweenTurnsAnimation
 	pop hl
-	ld a, AIRESPONSE_HEAL_SLEEP
-	call PublishAIResponse
+	transmit AIRESPONSE_HEAL_SLEEP
 	jp WaitForWideTextBoxInput
 
 HandlePoisonDamage:
@@ -7067,8 +7053,7 @@ HandlePoisonDamage:
 	bit POISONED_F , [hl]
 	ret z ; quit if not poisoned
 
-	ld a, AIRESPONSE_POISON_DAMAGE
-	call PublishAIResponse
+	transmit AIRESPONSE_POISON_DAMAGE
 
 ; load damage and text according to normal/double poison
 	push hl
@@ -7439,8 +7424,7 @@ ReplaceKnockedOutPokemon:
 	ldh a, [hTemp_ffa0]
 	ldh [hTempPlayAreaLocation_ff9d], a
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_KO_SWITCH
-	call PublishAIResponse
+	transmit AIRESPONSE_KO_SWITCH
 	jr .replace_pokemon
 
 ; wait for link opponent to replace the knocked out Pokemon with one from bench

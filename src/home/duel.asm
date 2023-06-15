@@ -2214,8 +2214,7 @@ Func_1bb4::
 	ldh [hTempPlayAreaLocation_ff9d], a
 	call PrintFailedEffectText
 	
-	ld a, AIRESPONSE_AFTER_ATTACK
-	call PublishAIResponse
+	transmit AIRESPONSE_AFTER_ATTACK
 
 	call WaitForWideTextBoxInput
 	jp ExchangeRNG

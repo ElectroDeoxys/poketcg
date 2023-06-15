@@ -271,8 +271,8 @@ AIPickPrizeCards:
 	pop af ; initial prize cards
 	xor b
 	ld [wAIResponseParams], a
-	ld a, AIRESPONSE_PICK_PRIZES
-	jp PublishAIResponse
+	transmit AIRESPONSE_PICK_PRIZES
+	ret
 
 ; picks a prize card at random
 ; and adds it to the hand.
