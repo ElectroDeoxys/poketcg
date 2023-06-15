@@ -266,7 +266,7 @@ HandleSpecialAIAttacks:
 	ret z
 
 	ld a, 3
-	call Random
+	call Random_AI
 	or a
 	jr z, .encourage_mix_up
 	dec a

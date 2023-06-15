@@ -688,13 +688,13 @@ HandleAIPeek:
 	ld a, c
 	ldh [hTemp_ffa0], a
 	ld a, 50
-	call Random
+	call Random_AI
 	cp 3
 	ret nc ; return 47 out of 50 times
 
 ; choose what to use Peek on at random
 	ld a, 3
-	call Random
+	call Random_AI
 	or a
 	jr z, .check_ai_prizes
 	cp 2

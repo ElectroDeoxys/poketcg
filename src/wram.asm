@@ -977,7 +977,10 @@ wListItemNameMaxLength:: ; cd1c
 wListFunctionPointer:: ; cd1d
 	ds $2
 
-	ds $78
+wAIRNGSource:: ; cd1f
+	ds $3
+
+	ds $75
 
 ; in a card list, the Y position where the <sel_item>/<num_items> indicator is placed
 ; if wCardListIndicatorYPosition == $ff, no indicator is displayed

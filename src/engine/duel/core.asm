@@ -8479,6 +8479,11 @@ CustomDuel:
 	xor a
 	ld [wDuelTheme], a
 
+	ld a, [wRNG1]
+	ld [wAIRNGSource + 0], a
+	ld a, [wRNG2]
+	ld [wAIRNGSource + 1], a
+
 	jp StartDuel
 
 .Prepare:

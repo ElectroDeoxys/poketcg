@@ -928,7 +928,7 @@ AITryToRetreat:
 .energy_not_same_color
 	ld hl, wDuelTempList
 	call CountCardsInDuelTempList
-	call ShuffleCards
+	farcall ShuffleCards_AI
 .loop_3
 	ld a, [hli]
 	cp $ff

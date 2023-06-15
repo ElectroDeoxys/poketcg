@@ -1104,7 +1104,7 @@ AIPickEnergyCardToDiscardFromDefendingPokemon:
 .choose_random
 	call CountCardsInDuelTempList
 	ld hl, wDuelTempList
-	call ShuffleCards
+	farcall ShuffleCards_AI
 	jr .done_chosen
 
 ; handles AI logic to pick attack for Amnesia
@@ -1775,7 +1775,7 @@ Teleport_PlayerSelectEffect:
 Teleport_AISelectEffect:
 	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
 	call GetTurnDuelistVariable
-	call Random
+	call Random_AI
 	ldh [hTemp_ffa0], a
 	ret
 
@@ -7297,7 +7297,7 @@ AISelectConversionColor:
 
 ; otherwise, just select a random energy.
 	ld a, NUM_COLORED_TYPES
-	call Random
+	call Random_AI
 	ldh [hTemp_ffa0], a
 	ret
 

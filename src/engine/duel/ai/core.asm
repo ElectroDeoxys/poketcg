@@ -246,7 +246,7 @@ PickRandomBenchPokemon:
 	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
 	call GetTurnDuelistVariable
 	dec a
-	call Random
+	call Random_AI
 	inc a
 	ret
 
@@ -286,7 +286,7 @@ AIPickPrizeCards:
 ; one is found that isn't taken already.
 .loop_pick_prize
 	ld a, 6
-	call Random
+	call Random_AI
 	ld e, a
 	ld d, $00
 	ld hl, .prize_flags

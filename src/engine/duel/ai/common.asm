@@ -719,7 +719,7 @@ RemoveFromListDifferentCardOfGivenType:
 	push de
 	push bc
 	call CountCardsInDuelTempList
-	call ShuffleCards
+	call ShuffleCards_AI
 
 ; loop list until a card with
 ; deck index different from e is found.
@@ -967,4 +967,40 @@ AICheckIfAttackIsHighRecoil:
 	ld a, ATTACK_FLAG1_ADDRESS | HIGH_RECOIL_F
 	call CheckLoadedAttackFlag
 	ccf
+	ret
+
+; same as ShuffleCards but from AI RNG
+ShuffleCards_AI:
+	or a
+	ret z ; return if deck is empty
+	push hl
+	push de
+	push bc
+	ld c, a
+	ld b, a
+	ld e, l
+	ld d, h
+.shuffle_next_card_loop
+	push bc
+	push de
+	ld a, c
+	call Random_AI
+	add e
+	ld e, a
+	ld a, $0
+	adc d
+	ld d, a
+	ld a, [de]
+	ld b, [hl]
+	ld [hl], a
+	ld a, b
+	ld [de], a
+	pop de
+	pop bc
+	inc hl
+	dec b
+	jr nz, .shuffle_next_card_loop
+	pop bc
+	pop de
+	pop hl
 	ret

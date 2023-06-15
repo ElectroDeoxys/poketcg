@@ -918,7 +918,7 @@ AITryToPlayEnergyCard:
 .look_for_any_energy
 	ld hl, wDuelTempList
 	call CountCardsInDuelTempList
-	call ShuffleCards
+	farcall ShuffleCards_AI
 .loop_2
 	ld a, [hli]
 	cp $ff

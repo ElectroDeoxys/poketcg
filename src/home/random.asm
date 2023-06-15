@@ -33,8 +33,30 @@ Random::
 ; get the next random numbers of the wRNG1 and wRNG2 sequences
 UpdateRNGSources::
 	push hl
-	push de
 	ld hl, wRNG1
+	call GenerateRandomNumber
+	pop hl
+	ret
+
+Random_AI::
+	push hl
+	ld h, a
+	call UpdateAIRNGSources
+	ld l, a
+	call HtimesL
+	ld a, h
+	pop hl
+	ret
+
+UpdateAIRNGSources:
+	push hl
+	ld hl, wAIRNGSource
+	call GenerateRandomNumber
+	pop hl
+	ret
+
+GenerateRandomNumber:
+	push de
 	ld a, [hli]
 	ld d, [hl] ; wRNG2
 	inc hl
@@ -62,5 +84,4 @@ UpdateRNGSources::
 	dec hl
 	ld [hl], e ; wRNG1
 	pop de
-	pop hl
 	ret

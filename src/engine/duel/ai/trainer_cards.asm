@@ -290,7 +290,7 @@ AIDecide_Potion2:
 	or a
 	jr z, .check_random
 	ld a, 10
-	call Random
+	call Random_AI
 	cp 3
 ; 7/10 chance of returning carry.
 .check_random
@@ -497,7 +497,7 @@ AIDecide_SuperPotion2:
 	or a
 	jr z, .check_random
 	ld a, 10
-	call Random
+	call Random_AI
 	cp 3
 ; 7/10 chance of returning carry.
 .check_random
@@ -975,7 +975,7 @@ AIDecide_Pluspower2:
 	cp 10
 	jr c, .unusable
 	ld a, 10
-	call Random
+	call Random_AI
 	cp 3
 	ret
 
@@ -3558,7 +3558,7 @@ AIDecide_Pokedex:
 
 ; has a 3 in 10 chance of actually playing card
 	ld a, 10
-	call Random
+	call Random_AI
 	cp 3
 	jr c, .pick_cards
 
@@ -4287,7 +4287,7 @@ AIDecide_Maintenance:
 .imakuni
 ; has a 2 in 10 chance of not skipping.
 	ld a, 10
-	call Random
+	call Random_AI
 	cp 2
 	jr nc, .no_carry
 
@@ -4301,7 +4301,7 @@ AIDecide_Maintenance:
 	call CreateHandCardList
 	ld hl, wDuelTempList
 	call CountCardsInDuelTempList
-	call ShuffleCards
+	call ShuffleCards_AI
 
 ; go through each card and find
 ; cards that are different from wAITrainerCardToPlay.
@@ -4688,7 +4688,7 @@ AIDecide_Gambler:
 .imakuni
 ; has a 2 in 10 chance of returning carry
 	ld a, 10
-	call Random
+	call Random_AI
 	cp 2
 	jr nc, .no_carry
 .set_carry
@@ -4821,7 +4821,7 @@ AIDecide_PokemonFlute:
 .imakuni
 ; has 2 in 10 chance of not skipping
 	ld a, 10
-	call Random
+	call Random_AI
 	cp 2
 	jr nc, .no_carry
 
