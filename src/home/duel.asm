@@ -1350,6 +1350,9 @@ ProcessPlayedPokemonCard::
 	ld a, [wLoadedAttackCategory]
 	cp POKEMON_POWER
 	ret nz
+
+	transmit AIRESPONSE_PKMN_POWER_TEXT
+
 	call DisplayUsePokemonPowerScreen
 	ldh a, [hTempCardIndex_ff98]
 	call LoadCardDataToBuffer1_FromDeckIndex
@@ -1367,6 +1370,9 @@ ProcessPlayedPokemonCard::
 	ld a, $01 ; check only Muk
 	call CheckCannotUseDueToStatus_OnlyToxicGasIfANon0
 	jr nc, .use_pokemon_power
+
+	transmit AIRESPONSE_UNABLE_USE_PKMN_POWER
+
 	call DisplayUsePokemonPowerScreen
 	ldtx hl, UnableToUsePkmnPowerDueToToxicGasText
 	call DrawWideTextBox_WaitForInput
@@ -1396,6 +1402,9 @@ ProcessPlayedPokemonCard::
 	ld [hli], a
 	ld a, [de]
 	ld [hl], a
+
+	transmit AIRESPONSE_WILL_USE_PKMN_POWER
+
 	ldtx hl, WillUseThePokemonPowerText
 	call DrawWideTextBox_WaitForInput
 	call ExchangeRNG

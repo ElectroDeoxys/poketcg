@@ -3225,6 +3225,7 @@ Wildfire_CheckEnergy:
 FlamethrowerPlayerSelectEffect:
 FireBlast_PlayerSelectEffect:
 Ember_PlayerSelectEffect:
+	transmit AIRESPONSE_DISCARD_1_FIRE
 	jp PlayerPickFireEnergyCardToDiscard
 
 FlamethrowerAISelectEffect:
@@ -3252,6 +3253,8 @@ FlamesOfRage_CheckEnergy:
 	ret
 
 FlamesOfRage_PlayerSelectEffect:
+	transmit AIRESPONSE_DISCARD_2_ENERGY
+
 	ldtx hl, ChooseAndDiscard2FireEnergyCardsText
 	call DrawWideTextBox_WaitForInput
 
@@ -3443,6 +3446,8 @@ FireSpin_CheckEnergy:
 	ret
 
 FireSpin_PlayerSelectEffect:
+	transmit AIRESPONSE_DISCARD_2_ENERGY
+
 	ldtx hl, ChooseAndDiscard2EnergyCardsText
 	call DrawWideTextBox_WaitForInput
 
@@ -6845,6 +6850,8 @@ LeekSlap_NoDamage50PercentEffect:
 	jp SetDefiniteDamage
 
 FetchEffect:
+	transmit AIRESPONSE_FETCH
+
 	ldtx hl, Draw1CardFromTheDeckText
 	call DrawWideTextBox_WaitForInput
 	bank1call DisplayDrawOneCardScreen
