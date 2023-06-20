@@ -342,12 +342,21 @@ AIDecide_Potion2:
 
 ; makes AI use Super Potion card.
 AIPlay_SuperPotion:
+	ld hl, wAIResponseParams
+	ld a, SUPER_POTION
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
+	push hl
 	call AIPickEnergyCardToDiscard
+	pop hl
+	ld [hli], a
 	ldh [hTemp_ffa0], a
+
 	ld a, [wAITrainerCardParameter]
 	ld e, a
 	call GetCardDamageAndMaxHP
@@ -356,6 +365,8 @@ AIPlay_SuperPotion:
 	ld a, 40
 .play_card
 	ldh [hTempRetreatCostCards], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -1051,10 +1062,18 @@ AIPlay_GustOfWind:
 	ld a, [wCurrentAIFlags]
 	or AI_FLAG_USED_GUST_OF_WIND
 	ld [wCurrentAIFlags], a
+
+	ld hl, wAIResponseParams
+	ld a, GUST_OF_WIND
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
+	transmit AIRESPONSE_PLAY_TRAINER
+	
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -2652,19 +2671,29 @@ AIPlay_EnergyRetrieval:
 	ld a, [wCurrentAIFlags]
 	or AI_FLAG_MODIFIED_HAND
 	ld [wCurrentAIFlags], a
+
+	ld hl, wAIResponseParams
+	ld a, ENERGY_RETRIEVAL
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
 	ld a, [wce1a]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
 	ld a, [wce1b]
+	ld [hli], a
 	ldh [hTempRetreatCostCards], a
 	cp $ff
 	jr z, .asm_20e68
 	ld a, $ff
 	ldh [$ffa3], a
 .asm_20e68
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -3232,8 +3261,14 @@ AIDecide_PokemonCenter:
 	ret
 
 AIPlay_ImposterProfessorOak:
+	ld hl, wAIResponseParams
+	ld a, IMPOSTER_PROFESSOR_OAK
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -3931,10 +3966,17 @@ AIDecide_FullHeal:
 	jr .no_carry
 
 AIPlay_MrFuji:
+	ld hl, wAIResponseParams
+	ld a, MR_FUJI
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4003,12 +4045,20 @@ AIDecide_MrFuji:
 	ret
 
 AIPlay_ScoopUp:
+	ld hl, wAIResponseParams
+	ld a, SCOOP_UP
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
 	ld a, [wce1a]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4458,8 +4508,15 @@ AIPlay_Lass:
 	ld a, [wCurrentAIFlags]
 	or AI_FLAG_MODIFIED_HAND
 	ld [wCurrentAIFlags], a
+
+	ld hl, wAIResponseParams
+	ld a, LASS
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4886,23 +4943,24 @@ AIPlay_Pokeball:
 	ld a, [wAITrainerCardToPlay]
 	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
-	ld a, [wAITrainerCardParameter]
-	ld [hli], a
+
+	transmit AIRESPONSE_TRAINER_COIN_CHECK
 
 	ldtx de, TrainerCardSuccessCheckText
 	bank1call TossCoin
 	ldh [hTemp_ffa0], a
 	jr nc, .asm_219bc
-
 	ld a, [wAITrainerCardParameter]
 	ldh [hTempPlayAreaLocation_ffa1], a
-	transmit AIRESPONSE_PLAY_TRAINER
 	jr .asm_219c0
-
 .asm_219bc
 	ld a, $ff
 	ldh [hTempPlayAreaLocation_ffa1], a
+
 .asm_219c0
+	ld [wAIResponseParams + 2], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret

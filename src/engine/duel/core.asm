@@ -6543,6 +6543,8 @@ OppAction_AttemptRetreat:
 	inc de
 	jr .loop_copy_cards
 .done_copy
+	ld [de], a
+
 	transmit AIRESPONSE_ATTEMPT_RETREAT
 
 	ld a, DUELVARS_ARENA_CARD
@@ -6618,6 +6620,7 @@ OppAction_BeginUseAttack:
 ; Sand Attack, Smokescreen, or confusion
 .has_status
 	call DrawDuelMainScene
+	transmit AIRESPONSE_USED_ATTACK_TEXT
 	call PrintPokemonsAttackText
 	call WaitForWideTextBoxInput
 	call ExchangeRNG
@@ -6637,6 +6640,7 @@ OppAction_UseAttack:
 	call CheckSelfConfusionDamage
 	jr c, .confusion_damage
 	call DisplayOpponentUsedAttackScreen
+	transmit AIRESPONSE_USED_ATTACK_TEXT
 	call PrintPokemonsAttackText
 	call WaitForWideTextBoxInput
 	call ExchangeRNG
@@ -6737,9 +6741,11 @@ OppAction_UseMetronomeAttack:
 	and CNF_SLP_PRZ
 	cp CONFUSED
 	jr z, .asm_6b56
+	transmit AIRESPONSE_USED_ATTACK_TEXT
 	call PrintPokemonsAttackText
 	call .asm_6b56
 	jp WaitForWideTextBoxInput
+
 .asm_6b56
 	call SerialRecv8Bytes
 	push bc

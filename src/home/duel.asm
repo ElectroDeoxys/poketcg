@@ -1536,6 +1536,7 @@ UseAttackOrPokemonPower::
 	call TryExecuteEffectCommandFunction
 	call CheckSelfConfusionDamage
 	jp c, HandleConfusionDamageToSelf
+	transmit AIRESPONSE_USED_ATTACK_TEXT
 	call DrawDuelMainScene_PrintPokemonsAttackText
 	call WaitForWideTextBoxInput
 	call ExchangeRNG
@@ -1741,6 +1742,7 @@ CheckSelfConfusionDamage::
 	or a
 	ret
 .confused
+	transmit AIRESPONSE_CONFUSION_CHECK
 	ldtx de, ConfusionCheckDamageText
 	call TossCoin
 	jr c, .no_confusion_damage

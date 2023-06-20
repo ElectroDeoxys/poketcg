@@ -322,10 +322,12 @@ HandleAmnesiaSubstatus::
 HandleSandAttackOrSmokescreenSubstatus::
 	call CheckSandAttackOrSmokescreenSubstatus
 	ret nc
+	transmit AIRESPONSE_SMOKESCREEN_CHECK
 	call TossCoin
 	ld [wGotHeadsFromSandAttackOrSmokescreenCheck], a
 	ccf
 	ret nc
+	transmit AIRESPONSE_SMOKESCREEN_TAILS
 	ldtx hl, AttackUnsuccessfulText
 	call DrawWideTextBox_WaitForInput
 	scf
