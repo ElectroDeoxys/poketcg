@@ -16,6 +16,30 @@ DeckIDDuelConfigurations:
 	dw NULL ; rank
 	dw NULL ; element
 
+	db CHARMANDER_AND_FRIENDS_DECK_ID ; deck ID
+	db MARK1_PIC ; NPC portrait
+	tx MarkName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_STOP ; theme
+	dw NULL ; rank
+	dw NULL ; element
+
+	db SQUIRTLE_AND_FRIENDS_DECK_ID ; deck ID
+	db MARK2_PIC ; NPC portrait
+	tx MarkName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_STOP ; theme
+	dw NULL ; rank
+	dw NULL ; element
+
+	db BULBASAUR_AND_FRIENDS_DECK_ID ; deck ID
+	db MARK3_PIC ; NPC portrait
+	tx MarkName ; name text ID
+	db PRIZES_4 ; number of prize cards
+	db MUSIC_STOP ; theme
+	dw NULL ; rank
+	dw NULL ; element
+
 	db LIGHTNING_AND_FIRE_DECK_ID ; deck ID
 	db AARON_PIC ; NPC portrait
 	tx AaronNPCName ; name text ID
@@ -584,5 +608,5 @@ DeckIDDuelConfigurations:
 	tx StrangeLifeformText ; rank
 	dw NULL ; element
 
-	assert_table_length NUM_AI_DECK_IDS
+	assert_table_length NUM_AI_DECK_IDS + 3
 	db -1 ; end

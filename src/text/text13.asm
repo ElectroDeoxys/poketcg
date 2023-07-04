@@ -183,3 +183,7 @@ RecycleDescription:
 	line "in your discard pile on top of your"
 	line "deck."
 	done
+
+MarkName:
+	text "Mark"
+	done

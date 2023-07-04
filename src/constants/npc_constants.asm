@@ -78,6 +78,9 @@ DEF NPC_DATA_LENGTH EQU const_value
 	const AARON_PIC     ; $29
 	const IMAKUNI2_PIC  ; $2a
 	const LINK_OPP_PIC  ; $2b
+	const MARK1_PIC     ; $2c
+	const MARK2_PIC     ; $2d
+	const MARK3_PIC     ; $2e
 DEF NUM_PICS EQU const_value
 
 	const_def 1

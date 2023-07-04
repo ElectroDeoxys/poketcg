@@ -50,4 +50,7 @@ PortraitGfxData:
 	portrait TILESET_AARON,     PALETTE_160, SGBData_AaronPortraitPals        ; AARON_PIC
 	portrait TILESET_IMAKUNI2,  PALETTE_161, SGBData_AaronPortraitPals        ; IMAKUNI2_PIC
 	portrait TILESET_PLAYER,    PALETTE_120, SGBData_LinkOpponentPortraitPals ; LINK_OPP_PIC
+	portrait TILESET_PLAYER,    PALETTE_132, SGBData_LinkOpponentPortraitPals ; MARK1_PIC
+	portrait TILESET_PLAYER,    PALETTE_134, SGBData_LinkOpponentPortraitPals ; MARK2_PIC
+	portrait TILESET_PLAYER,    PALETTE_135, SGBData_LinkOpponentPortraitPals ; MARK3_PIC
 	assert_table_length NUM_PICS
