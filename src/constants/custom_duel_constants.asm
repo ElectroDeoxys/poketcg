@@ -35,4 +35,7 @@
 	const AIRESPONSE_FETCH                ; $83
 	const AIRESPONSE_DISCARD_1_FIRE       ; $84
 	const AIRESPONSE_DISCARD_2_ENERGY     ; $85
+	const AIRESPONSE_MIX_UP               ; $86
+	const AIRESPONSE_PAY_DAY              ; $87
+	const AIRESPONSE_STRETCH_KICK         ; $88
 	const AIRESPONSE_SHOW_AMNESIA_ATTACK  ;

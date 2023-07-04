@@ -3534,6 +3534,8 @@ Rage_DamageBoostEffect:
 	jp AddToDamage
 
 MixUpEffect:
+	transmit AIRESPONSE_MIX_UP
+
 	call SwapTurn
 	call CreateHandCardList
 	call SortCardsInDuelTempListByID
@@ -6901,9 +6903,14 @@ FuryAttack_AIEffect:
 	jp SetExpectedAIDamage
 
 PayDayEffect:
+	transmit AIRESPONSE_PREATK_COIN_TOSS
+
 	ldtx de, IfHeadsDraw1CardFromDeckText
 	call TossCoin_BankB
 	ret nc ; tails
+
+	transmit AIRESPONSE_PAY_DAY
+
 	ldtx hl, Draw1CardFromTheDeckText
 	call DrawWideTextBox_WaitForInput
 	bank1call DisplayDrawOneCardScreen

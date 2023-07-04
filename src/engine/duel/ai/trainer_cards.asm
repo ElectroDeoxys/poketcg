@@ -1073,7 +1073,7 @@ AIPlay_GustOfWind:
 	ld [hli], a
 	ldh [hTemp_ffa0], a
 	transmit AIRESPONSE_PLAY_TRAINER
-	
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4788,10 +4788,17 @@ AIDecide_Revive:
 	ret
 
 AIPlay_PokemonFlute:
+	ld hl, wAIResponseParams
+	ld a, POKEMON_FLUTE
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -5170,14 +5177,24 @@ AIPlay_ComputerSearch:
 	ld a, [wCurrentAIFlags]
 	or AI_FLAG_MODIFIED_HAND
 	ld [wCurrentAIFlags], a
+
+	ld hl, wAIResponseParams
+	ld a, COMPUTER_SEARCH
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTempRetreatCostCards], a
 	ld a, [wce1a]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
 	ld a, [wce1b]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
