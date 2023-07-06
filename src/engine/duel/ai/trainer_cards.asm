@@ -4366,11 +4366,18 @@ AIDecide_Maintenance:
 	ret
 
 AIPlay_Recycle:
+	ld hl, wAIResponseParams
+	ld a, RECYCLE
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
+
+	transmit AIRESPONSE_TRAINER_COIN_CHECK
 	ldtx de, TrainerCardSuccessCheckText
 	bank1call TossCoin
 	jr nc, .asm_216ae
+
 	ld a, [wAITrainerCardParameter]
 	ldh [hTemp_ffa0], a
 	jr .asm_216b2
@@ -4378,6 +4385,7 @@ AIPlay_Recycle:
 	ld a, $ff
 	ldh [hTemp_ffa0], a
 .asm_216b2
+	ld [wAIResponseParams + 2], a
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4699,8 +4707,14 @@ AIPlay_Gambler:
 	ld [hl], a
 	ret
 .asm_2186a
+	ld hl, wAIResponseParams
+	ld a, GAMBLER
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4952,9 +4966,9 @@ AIPlay_Pokeball:
 	ldh [hTempCardIndex_ff9f], a
 
 	transmit AIRESPONSE_TRAINER_COIN_CHECK
-
 	ldtx de, TrainerCardSuccessCheckText
 	bank1call TossCoin
+
 	ldh [hTemp_ffa0], a
 	jr nc, .asm_219bc
 	ld a, [wAITrainerCardParameter]
