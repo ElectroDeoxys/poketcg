@@ -217,6 +217,8 @@ HandleStrikesBack_AgainstDamagingAttack::
 	ld h, [hl]
 	ld l, a
 	call LoadTxRam2
+	transmit AIRESPONSE_STRIKES_BACK
+
 	ldtx hl, ReceivesDamageDueToStrikesBackText
 	call DrawWideTextBox_WaitForInput
 	pop hl
@@ -808,12 +810,15 @@ ApplyStrikesBack_AgainstResidualAttack::
 	push af
 	push hl
 	call SubtractHP
+
 	ldtx hl, ReceivesDamageDueToStrikesBackText
 	call DrawWideTextBox_PrintText
 	pop hl
 	pop af
 	or a
 	ret z
+	transmit AIRESPONSE_STRIKES_BACK
+
 	call WaitForWideTextBoxInput
 	xor a
 	call PrintPlayAreaCardKnockedOutIfNoHP

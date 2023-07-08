@@ -3656,6 +3656,8 @@ Firegiver_AddToHandEffect:
 	or a
 	jr nz, .found
 	; return if none found
+	transmit AIRESPONSE_FIREGIVER
+
 	ldtx hl, ThereWasNoFireEnergyText
 	call DrawWideTextBox_WaitForInput
 	call Func_2c0bd
@@ -3737,6 +3739,8 @@ Firegiver_AddToHandEffect:
 	ld l, a
 	ld h, $00
 	call LoadTxRam3
+	transmit AIRESPONSE_FIREGIVER
+
 	ldtx hl, DrewFireEnergyFromTheHandText
 	call DrawWideTextBox_WaitForInput
 	call Func_2c0bd

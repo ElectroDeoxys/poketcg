@@ -260,10 +260,6 @@ HandleTurn:
 	jr z, .player_turn
 
 ; opponent's turn
-	call SwapTurn
-	call IsClairvoyanceActive
-	call SwapTurn
-	call c, DisplayPlayerDrawCardScreen
 	jr DuelMainInterface
 
 ; player's turn
@@ -5769,6 +5765,8 @@ AttemptRetreat:
 	and CNF_SLP_PRZ
 	cp CONFUSED
 	jr nz, .success
+	transmit AIRESPONSE_CNF_RETREAT_CHECK
+
 	ldtx de, ConfusionCheckRetreatText
 	call TossCoin
 	jr c, .success

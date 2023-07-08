@@ -30,7 +30,14 @@
 	const AIRESPONSE_NO_MORE_BENCH         ; $1d
 	const AIRESPONSE_TOOK_ALL_PRIZES       ; $1e
 	const AIRESPONSE_DECISION              ; $1f
+	const AIRESPONSE_CNF_RETREAT_CHECK     ; $20
 
+	; PKMN powers
+	const_def $40
+	const AIRESPONSE_FIREGIVER             ; $40
+	const AIRESPONSE_STRIKES_BACK          ; $41
+
+	; attacks
 	const_def $80
 	const AIRESPONSE_USED_ATTACK_TEXT     ; $80
 	const AIRESPONSE_PREATK_COIN_TOSS     ; $81
