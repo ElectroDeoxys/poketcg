@@ -113,6 +113,8 @@ MainDuelLoop:
 	ret
 
 .duel_finished
+	transmit AIRESPONSE_DECISION
+
 	call ZeroObjectPositionsAndToggleOAMCopy
 	call EmptyScreen
 	ld a, BOXMSG_DECISION
@@ -7378,6 +7380,8 @@ ReplaceKnockedOutPokemon:
 
 ; if we made it here, the duelist can't replace the knocked out Pokemon
 	bank1call DrawDuelMainScene
+	transmit AIRESPONSE_NO_MORE_BENCH
+
 	ldtx hl, ThereAreNoPokemonInPlayAreaText
 	call DrawWideTextBox_WaitForInput
 	call ExchangeRNG
@@ -7452,6 +7456,8 @@ Func_6fa5:
 	ret nc
 	call SwapTurn
 	bank1call DrawDuelMainScene
+	transmit AIRESPONSE_TOOK_ALL_PRIZES
+
 	ldtx hl, TookAllThePrizesText
 	call DrawWideTextBox_WaitForInput
 	call ExchangeRNG

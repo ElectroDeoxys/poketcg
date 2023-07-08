@@ -27,6 +27,9 @@
 	const AIRESPONSE_SMOKESCREEN_TAILS     ; $1a
 	const AIRESPONSE_CONFUSION_CHECK       ; $1b
 	const AIRESPONSE_TRAINER_COIN_CHECK    ; $1c
+	const AIRESPONSE_NO_MORE_BENCH         ; $1d
+	const AIRESPONSE_TOOK_ALL_PRIZES       ; $1e
+	const AIRESPONSE_DECISION              ; $1f
 
 	const_def $80
 	const AIRESPONSE_USED_ATTACK_TEXT     ; $80

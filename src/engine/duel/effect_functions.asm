@@ -1448,6 +1448,8 @@ TerrorStrike_50PercentSelectSwitchPokemon:
 
 ; toss coin and store whether it was tails (0) or heads (1) in hTemp_ffa0.
 ; return if it was tails.
+	transmit AIRESPONSE_PREATK_COIN_TOSS
+
 	ldtx de, IfHeadsChangeOpponentsActivePokemonText
 	call Func_2c08a
 	ldh [hTemp_ffa0], a
