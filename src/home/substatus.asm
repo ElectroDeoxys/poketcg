@@ -426,6 +426,8 @@ HandleTransparency::
 	ld a, [wTempPlayAreaLocation_cceb]
 	call CheckCannotUseDueToStatus_OnlyToxicGasIfANon0
 	jr c, .done
+	transmit AIRESPONSE_TRANSPARENCY_CHECK
+
 	xor a
 	ld [wDuelDisplayedScreen], a
 	ldtx de, TransparencyCheckText

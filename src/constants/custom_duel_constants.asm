@@ -36,6 +36,7 @@
 	const_def $40
 	const AIRESPONSE_FIREGIVER             ; $40
 	const AIRESPONSE_STRIKES_BACK          ; $41
+	const AIRESPONSE_TRANSPARENCY_CHECK    ; $42
 
 	; attacks
 	const_def $80
@@ -47,5 +48,6 @@
 	const AIRESPONSE_DISCARD_2_ENERGY     ; $85
 	const AIRESPONSE_MIX_UP               ; $86
 	const AIRESPONSE_PAY_DAY              ; $87
-	const AIRESPONSE_STRETCH_KICK         ; $88
+	const AIRESPONSE_MORPH                ; $88
+	const AIRESPONSE_STRETCH_KICK         ; $89
 	const AIRESPONSE_SHOW_AMNESIA_ATTACK  ;

@@ -7495,6 +7495,9 @@ MorphEffect:
 	inc de
 	ld a, [hl]
 	ld [de], a
+
+	transmit AIRESPONSE_MORPH
+
 	ldtx hl, MetamorphsToText
 	call DrawWideTextBox_WaitForInput
 

@@ -4386,6 +4386,8 @@ AIPlay_Recycle:
 	ldh [hTemp_ffa0], a
 .asm_216b2
 	ld [wAIResponseParams + 2], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
