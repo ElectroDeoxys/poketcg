@@ -4019,8 +4019,8 @@ Curse_TransferDamageEffect:
 	bank1call Func_6e49
 	ret
 
-GengarDarkMind_PlayerSelectEffect:
-HypnoDarkMind_PlayerSelectEffect:
+Spark_PlayerSelectEffect:
+DarkMind_PlayerSelectEffect:
 	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
 	call GetNonTurnDuelistVariable
 	cp 2
@@ -4033,6 +4033,8 @@ HypnoDarkMind_PlayerSelectEffect:
 .has_bench
 ; opens Play Area screen to select Bench Pokemon
 ; to damage, and store it before returning.
+	transmit AIRESPONSE_BENCH_SELECT
+
 	ldtx hl, ChoosePkmnInTheBenchToGiveDamageText
 	call DrawWideTextBox_WaitForInput
 	call SwapTurn
@@ -4044,8 +4046,8 @@ HypnoDarkMind_PlayerSelectEffect:
 	ldh [hTemp_ffa0], a
 	jp SwapTurn
 
-GengarDarkMind_AISelectEffect:
-HypnoDarkMind_AISelectEffect:
+Spark_AISelectEffect:
+DarkMind_AISelectEffect:
 	ld a, $ff
 	ldh [hTemp_ffa0], a
 	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
@@ -4055,10 +4057,12 @@ HypnoDarkMind_AISelectEffect:
 ; just pick Pokemon with lowest remaining HP.
 	call GetBenchPokemonWithLowestHP
 	ldh [hTemp_ffa0], a
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_BENCH_SELECT
 	ret
 
-GengarDarkMind_DamageBenchEffect:
-HypnoDarkMind_DamageBenchEffect:
+Spark_BenchDamageEffect:
+DarkMind_DamageBenchEffect:
 	ldh a, [hTemp_ffa0]
 	cp $ff
 	ret z ; no target chosen
@@ -5440,6 +5444,8 @@ LeerEffect:
 	jp ApplySubstatus2ToDefendingCard
 
 StretchKick_PlayerSelectEffect:
+	transmit AIRESPONSE_BENCH_SELECT
+
 	ldtx hl, ChoosePkmnInTheBenchToGiveDamageText
 	call DrawWideTextBox_WaitForInput
 	call SwapTurn
@@ -5455,6 +5461,8 @@ StretchKick_AISelectEffect:
 ; chooses Bench Pokemon with least amount of remaining HP
 	call GetBenchPokemonWithLowestHP
 	ldh [hTemp_ffa0], a
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_BENCH_SELECT
 	ret
 
 StretchKick_BenchDamageEffect:
@@ -5839,54 +5847,6 @@ ThunderJolt_RecoilEffect:
 	ret nz ; return if was heads
 	ld a, 10
 	jp DealRecoilDamageToSelf
-
-Spark_PlayerSelectEffect:
-	ld a, $ff
-	ldh [hTemp_ffa0], a
-	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
-	call GetNonTurnDuelistVariable
-	cp 2
-	ret c ; has no Bench Pokemon
-
-	ldtx hl, ChoosePkmnInTheBenchToGiveDamageText
-	call DrawWideTextBox_WaitForInput
-	call SwapTurn
-	bank1call HasAlivePokemonInBench
-
-	; the following two instructions can be removed
-	; since Player selection will overwrite it.
-	ld a, PLAY_AREA_BENCH_1
-	ldh [hTempPlayAreaLocation_ff9d], a
-
-.loop_input
-	bank1call OpenPlayAreaScreenForSelection
-	jr c, .loop_input
-	ldh a, [hTempPlayAreaLocation_ff9d]
-	ldh [hTemp_ffa0], a
-	jp SwapTurn
-
-Spark_AISelectEffect:
-	ld a, $ff
-	ldh [hTemp_ffa0], a
-	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
-	call GetNonTurnDuelistVariable
-	cp 2
-	ret c ; has no Bench Pokemon
-; AI always picks Pokemon with lowest HP remaining
-	call GetBenchPokemonWithLowestHP
-	ldh [hTemp_ffa0], a
-	ret
-
-Spark_BenchDamageEffect:
-	ldh a, [hTemp_ffa0]
-	cp $ff
-	ret z
-	call SwapTurn
-	ldh a, [hTemp_ffa0]
-	ld b, a
-	ld de, 10
-	call DealDamageToPlayAreaPokemon_RegularAnim
-	jp SwapTurn
 
 PikachuLv16GrowlEffect:
 PikachuAltLv16GrowlEffect:

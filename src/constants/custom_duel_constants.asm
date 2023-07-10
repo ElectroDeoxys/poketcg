@@ -50,7 +50,7 @@
 	const AIRESPONSE_MIX_UP               ; $86
 	const AIRESPONSE_PAY_DAY              ; $87
 	const AIRESPONSE_MORPH                ; $88
-	const AIRESPONSE_STRETCH_KICK         ; $89
+	const AIRESPONSE_BENCH_SELECT         ; $89
 	const AIRESPONSE_SHOW_AMNESIA_ATTACK  ;
 
 	const_def $1

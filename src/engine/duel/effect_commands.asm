@@ -705,9 +705,9 @@ GengarCurseEffectCommands:
 	db  $00
 
 GengarDarkMindEffectCommands:
-	dbw EFFECTCMDTYPE_AFTER_DAMAGE, GengarDarkMind_DamageBenchEffect
-	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, GengarDarkMind_PlayerSelectEffect
-	dbw EFFECTCMDTYPE_AI_SELECTION, GengarDarkMind_AISelectEffect
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, DarkMind_DamageBenchEffect
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, DarkMind_PlayerSelectEffect
+	dbw EFFECTCMDTYPE_AI_SELECTION, DarkMind_AISelectEffect
 	db  $00
 
 GastlySleepingGasEffectCommands:
@@ -757,9 +757,9 @@ HypnoProphecyEffectCommands:
 	db  $00
 
 HypnoDarkMindEffectCommands:
-	dbw EFFECTCMDTYPE_AFTER_DAMAGE, HypnoDarkMind_DamageBenchEffect
-	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, HypnoDarkMind_PlayerSelectEffect
-	dbw EFFECTCMDTYPE_AI_SELECTION, HypnoDarkMind_AISelectEffect
+	dbw EFFECTCMDTYPE_AFTER_DAMAGE, DarkMind_DamageBenchEffect
+	dbw EFFECTCMDTYPE_REQUIRE_SELECTION, DarkMind_PlayerSelectEffect
+	dbw EFFECTCMDTYPE_AI_SELECTION, DarkMind_AISelectEffect
 	db  $00
 
 DrowzeeConfuseRayEffectCommands:
