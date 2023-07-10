@@ -5587,7 +5587,7 @@ DisplayPlayAreaScreenToUsePkmnPower:
 	ld a, [wNumPlayAreaItems]
 	ld [wNumMenuItems], a
 .asm_6447
-	call DoFrame
+	call DoInputFrame
 	call HandleMenuInput
 	ldh [hTempPlayAreaLocation_ff9d], a
 	ld [wHUDEnergyAndHPBarsX], a
@@ -6690,6 +6690,9 @@ OppAction_UsePokemonPower:
 	ld [wTxRam2_b], a
 	ld a, [hl]
 	ld [wTxRam2_b + 1], a
+
+	transmit AIRESPONSE_WILL_USE_PKMN_POWER
+
 	ldtx hl, WillUseThePokemonPowerText
 	call DrawWideTextBox_WaitForInput_Bank1
 	call ExchangeRNG

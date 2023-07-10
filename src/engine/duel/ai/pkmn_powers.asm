@@ -802,7 +802,7 @@ HandleAICurse:
 ; card in Play Area with lowest HP remaining was found.
 ; look for another card to take damage counter from.
 	ld a, h
-	ldh [hTempRetreatCostCards], a
+	ldh [hPlayAreaEffectTarget], a
 	ld b, a
 	ld a, 10
 	cp c
@@ -850,6 +850,18 @@ HandleAICurse:
 	ldh [hTempCardIndex_ff9f], a
 	ld a, OPPACTION_USE_PKMN_POWER
 	bank1call AIMakeDecision
+
+	ld hl, wAIResponseParams
+	ld a, PKMNPWR_CURSE
+	ld [hli], a
+	ldh a, [hTemp_ffa0]
+	ld [hli], a
+	ldh a, [hAIPkmnPowerEffectParam]
+	ld [hli], a
+	ldh a, [hPlayAreaEffectTarget]
+	ld [hli], a
+	transmit AIRESPONSE_USE_PKMN_PWR
+
 	ld a, OPPACTION_EXECUTE_PKMN_POWER_EFFECT
 	bank1call AIMakeDecision
 	ld a, OPPACTION_DUEL_MAIN_SCENE

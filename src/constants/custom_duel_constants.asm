@@ -31,6 +31,7 @@
 	const AIRESPONSE_TOOK_ALL_PRIZES       ; $1e
 	const AIRESPONSE_DECISION              ; $1f
 	const AIRESPONSE_CNF_RETREAT_CHECK     ; $20
+	const AIRESPONSE_USE_PKMN_PWR          ; $21
 
 	; PKMN powers
 	const_def $40
@@ -51,3 +52,6 @@
 	const AIRESPONSE_MORPH                ; $88
 	const AIRESPONSE_STRETCH_KICK         ; $89
 	const AIRESPONSE_SHOW_AMNESIA_ATTACK  ;
+
+	const_def $1
+	const PKMNPWR_CURSE ; $1

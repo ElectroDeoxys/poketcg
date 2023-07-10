@@ -3899,7 +3899,7 @@ Curse_PlayerSelectEffect:
 
 ; first pick a target to take 1 damage counter from.
 .loop_input_first
-	call DoFrame
+	call DoInputFrame
 	call HandleMenuInput
 	jr nc, .loop_input_first
 	cp $ff
@@ -3935,7 +3935,7 @@ Curse_PlayerSelectEffect:
 
 ; handle input to pick the target to receive the damage counter.
 .loop_input_second
-	call DoFrame
+	call DoInputFrame
 	call HandleMenuInput
 	jr nc, .loop_input_second
 	ldh [hPlayAreaEffectTarget], a

@@ -916,7 +916,7 @@ HandleYesOrNoMenu::
 	call EnableLCD
 	jr .refresh_menu
 .wait_button_loop
-	call DoFrame
+	call DoInputFrame
 	call RefreshMenuCursor
 	ldh a, [hKeysPressed]
 	bit A_BUTTON_F, a
