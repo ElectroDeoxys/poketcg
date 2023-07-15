@@ -51,6 +51,14 @@
 	const AIRESPONSE_PAY_DAY              ; $87
 	const AIRESPONSE_MORPH                ; $88
 	const AIRESPONSE_BENCH_SELECT         ; $89
+	const AIRESPONSE_STONE_BARRAGE_START  ; $8a
+	const AIRESPONSE_STONE_BARRAGE_END    ; $8b
+	const AIRESPONSE_FORCED_SWITCH        ; $8c
+	const AIRESPONSE_HURRICANE            ; $8d
+	const AIRESPONSE_DECK_SEARCH_ATTACK   ; $8e
+	const AIRESPONSE_DISCARD_OPP_ENERGY   ; $8f
+	const AIRESPONSE_FRIENDSHIP_SONG      ; $90
+	const AIRESPONSE_CONVERSION           ; $91
 	const AIRESPONSE_SHOW_AMNESIA_ATTACK  ;
 
 	const_def $1

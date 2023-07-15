@@ -998,16 +998,21 @@ DuelistSelectForcedSwitch:
 	bank1call AIDoAction_ForcedSwitch
 	call SwapTurn
 
+	ldh a, [hTempPlayAreaLocation_ff9d]
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_FORCED_SWITCH
+
 	ld a, [wPlayerAttackingAttackIndex]
 	ld e, a
 	ld a, [wPlayerAttackingCardIndex]
 	ld d, a
 	ld a, [wPlayerAttackingCardID]
 	call CopyAttackDataAndDamage_FromCardID
-	call UpdateArenaCardIDsAndClearTwoTurnDuelVars
-	ret
+	jp UpdateArenaCardIDsAndClearTwoTurnDuelVars
 
 .player
+	transmit AIRESPONSE_FORCED_SWITCH
+
 	ldtx hl, SelectPkmnOnBenchToSwitchWithActiveText
 	call DrawWideTextBox_WaitForInput
 	call SwapTurn
@@ -1191,7 +1196,7 @@ HandleColorChangeScreen:
 	call EnableLCD
 
 .loop_input
-	call DoFrame
+	call DoInputFrame
 	call HandleMenuInput
 	jr nc, .loop_input
 	cp -1 ; b pressed?
@@ -1492,6 +1497,8 @@ GustOfWind_BenchCheck:
 ; return in hTempPlayAreaLocation_ffa1 the PLAY_AREA_* location
 ; of the Bench Pokemon that was selected for switch
 LurePlayerSelectEffect:
+	transmit AIRESPONSE_BENCH_SELECT
+
 	ldtx hl, SelectPkmnOnBenchToSwitchWithActiveText
 	call DrawWideTextBox_WaitForInput
 	call SwapTurn
@@ -1508,6 +1515,8 @@ LurePlayerSelectEffect:
 LureAISelectEffect:
 	call GetBenchPokemonWithLowestHP
 	ldh [hTemp_ffa0], a
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_BENCH_SELECT
 	ret
 
 ; Defending Pokemon is swapped out for the one with the PLAY_AREA_* at hTemp_ffa0
@@ -1651,6 +1660,8 @@ Sprout_PlayerSelectEffect:
 	ld a, $ff
 	ldh [hTemp_ffa0], a
 
+	transmit AIRESPONSE_DECK_SEARCH_ATTACK
+
 	call CreateDeckCardList
 	ldtx hl, ChooseAnOddishFromDeckText
 	ldtx bc, OddishText
@@ -1721,7 +1732,11 @@ Sprout_AISelectEffect:
 	ld a, e
 	cp ODDISH
 	jr nz, .loop_deck
-	ret ; Oddish found
+	; Oddish found
+	ldh a, [hTemp_ffa0]
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_DECK_SEARCH_ATTACK
+	ret
 
 Sprout_PutInPlayAreaEffect:
 NidoranFCallForFamily_PutInPlayAreaEffect:
@@ -1914,6 +1929,8 @@ NidoranFCallForFamily_PlayerSelectEffect:
 	ld a, $ff
 	ldh [hTemp_ffa0], a
 
+	transmit AIRESPONSE_DECK_SEARCH_ATTACK
+
 	call CreateDeckCardList
 	ldtx hl, ChooseNidoranFromDeckText
 	ldtx bc, NidoranMNidoranFText
@@ -1992,6 +2009,9 @@ NidoranFCallForFamily_AISelectEffect:
 	cp NIDORANM
 	jr nz, .loop_deck
 .found
+	ldh a, [hTemp_ffa0]
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_DECK_SEARCH_ATTACK
 	ret
 
 HornHazard_AIEffect:
@@ -2269,6 +2289,8 @@ BellsproutCallForFamily_PlayerSelectEffect:
 	ld a, $ff
 	ldh [hTemp_ffa0], a
 
+	transmit AIRESPONSE_DECK_SEARCH_ATTACK
+
 	call CreateDeckCardList
 	ldtx hl, ChooseABellsproutFromDeckText
 	ldtx bc, BellsproutText
@@ -2339,6 +2361,9 @@ BellsproutCallForFamily_AISelectEffect:
 	ld a, e
 	cp BELLSPROUT
 	jr nz, .loop_deck
+	ldh a, [hTemp_ffa0]
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_DECK_SEARCH_ATTACK
 	ret ; Bellsprout found
 
 WeezingSmog_AIEffect:
@@ -2725,6 +2750,8 @@ KrabbyCallForFamily_PlayerSelectEffect:
 	ld a, $ff
 	ldh [hTemp_ffa0], a
 
+	transmit AIRESPONSE_DECK_SEARCH_ATTACK
+
 	call CreateDeckCardList
 	ldtx hl, ChooseAKrabbyFromDeckText
 	ldtx bc, KrabbyText
@@ -2795,6 +2822,9 @@ KrabbyCallForFamily_AISelectEffect:
 	ld a, e
 	cp KRABBY
 	jr nz, .loop_deck
+	ldh a, [hTemp_ffa0]
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_DECK_SEARCH_ATTACK
 	ret ; Krabby found
 
 HeadacheEffect:
@@ -2818,6 +2848,8 @@ HandleEnergyDiscardEffectSelection:
 	xor a ; PLAY_AREA_ARENA
 	call CreateArenaOrBenchEnergyCardList
 	jr c, .no_energy
+	transmit AIRESPONSE_DISCARD_OPP_ENERGY
+
 	ldtx hl, ChooseDiscardEnergyCardFromOpponentText
 	call DrawWideTextBox_WaitForInput
 	xor a ; PLAY_AREA_ARENA
@@ -2842,6 +2874,8 @@ Whirlpool_AISelectEffect:
 HyperBeamAISelectEffect:
 	call AIPickEnergyCardToDiscardFromDefendingPokemon
 	ldh [hTemp_ffa0], a
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_DISCARD_OPP_ENERGY
 	ret
 
 Whirlpool_DiscardEffect:
@@ -5206,9 +5240,13 @@ StoneBarrage_AIEffect:
 	jp SetExpectedAIDamage
 
 StoneBarrage_MultiplierEffect:
+	transmit AIRESPONSE_STONE_BARRAGE_START
+
 	xor a
 	ldh [hTemp_ffa0], a
 .loop_coin_toss
+	ld hl, wAIResponseParams
+	inc [hl]
 	ldtx de, FlipUntilFailAppears10DamageForEachHeadsText
 	xor a
 	call TossCoinATimes_BankB
@@ -5219,9 +5257,7 @@ StoneBarrage_MultiplierEffect:
 
 .tails
 ; store resulting damage
-	ldh a, [hTemp_ffa0]
-	ld [wAIResponseParams], a
-	transmit AIRESPONSE_PREATK_N_COIN_TOSSES
+	transmit AIRESPONSE_STONE_BARRAGE_END
 
 	ldh a, [hTemp_ffa0]
 	ld l, a
@@ -5285,6 +5321,8 @@ Bonemerang_AIEffect:
 MarowakCallForFamily_PlayerSelectEffect:
 	ld a, $ff
 	ldh [hTemp_ffa0], a
+
+	transmit AIRESPONSE_DECK_SEARCH_ATTACK
 
 	call CreateDeckCardList
 	ldtx hl, ChooseBasicFightingPokemonFromDeckText
@@ -5365,6 +5403,9 @@ MarowakCallForFamily_AISelectEffect:
 	or a
 	jr nz, .loop_deck
 ; found
+	ldh a, [hTemp_ffa0]
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_DECK_SEARCH_ATTACK
 	ret
 
 KarateChop_AIEffect:
@@ -6939,6 +6980,8 @@ HurricaneEffect:
 	jr c, .loop_locations
 
 ; empty the Arena card slot
+	transmit AIRESPONSE_HURRICANE
+
 	ld l, DUELVARS_ARENA_CARD
 	ld a, [hl]
 	ld [hl], $ff
@@ -7074,6 +7117,8 @@ Conversion1_WeaknessCheck:
 	ret
 
 Conversion1_PlayerSelectEffect:
+	transmit AIRESPONSE_CONVERSION
+
 	ldtx hl, ChooseWeaknessYouWishToChangeText
 	xor a ; PLAY_AREA_ARENA
 	call HandleColorChangeScreen
@@ -7081,7 +7126,11 @@ Conversion1_PlayerSelectEffect:
 	ret
 
 Conversion1_AISelectEffect:
-	jp AISelectConversionColor
+	call AISelectConversionColor
+
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_CONVERSION
+	ret
 
 Conversion1_ChangeWeaknessEffect:
 	call HandleNoDamageOrEffect
@@ -7119,6 +7168,8 @@ Conversion2_ResistanceCheck:
 	ret
 
 Conversion2_PlayerSelectEffect:
+	transmit AIRESPONSE_CONVERSION
+
 	ldtx hl, ChooseResistanceYouWishToChangeText
 	ld a, $80
 	call HandleColorChangeScreen
@@ -7137,11 +7188,15 @@ Conversion2_AISelectEffect:
 	cp COLORLESS
 	jr z, .is_colorless
 	ldh [hTemp_ffa0], a
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_CONVERSION
 	ret
 
 .is_colorless
 	call SwapTurn
 	call AISelectConversionColor
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_CONVERSION
 	jp SwapTurn
 
 Conversion2_ChangeResistanceEffect:
@@ -7390,6 +7445,7 @@ MorphEffect:
 	call ExchangeRNG
 	call .PickRandomBasicPokemonFromDeck
 	jr nc, .successful
+	transmit AIRESPONSE_MORPH
 	ldtx hl, AttackUnsuccessfulText
 	call DrawWideTextBox_WaitForInput
 	ret
@@ -7588,11 +7644,15 @@ FriendshipSong_BenchCheck:
 	ret
 
 FriendshipSong_AddToBench50PercentEffect:
+	transmit AIRESPONSE_PREATK_COIN_TOSS
+
 	ldtx de, SuccessCheckIfHeadsAttackIsSuccessfulText
 	call TossCoin_BankB
 	jr c, .successful
 
 .none_came_text
+	transmit AIRESPONSE_FRIENDSHIP_SONG
+
 	ldtx hl, NoneCameText
 	call DrawWideTextBox_WaitForInput
 	ret
@@ -7612,6 +7672,9 @@ FriendshipSong_AddToBench50PercentEffect:
 	call PutHandPokemonCardInPlayArea
 	ld a, ATK_ANIM_FRIENDSHIP_SONG
 	call Func_2c12e
+
+	transmit AIRESPONSE_FRIENDSHIP_SONG
+
 	ldh a, [hTempCardIndex_ff98]
 	ldtx hl, CameToTheBenchText
 	bank1call DisplayCardDetailScreen

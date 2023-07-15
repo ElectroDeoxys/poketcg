@@ -1695,20 +1695,31 @@ AIDecide_EnergyRemoval:
 	ret
 
 AIPlay_SuperEnergyRemoval:
+	ld hl, wAIResponseParams
+	ld a, SUPER_ENERGY_REMOVAL
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
 	ld a, [wce1a]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
 	ld a, [wce1b]
+	ld [hli], a
 	ldh [hTempRetreatCostCards], a
 	ld a, [wce1c]
+	ld [hli], a
 	ldh [hTempRetreatCostCards + 1], a
 	ld a, [wce1d]
+	ld [hli], a
 	ldh [hTempRetreatCostCards + 2], a
 	ld a, $ff
 	ldh [hTempRetreatCostCards + 3], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4757,10 +4768,17 @@ AIDecide_Gambler:
 	ret
 
 AIPlay_Revive:
+	ld hl, wAIResponseParams
+	ld a, REVIVE
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
