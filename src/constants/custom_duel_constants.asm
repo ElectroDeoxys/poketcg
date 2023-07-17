@@ -31,7 +31,8 @@
 	const AIRESPONSE_TOOK_ALL_PRIZES       ; $1e
 	const AIRESPONSE_DECISION              ; $1f
 	const AIRESPONSE_CNF_RETREAT_CHECK     ; $20
-	const AIRESPONSE_USE_PKMN_PWR          ; $21
+	const AIRESPONSE_CNF_RETREAT_FAIL      ; $21
+	const AIRESPONSE_USE_PKMN_PWR          ; $22
 
 	; PKMN powers
 	const_def $40

@@ -498,6 +498,8 @@ DuelMenu_Retreat:
 	call DrawDuelMainScene
 
 .unable_due_to_confusion
+	transmit AIRESPONSE_CNF_RETREAT_FAIL
+
 	ldtx hl, UnableToRetreatText
 	call DrawWideTextBox_WaitForInput
 	jp PrintDuelMenuAndHandleInput
