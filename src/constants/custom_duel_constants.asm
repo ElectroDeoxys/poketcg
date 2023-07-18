@@ -33,12 +33,14 @@
 	const AIRESPONSE_CNF_RETREAT_CHECK     ; $20
 	const AIRESPONSE_CNF_RETREAT_FAIL      ; $21
 	const AIRESPONSE_USE_PKMN_PWR          ; $22
+	const AIRESPONSE_PLAY_AREA_HEAL        ; $23
 
 	; PKMN powers
 	const_def $40
 	const AIRESPONSE_FIREGIVER             ; $40
 	const AIRESPONSE_STRIKES_BACK          ; $41
 	const AIRESPONSE_TRANSPARENCY_CHECK    ; $42
+	const AIRESPONSE_HEAL_SELECT           ; $43
 
 	; attacks
 	const_def $80
@@ -60,7 +62,8 @@
 	const AIRESPONSE_DISCARD_OPP_ENERGY   ; $8f
 	const AIRESPONSE_FRIENDSHIP_SONG      ; $90
 	const AIRESPONSE_CONVERSION           ; $91
-	const AIRESPONSE_SHOW_AMNESIA_ATTACK  ;
+	const AIRESPONSE_AMNESIA              ; $92
 
 	const_def $1
 	const PKMNPWR_CURSE ; $1
+	const PKMNPWR_HEAL  ; $2

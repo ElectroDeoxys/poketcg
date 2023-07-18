@@ -813,7 +813,7 @@ HandleDefendingPokemonAttackSelection:
 	ld [wNumMenuItems], a
 	call EnableLCD
 .loop_input
-	call DoFrame
+	call DoInputFrame
 	ldh a, [hKeysPressed]
 	bit B_BUTTON_F, a
 	jr nz, .set_carry
@@ -2524,9 +2524,11 @@ Heal_RemoveDamageEffect:
 	cp DUELIST_TYPE_LINK_OPP
 	jr z, .link_opp
 	and DUELIST_TYPE_AI_OPP
-	jr nz, .done
+	jr nz, .ai
 
 ; player
+	transmit AIRESPONSE_HEAL_SELECT
+
 	ldtx hl, ChoosePkmnToRemoveDamageCounterText
 	call DrawWideTextBox_WaitForInput
 	bank1call HasAlivePokemonInPlayArea
@@ -2546,6 +2548,12 @@ Heal_RemoveDamageEffect:
 .link_opp
 	call SerialRecv8Bytes
 	ldh [hPlayAreaEffectTarget], a
+	jr .done
+
+.ai
+	ldh a, [hPlayAreaEffectTarget]
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_HEAL_SELECT
 	; fallthrough
 
 .done
@@ -3005,6 +3013,8 @@ AmnesiaCheckAttacks:
 
 AmnesiaPlayerSelectEffect:
 PlayerPickAttackForAmnesia:
+	transmit AIRESPONSE_AMNESIA
+
 	ldtx hl, ChooseAttackOpponentWillNotBeAbleToUseText
 	call DrawWideTextBox_WaitForInput
 	call HandleDefendingPokemonAttackSelection
@@ -3015,6 +3025,8 @@ PlayerPickAttackForAmnesia:
 AmnesiaAISelectEffect:
 	call AIPickAttackForAmnesia
 	ldh [hTemp_ffa0], a
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_AMNESIA
 	ret
 
 ; applies the Amnesia effect on the defending Pokemon,
@@ -3041,8 +3053,6 @@ ApplyAmnesiaToAttack:
 
 ; the rest of the routine if for Opponent
 ; to announce which attack was used for Amnesia.
-	transmit AIRESPONSE_SHOW_AMNESIA_ATTACK
-
 	call SwapTurn
 	ld a, DUELVARS_ARENA_CARD
 	call GetTurnDuelistVariable
@@ -10019,6 +10029,7 @@ HealPlayAreaCardHP:
 	pop hl
 
 ; print Pokemon card name and damage healed
+	transmit AIRESPONSE_PLAY_AREA_HEAL
 	push hl
 	call LoadTxRam3
 	ld hl, $0000

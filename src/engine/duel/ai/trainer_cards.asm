@@ -3173,8 +3173,14 @@ FindAndRemoveCardFromList:
 	ret
 
 AIPlay_PokemonCenter:
+	ld hl, wAIResponseParams
+	ld a, POKEMON_CENTER
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -3208,7 +3214,6 @@ AIDecide_PokemonCenter:
 	push de
 	call GetTurnDuelistVariable
 	call LoadCardDataToBuffer1_FromDeckIndex
-	ld a, e ; useless instruction
 	pop de
 
 ; get this Pokemon's current HP in number of counters
