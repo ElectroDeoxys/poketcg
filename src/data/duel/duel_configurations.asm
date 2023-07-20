@@ -8,6 +8,14 @@ DeckIDDuelConfigurations:
 	dw NULL ; rank
 	dw NULL ; element
 
+	db PRACTICE_PLAYER_DECK_ID ; deck ID
+	db PLAYER_PIC ; NPC portrait
+	tx MarkName ; name text ID
+	db PRIZES_2 ; number of prize cards
+	db MUSIC_STOP ; theme
+	dw NULL ; rank
+	dw NULL ; element
+
 	db SAMS_NORMAL_DECK_ID ; deck ID
 	db SAM_PIC ; NPC portrait
 	tx SamNPCName ; name text ID
@@ -608,5 +616,5 @@ DeckIDDuelConfigurations:
 	tx StrangeLifeformText ; rank
 	dw NULL ; element
 
-	assert_table_length NUM_AI_DECK_IDS + 3
+	assert_table_length NUM_AI_DECK_IDS + 4
 	db -1 ; end

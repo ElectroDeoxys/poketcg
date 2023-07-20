@@ -3196,6 +3196,8 @@ LaprasWaterGunEffect:
 	jp ApplyExtraWaterEnergyDamageBonus
 
 Quickfreeze_Paralysis50PercentEffect:
+	transmit AIRESPONSE_QUICKFREEZE
+
 	ldtx de, ParalysisCheckText
 	call TossCoin_BankB
 	jr c, .heads
@@ -4671,6 +4673,8 @@ DevolutionBeam_CheckPlayArea:
 ; was selected ($0 = own Play Area, $1 = opp. Play Area)
 ; and in hTempPlayAreaLocation_ffa1 selected card.
 DevolutionBeam_PlayerSelectEffect:
+	transmit AIRESPONSE_DEVOLUTION_BEAM
+
 	ldtx hl, ProcedureForDevolutionBeamText
 	bank1call DrawWholeScreenTextBox
 
@@ -4724,6 +4728,8 @@ DevolutionBeam_AISelectEffect:
 	call FindFirstNonBasicCardInPlayArea
 .found
 	ldh [hTempPlayAreaLocation_ffa1], a
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_DEVOLUTION_BEAM
 	ret
 
 DevolutionBeam_LoadAnimation:

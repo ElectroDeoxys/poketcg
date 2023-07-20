@@ -3569,20 +3569,32 @@ AIDecide_EnergySearch:
 	ret
 
 AIPlay_Pokedex:
+	ld hl, wAIResponseParams
+	ld a, POKEDEX
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wce1a]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
 	ld a, [wce1b]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
 	ld a, [wce1c]
+	ld [hli], a
 	ldh [hTempRetreatCostCards], a
 	ld a, [wce1d]
+	ld [hli], a
 	ldh [$ffa3], a
 	ld a, [wce1e]
+	ld [hli], a
 	ldh [$ffa4], a
 	ld a, $ff
+	ld [hli], a
 	ldh [$ffa5], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4291,9 +4303,9 @@ AIPlay_Maintenance:
 	ldh [hTemp_ffa0], a
 	ld a, [wce1b]
 	ld [hli], a
+	ldh [hTempPlayAreaLocation_ffa1], a
 	transmit AIRESPONSE_PLAY_TRAINER
 
-	ldh [hTempPlayAreaLocation_ffa1], a
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret

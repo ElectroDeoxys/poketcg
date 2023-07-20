@@ -953,6 +953,16 @@ HandleAICowardice:
 	bank1call AIMakeDecision
 	pop af
 	ldh [hAIPkmnPowerEffectParam], a
+
+	ld hl, wAIResponseParams
+	ld a, PKMNPWR_COWARDICE
+	ld [hli], a
+	ldh a, [hTemp_ffa0]
+	ld [hli], a
+	ldh a, [hAIPkmnPowerEffectParam]
+	ld [hli], a
+	transmit AIRESPONSE_USE_PKMN_PWR
+
 	ld a, OPPACTION_EXECUTE_PKMN_POWER_EFFECT
 	bank1call AIMakeDecision
 	ld a, OPPACTION_DUEL_MAIN_SCENE

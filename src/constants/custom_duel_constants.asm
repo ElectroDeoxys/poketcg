@@ -41,6 +41,7 @@
 	const AIRESPONSE_STRIKES_BACK          ; $41
 	const AIRESPONSE_TRANSPARENCY_CHECK    ; $42
 	const AIRESPONSE_HEAL_SELECT           ; $43
+	const AIRESPONSE_QUICKFREEZE           ; $44
 
 	; attacks
 	const_def $80
@@ -63,7 +64,9 @@
 	const AIRESPONSE_FRIENDSHIP_SONG      ; $90
 	const AIRESPONSE_CONVERSION           ; $91
 	const AIRESPONSE_AMNESIA              ; $92
+	const AIRESPONSE_DEVOLUTION_BEAM      ; $93
 
 	const_def $1
-	const PKMNPWR_CURSE ; $1
-	const PKMNPWR_HEAL  ; $2
+	const PKMNPWR_CURSE     ; $1
+	const PKMNPWR_HEAL      ; $2
+	const PKMNPWR_COWARDICE ; $3
