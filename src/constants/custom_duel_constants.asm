@@ -33,6 +33,7 @@
 	const AIRESPONSE_CNF_RETREAT_CHECK     ; $20
 	const AIRESPONSE_CNF_RETREAT_FAIL      ; $21
 	const AIRESPONSE_USE_PKMN_PWR          ; $22
+	const AIRESPONSE_CANNOT_DRAW_CARDS     ; $23
 
 	; PKMN powers
 	const_def $40

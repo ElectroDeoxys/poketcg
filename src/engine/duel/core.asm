@@ -1424,6 +1424,7 @@ DisplayDrawNCardsScreen:
 	or a
 	jr nz, .can_draw
 	; if wNumCardsTryingToDraw set to 0 before, it's because not enough cards in deck
+	transmit AIRESPONSE_CANNOT_DRAW_CARDS
 	ldtx hl, CannotDrawCardBecauseNoCardsInDeckText
 	call DrawWideTextBox_WaitForInput
 	jr .done
