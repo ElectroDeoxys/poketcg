@@ -3206,7 +3206,7 @@ Quickfreeze_Paralysis50PercentEffect:
 	call SetWasUnsuccessful
 	bank1call DrawDuelMainScene
 	bank1call PrintFailedEffectText
-	jp WaitForWideTextBoxInput
+	jr .fail
 
 .heads
 	call ParalysisEffect
@@ -3221,8 +3221,10 @@ Quickfreeze_Paralysis50PercentEffect:
 	bank1call ApplyStatusConditionQueue
 	bank1call DrawDuelHUDs
 	bank1call PrintFailedEffectText
-	call c, WaitForWideTextBoxInput
-	ret
+	ret nc
+.fail
+	transmit AIRESPONSE_QUICKFREEZE_FAIL
+	jp WaitForWideTextBoxInput
 
 IceBreath_ZeroDamage:
 	xor a
@@ -3328,6 +3330,13 @@ FlamesOfRage_AISelectEffect:
 	call AIPickFireEnergyCardToDiscard
 	ld a, [wDuelTempList + 1]
 	ldh [hTempList + 1], a
+
+	ld hl, wAIResponseParams
+	ldh a, [hTempList]
+	ld [hli], a
+	ldh a, [hTempList + 1]
+	ld [hli], a
+	transmit AIRESPONSE_DISCARD_2_ENERGY
 	ret
 
 FlamesOfRage_DiscardEffect:
@@ -3537,6 +3546,13 @@ FireSpin_AISelectEffect:
 	ldh [hTempList], a
 	ld a, [hl]
 	ldh [hTempList + 1], a
+
+	ld hl, wAIResponseParams
+	ldh a, [hTempList]
+	ld [hli], a
+	ldh a, [hTempList + 1]
+	ld [hli], a
+	transmit AIRESPONSE_DISCARD_2_ENERGY
 	ret
 
 FireSpin_DiscardEffect:

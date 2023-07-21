@@ -42,6 +42,7 @@
 	const AIRESPONSE_TRANSPARENCY_CHECK    ; $42
 	const AIRESPONSE_HEAL_SELECT           ; $43
 	const AIRESPONSE_QUICKFREEZE           ; $44
+	const AIRESPONSE_QUICKFREEZE_FAIL      ; $45
 
 	; attacks
 	const_def $80
