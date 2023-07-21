@@ -1717,6 +1717,7 @@ AIPlay_SuperEnergyRemoval:
 	ld [hli], a
 	ldh [hTempRetreatCostCards + 2], a
 	ld a, $ff
+	ld [hli], a
 	ldh [hTempRetreatCostCards + 3], a
 	transmit AIRESPONSE_PLAY_TRAINER
 
@@ -2701,6 +2702,7 @@ AIPlay_EnergyRetrieval:
 	cp $ff
 	jr z, .asm_20e68
 	ld a, $ff
+	ld [hli], a
 	ldh [$ffa3], a
 .asm_20e68
 	transmit AIRESPONSE_PLAY_TRAINER
@@ -2947,29 +2949,43 @@ AIPlay_SuperEnergyRetrieval:
 	ld a, [wCurrentAIFlags]
 	or AI_FLAG_MODIFIED_HAND
 	ld [wCurrentAIFlags], a
+
+	ld hl, wAIResponseParams
+	ld a, SUPER_ENERGY_RETRIEVAL
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
 	ld a, [wce1a]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
 	ld a, [wce1b]
+	ld [hli], a
 	ldh [hTempRetreatCostCards], a
 	ld a, [wce1c]
+	ld [hli], a
 	ldh [$ffa3], a
 	cp $ff
 	jr z, .asm_20fbb
 	ld a, [wce1d]
+	ld [hli], a
 	ldh [$ffa4], a
 	cp $ff
 	jr z, .asm_20fbb
 	ld a, [wce1e]
+	ld [hli], a
 	ldh [$ffa5], a
 	cp $ff
 	jr z, .asm_20fbb
 	ld a, $ff
+	ld [hli], a
 	ldh [$ffa6], a
 .asm_20fbb
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
@@ -4593,14 +4609,24 @@ AIPlay_ItemFinder:
 	ld a, [wCurrentAIFlags]
 	or AI_FLAG_MODIFIED_HAND
 	ld [wCurrentAIFlags], a
+
+	ld hl, wAIResponseParams
+	ld a, ITEM_FINDER
+	ld [hli], a
 	ld a, [wAITrainerCardToPlay]
+	ld [hli], a
 	ldh [hTempCardIndex_ff9f], a
 	ld a, [wce1a]
+	ld [hli], a
 	ldh [hTemp_ffa0], a
 	ld a, [wce1b]
+	ld [hli], a
 	ldh [hTempPlayAreaLocation_ffa1], a
 	ld a, [wAITrainerCardParameter]
+	ld [hli], a
 	ldh [hTempRetreatCostCards], a
+	transmit AIRESPONSE_PLAY_TRAINER
+
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
 	bank1call AIMakeDecision
 	ret
