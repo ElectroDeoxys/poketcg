@@ -6424,6 +6424,8 @@ EnergySpike_DeckCheck:
 	jp CheckIfDeckIsEmpty
 
 EnergySpike_PlayerSelectEffect:
+	transmit AIRESPONSE_ENERGY_SPIKE
+
 	ld a, $ff
 	ldh [hTemp_ffa0], a
 

@@ -67,6 +67,7 @@
 	const AIRESPONSE_AMNESIA              ; $92
 	const AIRESPONSE_DEVOLUTION_BEAM      ; $93
 	const AIRESPONSE_ENERGY_ABSORPTION    ; $94
+	const AIRESPONSE_ENERGY_SPIKE         ; $95
 
 	const_def $1
 	const PKMNPWR_CURSE            ; $1

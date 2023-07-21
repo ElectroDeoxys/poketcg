@@ -2143,6 +2143,13 @@ AISelectSpecialAttackParameters:
 	jr nc, .no_carry
 	ldh a, [hTempPlayAreaLocation_ff9d]
 	ldh [hTempPlayAreaLocation_ffa1], a
+
+	ld hl, wAIResponseParams
+	ldh a, [hTemp_ffa0]
+	ld [hli], a
+	ldh a, [hTempPlayAreaLocation_ffa1]
+	ld [hli], a
+	transmit AIRESPONSE_ENERGY_SPIKE
 	scf
 	ret
 
