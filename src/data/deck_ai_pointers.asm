@@ -81,4 +81,5 @@ DeckAIPointerTable::
 	dw AIActionTable_GeneralDecks        ; PSYCHIC_MACHAMP_DECK
 	dw AIActionTable_GeneralDecks        ; WATER_BEETLE_DECK
 	dw AIActionTable_GeneralDecks        ; MYSTERIOUS_POKEMON_DECK
+	dw AIActionTable_GeneralDecks        ; HAYMAYKER_DECK
 	assert_table_length NUM_DECK_IDS

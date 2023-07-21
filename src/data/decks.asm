@@ -82,6 +82,7 @@ DeckPointers::
 	dw PsychicMachampDeck
 	dw WaterBeetleDeck
 	dw MysteriousPokemonDeck
+	dw HaymakerDeck
 	dw NULL
 	assert_table_length NUM_VALID_DECKS + 1
 
@@ -2536,4 +2537,25 @@ MysteriousPokemonDeck:
 	card_item ENERGY_REMOVAL,   1
 	card_item SWITCH,           2
 	card_item POKEMON_CENTER,   1
+	deck_list_end
+
+HaymakerDeck:
+	deck_list_start
+	card_item LIGHTNING_ENERGY,        6
+	card_item FIGHTING_ENERGY,         7
+	card_item DOUBLE_COLORLESS_ENERGY, 4
+	card_item ELECTABUZZ_LV35,         4
+	card_item HITMONCHAN,              4
+	card_item SCYTHER,                 3
+	card_item ENERGY_SEARCH,           3
+	card_item BILL,                    2
+	card_item ENERGY_REMOVAL,          4
+	card_item SUPER_ENERGY_REMOVAL,    3
+	card_item ENERGY_RETRIEVAL,        3
+	card_item GUST_OF_WIND,            3
+	card_item ITEM_FINDER,             3
+	card_item PLUSPOWER,               4
+	card_item PROFESSOR_OAK,           2
+	card_item SCOOP_UP,                3
+	card_item SWITCH,                  2
 	deck_list_end

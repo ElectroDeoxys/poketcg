@@ -93,6 +93,7 @@ ENDM
 	deck_const PSYCHIC_MACHAMP_DECK        ; $4f
 	deck_const WATER_BEETLE_DECK           ; $50
 	deck_const MYSTERIOUS_POKEMON_DECK     ; $51
+	deck_const HAYMAYKER_DECK              ; $52
 DEF NUM_VALID_DECKS EQU const_value
 DEF NUM_DECK_IDS EQU const_value - 2
 

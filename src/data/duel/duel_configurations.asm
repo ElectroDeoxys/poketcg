@@ -616,5 +616,13 @@ DeckIDDuelConfigurations:
 	tx StrangeLifeformText ; rank
 	dw NULL ; element
 
+	db HAYMAYKER_DECK_ID ; deck ID
+	db PLAYER_PIC ; NPC portrait
+	tx MarkName ; name text ID
+	db PRIZES_2 ; number of prize cards
+	db MUSIC_STOP ; theme
+	dw NULL ; rank
+	dw NULL ; element
+
 	assert_table_length NUM_AI_DECK_IDS + 4
 	db -1 ; end

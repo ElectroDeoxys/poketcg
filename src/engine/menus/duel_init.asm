@@ -307,4 +307,7 @@ OpponentTitlesAndDeckNames:
 	tx EmptyText
 	tx MysteriousPokemonText
 
+	tx EmptyText
+	tx MysteriousPokemonText
+
 	assert_table_length NUM_DECK_IDS
