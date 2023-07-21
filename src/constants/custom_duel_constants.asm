@@ -33,7 +33,6 @@
 	const AIRESPONSE_CNF_RETREAT_CHECK     ; $20
 	const AIRESPONSE_CNF_RETREAT_FAIL      ; $21
 	const AIRESPONSE_USE_PKMN_PWR          ; $22
-	const AIRESPONSE_PLAY_AREA_HEAL        ; $23
 
 	; PKMN powers
 	const_def $40
@@ -66,8 +65,13 @@
 	const AIRESPONSE_CONVERSION           ; $91
 	const AIRESPONSE_AMNESIA              ; $92
 	const AIRESPONSE_DEVOLUTION_BEAM      ; $93
+	const AIRESPONSE_ENERGY_ABSORPTION    ; $94
 
 	const_def $1
-	const PKMNPWR_CURSE     ; $1
-	const PKMNPWR_HEAL      ; $2
-	const PKMNPWR_COWARDICE ; $3
+	const PKMNPWR_CURSE            ; $1
+	const PKMNPWR_HEAL             ; $2
+	const PKMNPWR_COWARDICE        ; $3
+	const PKMNPWR_DAMAGE_SWAP      ; $4
+	const PKMNPWR_ENERGY_TRANS     ; $5
+	const PKMNPWR_SHIFT            ; $6
+	const PKMNPWR_STRANGE_BEHAVIOR ; $7

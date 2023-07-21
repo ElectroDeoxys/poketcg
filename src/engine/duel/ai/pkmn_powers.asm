@@ -75,6 +75,7 @@ HandleAIEnergyTrans:
 	ld a, OPPACTION_EXECUTE_PKMN_POWER_EFFECT
 	bank1call AIMakeDecision
 
+	call ClearAIResponseParams
 	xor a ; PLAY_AREA_ARENA
 	ldh [hAIEnergyTransPlayAreaLocation], a
 	ld a, [wAINumberOfEnergyTransCards]
@@ -113,6 +114,12 @@ HandleAIEnergyTrans:
 	dec d
 	jr nz, .small_delay_loop
 
+	ldh a, [hTempPlayAreaLocation_ffa1]
+	ld b, a
+	ldh a, [hAIEnergyTransPlayAreaLocation]
+	ld c, a
+	call UpdateAIResponseTransferParams
+
 	ld a, OPPACTION_6B15
 	bank1call AIMakeDecision
 	pop de
@@ -128,6 +135,13 @@ HandleAIEnergyTrans:
 ; transfer is done, perform delay
 ; and return to main scene.
 .done_transfer
+	ld hl, wAIResponseParams
+	ld a, PKMNPWR_ENERGY_TRANS
+	ld [hli], a
+	ldh a, [hTemp_ffa0]
+	ld [hli], a
+	transmit AIRESPONSE_USE_PKMN_PWR
+
 	ld d, 60
 .big_delay_loop
 	call DoFrame
@@ -319,6 +333,8 @@ AIEnergyTransTransferEnergyToBench:
 	ld a, OPPACTION_EXECUTE_PKMN_POWER_EFFECT
 	bank1call AIMakeDecision
 
+	call ClearAIResponseParams
+
 ; loop for each energy cards that are going to be transferred.
 .loop_energy
 	xor a
@@ -376,6 +392,12 @@ AIEnergyTransTransferEnergyToBench:
 	dec d
 	jr nz, .small_delay_loop
 
+	ldh a, [hTempPlayAreaLocation_ffa1]
+	ld b, a
+	ldh a, [hAIEnergyTransPlayAreaLocation]
+	ld c, a
+	call UpdateAIResponseTransferParams
+
 	ld a, [wAIVenusaurLv67DeckIndex]
 	ldh [hTempCardIndex_ff9f], a
 	ld d, a
@@ -388,6 +410,13 @@ AIEnergyTransTransferEnergyToBench:
 ; transfer is done, perform delay
 ; and return to main scene.
 .done_transfer
+	ld hl, wAIResponseParams
+	ld a, PKMNPWR_ENERGY_TRANS
+	ld [hli], a
+	ldh a, [hTemp_ffa0]
+	ld [hli], a
+	transmit AIRESPONSE_USE_PKMN_PWR
+
 	ld d, 60
 .big_delay_loop
 	call DoFrame
@@ -658,6 +687,16 @@ HandleAIShift:
 .done
 	ld a, b
 	ldh [hAIPkmnPowerEffectParam], a
+
+	ld hl, wAIResponseParams
+	ld a, PKMNPWR_SHIFT
+	ld [hli], a
+	ldh a, [hTemp_ffa0]
+	ld [hli], a
+	ld a, b
+	ld [hli], a
+	transmit AIRESPONSE_USE_PKMN_PWR
+
 	ld a, OPPACTION_EXECUTE_PKMN_POWER_EFFECT
 	bank1call AIMakeDecision
 	ld a, OPPACTION_DUEL_MAIN_SCENE
@@ -738,6 +777,16 @@ HandleAIStrangeBehavior:
 ; loop counters chosen to transfer and use Pkmn Power
 	call ConvertHPToCounters
 	ld e, a
+
+	ld hl, wAIResponseParams
+	ld a, PKMNPWR_STRANGE_BEHAVIOR
+	ld [hli], a
+	ldh a, [hTemp_ffa0]
+	ld [hli], a
+	ld a, e
+	ld [hli], a
+	transmit AIRESPONSE_USE_PKMN_PWR
+
 .loop_counters
 	ld d, 30
 .small_delay_loop
@@ -1032,6 +1081,7 @@ HandleAIDamageSwap:
 	ld a, OPPACTION_EXECUTE_PKMN_POWER_EFFECT
 	bank1call AIMakeDecision
 
+	call ClearAIResponseParams
 	ld a, [wce06]
 	ld e, a
 .loop_damage
@@ -1045,9 +1095,13 @@ HandleAIDamageSwap:
 	call .CheckForDamageSwapTargetInBench
 	jr c, .no_more_target
 
-	ldh [hTempRetreatCostCards], a
+	ldh [hPlayAreaEffectTarget], a
+	ld c, a
 	xor a ; PLAY_AREA_ARENA
 	ldh [hAIPkmnPowerEffectParam], a
+	ld b, a
+	call UpdateAIResponseTransferParams
+
 	ld a, OPPACTION_6B15
 	bank1call AIMakeDecision
 	pop de
@@ -1055,6 +1109,13 @@ HandleAIDamageSwap:
 	jr nz, .loop_damage
 
 .done
+	ld hl, wAIResponseParams
+	ld a, PKMNPWR_DAMAGE_SWAP
+	ld [hli], a
+	ldh a, [hTemp_ffa0]
+	ld [hli], a
+	transmit AIRESPONSE_USE_PKMN_PWR
+
 ; return to main scene
 	ld d, 60
 .big_delay_loop
@@ -1156,4 +1217,46 @@ HandleAIGoGoRainDanceEnergy:
 .loop
 	farcall AIProcessAndTryToPlayEnergy
 	jr c, .loop
+	ret
+
+ClearAIResponseParams:
+	xor a
+	ld hl, wAIResponseParams
+	ld b, $10
+.loop
+	ld [hli], a
+	dec b
+	jr nz, .loop
+	ret
+
+; b = Play Area source
+; c = Play Area target
+UpdateAIResponseTransferParams:
+	ld a, b
+	swap a
+	or c
+	ld c, a
+
+	ld hl, wAIResponseParams + 2
+	ld b, ($10 - 2) / 2
+.loop_find_last
+	ld a, [hli]
+	or a
+	jr z, .new_slot
+	cp c
+	jr z, .incr_slot
+	dec b
+	ret z ; this shouldn't happen!
+	inc hl
+	jr .loop_find_last
+
+.new_slot
+	dec hl
+	ld [hl], c
+	inc hl
+	ld [hl], 1
+	ret
+
+.incr_slot
+	inc [hl]
 	ret

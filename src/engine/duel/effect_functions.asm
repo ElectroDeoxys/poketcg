@@ -1768,6 +1768,8 @@ Teleport_CheckBench:
 	ret
 
 Teleport_PlayerSelectEffect:
+	transmit AIRESPONSE_BENCH_SELECT
+
 	ldtx hl, SelectPkmnOnBenchToSwitchWithActiveText
 	call DrawWideTextBox_WaitForInput
 	bank1call HasAlivePokemonInBench
@@ -2154,7 +2156,7 @@ EnergyTrans_TransferEffect:
 
 ; handle the action of taking a Grass Energy card
 .loop_input_take
-	call DoFrame
+	call DoInputFrame
 	call HandleMenuInput
 	jr nc, .loop_input_take
 	cp -1 ; b press?
@@ -2184,7 +2186,7 @@ EnergyTrans_TransferEffect:
 
 ; handle the action of placing a Grass Energy card
 .loop_input_put
-	call DoFrame
+	call DoInputFrame
 	call HandleMenuInput
 	jr nc, .loop_input_put
 	cp -1 ; b press?
@@ -4570,7 +4572,7 @@ DamageSwap_SelectAndSwapEffect:
 
 ; handle selection of Pokemon to take damage from
 .loop_input_first
-	call DoFrame
+	call DoInputFrame
 	call HandleMenuInput
 	jr nc, .loop_input_first
 	cp $ff
@@ -4604,7 +4606,7 @@ DamageSwap_SelectAndSwapEffect:
 
 ; handle selection of Pokemon to give damage to
 .loop_input_second
-	call DoFrame
+	call DoInputFrame
 	call HandleMenuInput
 	jr nc, .loop_input_second
 	; if B is pressed, return damage counter
@@ -4943,6 +4945,8 @@ Barrier_BarrierEffect:
 
 MewtwoAltLV60EnergyAbsorption_PlayerSelectEffect:
 MewtwoLv60EnergyAbsorption_PlayerSelectEffect:
+	transmit AIRESPONSE_ENERGY_ABSORPTION
+
 	ldtx hl, Choose2EnergyCardsFromDiscardPileToAttachText
 	jp HandleEnergyCardsInDiscardPileSelection
 
@@ -5012,7 +5016,7 @@ StrangeBehavior_SelectAndSwapEffect:
 
 	ld [wNumMenuItems], a
 .loop_input
-	call DoFrame
+	call DoInputFrame
 	call HandleMenuInput
 	jr nc, .loop_input
 	cp -1
@@ -6007,7 +6011,7 @@ Gigashock_PlayerSelectEffect:
 	ld [wNumMenuItems], a
 
 .loop_input
-	call DoFrame
+	call DoInputFrame
 	call HandleMenuInput
 	jr nc, .loop_input
 	cp -1
@@ -10051,7 +10055,6 @@ HealPlayAreaCardHP:
 	pop hl
 
 ; print Pokemon card name and damage healed
-	transmit AIRESPONSE_PLAY_AREA_HEAL
 	push hl
 	call LoadTxRam3
 	ld hl, $0000
@@ -10064,7 +10067,7 @@ HealPlayAreaCardHP:
 	call CopyCardNameAndLevel
 	ld [hl], $00 ; terminating character on end of the name
 	ldtx hl, PokemonHealedDamageText
-	call DrawWideTextBox_WaitForInput
+	call DrawWideTextBox
 	pop de
 
 ; heal the target Pokemon
