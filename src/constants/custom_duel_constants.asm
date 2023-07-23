@@ -68,6 +68,7 @@
 	const AIRESPONSE_DEVOLUTION_BEAM      ; $93
 	const AIRESPONSE_ENERGY_ABSORPTION    ; $94
 	const AIRESPONSE_ENERGY_SPIKE         ; $95
+	const AIRESPONSE_GIGASHOCK            ; $96
 
 	const_def $1
 	const PKMNPWR_CURSE            ; $1

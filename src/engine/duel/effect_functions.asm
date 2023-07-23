@@ -5781,6 +5781,7 @@ ThunderstormEffect:
 .check_damage
 	push de
 	push bc
+	transmit AIRESPONSE_PREATK_COIN_TOSS
 	call .DisplayText
 	ld de, $0
 	call SwapTurn
@@ -5979,6 +5980,8 @@ ChainLightningEffect:
 	ret
 
 Gigashock_PlayerSelectEffect:
+	transmit AIRESPONSE_GIGASHOCK
+
 	call SwapTurn
 	ld a, DUELVARS_NUMBER_OF_POKEMON_IN_PLAY_AREA
 	call GetTurnDuelistVariable
@@ -6126,7 +6129,7 @@ Gigashock_AISelectEffect:
 	dec a
 	jr nz, .select_bench
 	ld [hl], $ff ; terminating byte
-	ret
+	jp .transmit
 
 .start_selection
 ; has more than 3 Bench cards, proceed to sort them
@@ -6190,7 +6193,14 @@ Gigashock_AISelectEffect:
 ; done
 	ld a, $ff ; terminating byte
 	ldh [hTempList + 3], a
-	jp SwapTurn
+	call SwapTurn
+.transmit
+	ld hl, hTempList
+	ld de, wAIResponseParams
+	ld bc, 4
+	call CopyDataHLtoDE
+	transmit AIRESPONSE_GIGASHOCK
+	ret
 
 Gigashock_BenchDamageEffect:
 	call SwapTurn

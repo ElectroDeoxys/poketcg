@@ -1781,6 +1781,8 @@ HandleDuelSetup:
 	ld de, wAIResponseParams
 	ld bc, MAX_PLAY_AREA_POKEMON
 	call CopyDataHLtoDE
+	ld hl, wAIResponseParams + (MAX_PLAY_AREA_POKEMON + 1)
+	ld [hl], $ff
 	transmit AIRESPONSE_PLAY_INITIAL_POKEMON
 
 	call ChooseInitialArenaAndBenchPokemon
