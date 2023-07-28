@@ -2053,6 +2053,8 @@ AISelectSpecialAttackParameters:
 	ldh [hTemp_ffa0], a
 	call LookForCardThatIsKnockedOutOnDevolution
 	ldh [hTempPlayAreaLocation_ffa1], a
+	ld [wAIResponseParams], a
+	transmit AIRESPONSE_DEVOLUTION_BEAM
 
 .set_carry_1
 	scf
@@ -2140,7 +2142,7 @@ AISelectSpecialAttackParameters:
 ; ...else find a suitable Play Area Pokemon to
 ; attach the energy card to.
 	call AIProcessButDontPlayEnergy_SkipEvolution
-	jr nc, .no_carry
+	jp nc, .no_carry
 	ldh a, [hTempPlayAreaLocation_ff9d]
 	ldh [hTempPlayAreaLocation_ffa1], a
 
