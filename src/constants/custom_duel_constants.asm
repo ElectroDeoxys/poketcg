@@ -34,7 +34,6 @@
 	const AIRESPONSE_CNF_RETREAT_FAIL      ; $21
 	const AIRESPONSE_USE_PKMN_PWR          ; $22
 	const AIRESPONSE_CANNOT_DRAW_CARDS     ; $23
-
 	; PKMN powers
 	const_def $40
 	const AIRESPONSE_FIREGIVER             ; $40
@@ -43,7 +42,6 @@
 	const AIRESPONSE_HEAL_SELECT           ; $43
 	const AIRESPONSE_QUICKFREEZE           ; $44
 	const AIRESPONSE_QUICKFREEZE_FAIL      ; $45
-
 	; attacks
 	const_def $80
 	const AIRESPONSE_USED_ATTACK_TEXT     ; $80
@@ -78,3 +76,22 @@
 	const PKMNPWR_ENERGY_TRANS     ; $5
 	const PKMNPWR_SHIFT            ; $6
 	const PKMNPWR_STRANGE_BEHAVIOR ; $7
+
+	const_def $1
+	const STATS_DUEL_RESULT ; $1
+	const STATS_COIN_TOSS   ; $2
+	const STATS_DAMAGE      ; $3
+
+	const_def
+	const STATSRESULT_ALL_PRIZES     ; $0
+	const STATSRESULT_ALL_PRIZES_OPP ; $1
+	const STATSRESULT_NO_BENCH       ; $2
+	const STATSRESULT_NO_BENCH_OPP   ; $3
+	const STATSRESULT_NO_CARDS       ; $4
+	const STATSRESULT_NO_CARDS_OPP   ; $5
+
+	const_def
+	const STATSCOIN_TAILS     ; $0
+	const STATSCOIN_TAILS_OPP ; $1
+	const STATSCOIN_HEADS     ; $2
+	const STATSCOIN_HEADS_OPP ; $3

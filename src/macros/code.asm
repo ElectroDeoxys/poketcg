@@ -72,3 +72,9 @@ MACRO transmit
 	ld a, \1
 	call TransmitAIResponse
 ENDM
+
+MACRO stats
+	ld [wStatsParam], a
+	ld a, \1
+	ld [wStats], a
+ENDM

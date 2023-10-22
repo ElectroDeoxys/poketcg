@@ -2966,7 +2966,10 @@ wAIResponse:: ; d69c
 wAIResponseParams:: ; d69d
 	ds $10
 
-	ds $6d3
+wStats::      ds $1 ; d6ad
+wStatsParam:: ds $1 ; d6ae
+
+	ds $6d1
 
 SECTION "WRAM1 Audio", WRAMX
 

@@ -250,6 +250,14 @@ HandleTurn:
 	jr nc, .deck_not_empty
 	ld a, TURN_PLAYER_LOST
 	ld [wDuelFinished], a
+
+	ldh a, [hWhoseTurn]
+	cp PLAYER_TURN
+	ld a, STATSRESULT_NO_CARDS
+	jr z, .got_stats_result
+	inc a ; STATSRESULT_NO_CARDS_OPP
+.got_stats_result
+	stats STATS_DUEL_RESULT
 	ret
 
 .deck_not_empty
@@ -1781,7 +1789,7 @@ HandleDuelSetup:
 	ld de, wAIResponseParams
 	ld bc, MAX_PLAY_AREA_POKEMON
 	call CopyDataHLtoDE
-	ld hl, wAIResponseParams + (MAX_PLAY_AREA_POKEMON + 1)
+	ld hl, wAIResponseParams + MAX_PLAY_AREA_POKEMON
 	ld [hl], $ff
 	transmit AIRESPONSE_PLAY_INITIAL_POKEMON
 
@@ -7386,6 +7394,15 @@ ReplaceKnockedOutPokemon:
 
 ; if we made it here, the duelist can't replace the knocked out Pokemon
 	bank1call DrawDuelMainScene
+
+	ldh a, [hWhoseTurn]
+	cp PLAYER_TURN
+	ld a, STATSRESULT_NO_BENCH
+	jr nz, .opp
+	inc a ; STATSRESULT_NO_BENCH_OPP
+.opp
+	stats STATS_DUEL_RESULT
+
 	transmit AIRESPONSE_NO_MORE_BENCH
 
 	ldtx hl, ThereAreNoPokemonInPlayAreaText
@@ -7462,6 +7479,15 @@ Func_6fa5:
 	ret nc
 	call SwapTurn
 	bank1call DrawDuelMainScene
+
+	ld a, [hWhoseTurn]
+	cp PLAYER_TURN
+	ld a, STATSRESULT_ALL_PRIZES
+	jr z, .player
+	inc a ; STATSRESULT_ALL_PRIZES_OPP
+.player
+	stats STATS_DUEL_RESULT
+
 	transmit AIRESPONSE_TOOK_ALL_PRIZES
 
 	ldtx hl, TookAllThePrizesText
@@ -7835,12 +7861,16 @@ UpdateArenaCardLastTurnDamage::
 	ld a, [wDealtDamage]
 	ld [hli], a
 	ld a, [wDealtDamage + 1]
-	ld [hl], a
-	ret
+	ld [hld], a
+	jr .set_stats
 .zero
 	xor a
 	ld [hli], a
-	ld [hl], a
+	ld [hld], a
+
+.set_stats
+	ld a, [hl]
+	stats STATS_DAMAGE
 	ret
 
 _TossCoin::
@@ -7973,12 +8003,16 @@ _TossCoin::
 ; the sound of the coin toss result
 ; is dependant on whether it was the Player
 ; or the Opponent to get heads/tails
+	ld b, e
+	sla b
+
 	ld a, [wCoinTossDuelistType]
 	or a
 	jr z, .check_sfx
 	ld a, $1
 	xor e ; invert result in case it's not Player
 	ld e, a
+	inc b
 .check_sfx
 	ld d, SFX_COIN_TOSS_HEADS
 	ld a, e
@@ -7986,6 +8020,9 @@ _TossCoin::
 	jr nz, .got_sfx
 	ld d, SFX_COIN_TOSS_TAILS
 .got_sfx
+	ld a, b
+	stats STATS_COIN_TOSS
+
 	ld a, d
 	call PlaySFX
 
