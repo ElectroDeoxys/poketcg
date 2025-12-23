@@ -122,7 +122,7 @@ wc900:: ; c900
 SECTION "WRAM0 1", WRAM0
 
 wOAM:: ; ca00
-	ds $a0
+	ds OAM_SIZE
 
 ; 16-byte buffer to store text, usually a name or a number
 ; used by TX_RAM1 but not exclusively
@@ -191,7 +191,7 @@ wFlushPaletteFlags:: ; cabf
 wVBlankOAMCopyToggle:: ; cac0
 	ds $1
 
-; used by HblankWriteByteToBGMap0
+; used by WriteByteToBGMap0
 wTempByte:: ; cac1
 	ds $1
 
@@ -328,7 +328,7 @@ wNumPlayAreaItems:: ; cbc8
 ; such as PrintPlayAreaCardLocation, PrintPlayAreaCardInformation and PrintPlayAreaCardHeader
 wCurPlayAreaSlot:: ; cbc9
 
-; X position to display the attached energies, HP bar, and Pluspower/Defender icons
+; X position to display the attached energies, HP bar, and PlusPower/Defender icons
 ; obviously different for player and opponent side. used by DrawDuelHUD.
 wHUDEnergyAndHPBarsX:: ; cbc9
 	ds $1
@@ -337,7 +337,7 @@ wHUDEnergyAndHPBarsX:: ; cbc9
 ; such as PrintPlayAreaCardLocation, PrintPlayAreaCardInformation and PrintPlayAreaCardHeader
 wCurPlayAreaY:: ; cbca
 
-; Y position to display the attached energies, HP bar, and Pluspower/Defender icons
+; Y position to display the attached energies, HP bar, and PlusPower/Defender icons
 ; obviously different for player and opponent side. used by DrawDuelHUD.
 wHUDEnergyAndHPBarsY:: ; cbca
 
@@ -392,12 +392,12 @@ wPlayAreaSelectAction:: ; cbd4
 wTempRetreatCostCardsPos:: ; cbd5
 	ds $1
 
-; in a card list, which keys (among START and A_BUTTON) do not open the item selection
+; in a card list, which keys (among PAD_START and PAD_A) do not open the item selection
 ; menu when a card is selected, directly "submitting" the selected card instead.
 wNoItemSelectionMenuKeys:: ; cbd6
 	ds $1
 
-; when viewing a card page, which keys (among B_BUTTON, D_UP, and D_DOWN) will exit the page,
+; when viewing a card page, which keys (among PAD_B, PAD_UP, and PAD_DOWN) will exit the page,
 ; either to go back to the previous menu or list, or to load the card page of the card above/below it
 wCardPageExitKeys:: ; cbd7
 	ds $1
@@ -612,6 +612,7 @@ wAIMinDamage:: ; ccbb
 wAIMaxDamage:: ; ccbc
 	ds $1
 
+; only written, never read
 wccbd:: ; ccbd
 	ds $2
 
@@ -1020,8 +1021,8 @@ wAIPlayAreaCardToSwitch:: ; cdd5
 	ds $1
 
 ; the index of attack chosen by AI
-; to use with Pluspower.
-wAIPluspowerAttack:: ; cdd6
+; to use with PlusPower.
+wAIPlusPowerAttack:: ; cdd6
 	ds $1
 
 ; whether AI is allowed to play an energy card
@@ -1210,7 +1211,7 @@ wEffectFunctionsBank:: ; ce22
 
 ; LoadCardGfx loads the card's palette here
 wCardPalette:: ; ce23
-	ds CGB_PAL_SIZE
+	ds PAL_SIZE
 
 ; information about the text being currently processed, including font width,
 ; the rom bank, and the memory address of the next character to be printed.
@@ -1380,7 +1381,7 @@ wTempPokemonID_ce7c:: ; ce7c
 
 	ds $1
 
-wce7e:: ; ce7e
+wAttackAnimationIsPlaying:: ; ce7e
 	ds $1
 
 wDamageAnimAmount:: ; ce7f
@@ -2259,7 +2260,7 @@ wd417:: ; d417
 	ds $9
 
 ; store settings for animation enabled/disabled
-; 0 means enabled, 1 means disabled
+; FALSE means enabled, TRUE means disabled
 wAnimationsDisabled:: ; d421
 	ds $1
 
@@ -2865,7 +2866,7 @@ wde2b:: ; de2b
 wde2e:: ; de2e
 	ds $1
 
-wde2f:: ; de2f
+wSFXPitchOffsets:: ; de2f
 	ds $3
 
 wde32:: ; de32
@@ -2886,10 +2887,10 @@ wde3f:: ; de3f
 wde43:: ; de43
 	ds $8
 
-wde4b:: ; de4b
+wSFXCommandPointers:: ; de4b
 	ds $8
 
-wde53:: ; de53
+wSFXIsPlaying:: ; de53
 	ds $1
 
 wde54:: ; de54

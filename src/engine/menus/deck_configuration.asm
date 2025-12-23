@@ -351,7 +351,7 @@ HandleDeckBuildScreen:
 .wait_input
 	call DoFrame
 	ldh a, [hDPadHeld]
-	and START
+	and PAD_START
 	jr z, .no_start_btn_1
 	ld a, $01
 	call PlaySFXConfirmOrCancel
@@ -376,7 +376,7 @@ HandleDeckBuildScreen:
 
 .check_down_btn
 	ldh a, [hDPadHeld]
-	and D_DOWN
+	and PAD_DOWN
 	jr z, .no_down_btn
 	call ConfirmSelectionAndReturnCarry
 	jr .jump_to_list
@@ -419,7 +419,7 @@ HandleDeckBuildScreen:
 .loop_input
 	call DoFrame
 	ldh a, [hDPadHeld]
-	and START
+	and PAD_START
 	jr z, .no_start_btn_2
 	ld a, $01
 	call PlaySFXConfirmOrCancel
@@ -1623,7 +1623,7 @@ HandleCardSelectionInput:
 	ld a, [wCardListNumCursorPositions]
 	ld c, a
 	ld a, [wCardListCursorPos]
-	bit D_LEFT_F, b
+	bit B_PAD_LEFT, b
 	jr z, .check_d_right
 	dec a
 	bit 7, a
@@ -1633,7 +1633,7 @@ HandleCardSelectionInput:
 	dec a
 	jr .got_cursor_pos
 .check_d_right
-	bit D_RIGHT_F, b
+	bit B_PAD_RIGHT, b
 	jr z, .handle_ab_btns
 	inc a
 	cp c
@@ -1654,9 +1654,9 @@ HandleCardSelectionInput:
 	ld a, [wCardListCursorPos]
 	ldh [hffb3], a
 	ldh a, [hKeysPressed]
-	and A_BUTTON | B_BUTTON
+	and PAD_A | PAD_B
 	jr z, HandleCardSelectionCursorBlink
-	and A_BUTTON
+	and PAD_A
 	jr nz, ConfirmSelectionAndReturnCarry
 	; b button
 	ld a, $ff
@@ -1739,7 +1739,7 @@ HandleDeckCardSelectionList:
 	ld a, [wCardListNumCursorPositions]
 	ld c, a
 	ld a, [wCardListCursorPos]
-	bit D_UP_F, b
+	bit B_PAD_UP, b
 	jr z, .check_d_down
 	push af
 	ld a, SFX_CURSOR
@@ -1763,7 +1763,7 @@ HandleDeckCardSelectionList:
 	jr .asm_9b8f
 
 .check_d_down
-	bit D_DOWN_F, b
+	bit B_PAD_DOWN, b
 	jr z, .asm_9b9d
 	push af
 	ld a, SFX_CURSOR
@@ -1806,13 +1806,13 @@ HandleDeckCardSelectionList:
 	or a
 	jr z, .asm_9bb9
 
-	bit D_LEFT_F, b
+	bit B_PAD_LEFT, b
 	jr z, .check_d_right
 	call GetSelectedVisibleCardID
 	call RemoveCardFromDeckAndUpdateCount
 	jr .asm_9bb9
 .check_d_right
-	bit D_RIGHT_F, b
+	bit B_PAD_RIGHT, b
 	jr z, .asm_9bb9
 	call GetSelectedVisibleCardID
 	call AddCardToDeckAndUpdateCount
@@ -1846,9 +1846,9 @@ HandleDeckCardSelectionList:
 
 .handle_ab_btns
 	ldh a, [hKeysPressed]
-	and A_BUTTON | B_BUTTON
+	and PAD_A | PAD_B
 	jr z, .check_sfx
-	and A_BUTTON
+	and PAD_A
 	jr nz, .select_card
 	ld a, $ff
 	ldh [hffb3], a
@@ -1935,7 +1935,7 @@ OpenCardPageFromCardList:
 .handle_input
 	ldh a, [hDPadHeld]
 	ld b, a
-	and A_BUTTON | B_BUTTON | SELECT | START
+	and PAD_A | PAD_B | PAD_SELECT | PAD_START
 	jp nz, .exit
 
 ; check d-pad
@@ -1947,7 +1947,7 @@ OpenCardPageFromCardList:
 	ld a, [wCardListNumCursorPositions]
 	ld c, a
 	ld a, [wCardListCursorPos]
-	bit D_UP_F, b
+	bit B_PAD_UP, b
 	jr z, .check_d_down
 	push af
 	ld a, SFX_CURSOR
@@ -1965,7 +1965,7 @@ OpenCardPageFromCardList:
 	jr .reopen_card_page
 
 .check_d_down
-	bit D_DOWN_F, b
+	bit B_PAD_DOWN, b
 	jr z, .handle_regular_card_page_input
 	push af
 	ld a, SFX_CURSOR
@@ -2313,7 +2313,7 @@ HandleDeckConfirmationMenu:
 	call HandleLeftRightInCardList
 	jr c, .loop_input
 	ldh a, [hDPadHeld]
-	and START
+	and PAD_START
 	jr z, .loop_input
 
 .selected_card
@@ -2358,9 +2358,9 @@ HandleLeftRightInCardList:
 	ld a, [wCardListVisibleOffset]
 	ld c, a
 	ldh a, [hDPadHeld]
-	cp D_RIGHT
+	cp PAD_RIGHT
 	jr z, .right
-	cp D_LEFT
+	cp PAD_LEFT
 	jr z, .left
 	or a
 	ret
@@ -2407,9 +2407,9 @@ HandleSelectUpAndDownInList:
 	ld a, [wCardListVisibleOffset]
 	ld c, a
 	ldh a, [hDPadHeld]
-	cp SELECT | D_DOWN
+	cp PAD_SELECT | PAD_DOWN
 	jr z, .sel_down
-	cp SELECT | D_UP
+	cp PAD_SELECT | PAD_UP
 	jr z, .sel_up
 	or a
 	ret
@@ -2453,7 +2453,7 @@ ShowDeckInfoHeaderAndWaitForBButton:
 .wait_input
 	call DoFrame
 	ldh a, [hKeysPressed]
-	and B_BUTTON
+	and PAD_B
 	jr z, .wait_input
 	ld a, $ff
 	jp PlaySFXConfirmOrCancel
@@ -2545,7 +2545,7 @@ PrintCurDeckNumberAndName:
 .got_deck_numeral
 	ld hl, wDefaultText
 	call ConvertToNumericalDigits
-	ld [hl], "FW0_・"
+	ldfw [hl], "・"
 	inc hl
 	ld [hl], TX_END
 	ld hl, wDefaultText
@@ -2923,7 +2923,7 @@ HandlePlayersCardsScreen:
 	ld [wCardListNumCursorPositions], a
 .check_d_down
 	ldh a, [hDPadHeld]
-	and D_DOWN
+	and PAD_DOWN
 	jr z, .no_d_down
 	call ConfirmSelectionAndReturnCarry
 	jr .jump_to_list
@@ -2967,7 +2967,7 @@ HandlePlayersCardsScreen:
 	call HandleDeckCardSelectionList
 	jr c, .asm_a36a
 	ldh a, [hDPadHeld]
-	and START
+	and PAD_START
 	jr z, .loop_input
 	; start btn pressed
 
