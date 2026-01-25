@@ -372,7 +372,7 @@ CheckIfSelectedAttackIsUnusable:
 ; and checks if there is enough energy to execute the selected attack
 ; input:
 ;	[hTempPlayAreaLocation_ff9d] = location of Pokémon card
-;	[wSelectedAttack]         = selected attack to examine
+;	[wSelectedAttack]            = selected attack to examine
 ; output:
 ;	b = basic energy still needed
 ;	c = colorless energy still needed
@@ -855,7 +855,7 @@ CheckEnergyNeededForAttackAfterDiscard:
 	farcall AIPickEnergyCardToDiscard
 	call LoadCardDataToBuffer1_FromDeckIndex
 	cp DOUBLE_COLORLESS_ENERGY
-	jr z, .colorless
+	jr z, .double_colorless
 
 ; color energy
 ; decrease respective attached energy by 1.
@@ -867,9 +867,10 @@ CheckEnergyNeededForAttackAfterDiscard:
 	dec [hl]
 	ld hl, wTotalAttachedEnergies
 	dec [hl]
-	jr .asm_1570c
+	jr .decremented_energy
+
+.double_colorless
 ; decrease attached colorless by 2.
-.colorless
 	ld hl, wAttachedEnergies + COLORLESS
 	dec [hl]
 	dec [hl]
@@ -877,7 +878,7 @@ CheckEnergyNeededForAttackAfterDiscard:
 	dec [hl]
 	dec [hl]
 
-.asm_1570c
+.decremented_energy
 	bank1call HandleEnergyBurn
 	xor a
 	ld [wTempLoadedAttackEnergyCost], a

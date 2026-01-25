@@ -236,13 +236,14 @@ AIDecide_Potion_Phase10:
 	sub d
 	jr c, .count_prizes
 	jr z, .count_prizes
+	; avoids Arena KO, don't play it on this Trainer Phase
 	or a
 	ret
 
+.count_prizes
 ; using Potion on active card does not prevent a KO.
 ; if player is at last prize, start loop with active card.
 ; otherwise start loop at first bench Pokémon.
-.count_prizes
 	call SwapTurn
 	call CountPrizes
 	call SwapTurn
@@ -261,7 +262,7 @@ AIDecide_Potion_Phase10:
 	call GetTurnDuelistVariable
 	cp $ff
 	ret z
-	call .check_boost_if_taken_damage
+	call .CheckIfHasAttackWithBoostIfTakenDamageFlag
 	jr c, .has_boost_damage
 	call GetCardDamageAndMaxHP
 	cp 20 ; if damage >= 20
@@ -277,18 +278,20 @@ AIDecide_Potion_Phase10:
 	jr z, .active_card
 
 ; bench card
+; if player is on last prize card then use Potion
+; otherwise only 70% chance to use Potion
 	push de
 	call SwapTurn
 	call CountPrizes
 	call SwapTurn
 	dec a
 	or a
-	jr z, .check_random
+	jr z, .no_random_chance
+	; 70% chance to use Potion
 	ld a, 10
 	call Random
 	cp 3
-; 7/10 chance of returning carry.
-.check_random
+.no_random_chance
 	pop de
 	jr c, .no_carry
 	ld a, e
@@ -310,7 +313,7 @@ AIDecide_Potion_Phase10:
 
 ; return carry if either of the attacks are usable
 ; and have the BOOST_IF_TAKEN_DAMAGE effect.
-.check_boost_if_taken_damage
+.CheckIfHasAttackWithBoostIfTakenDamageFlag:
 	push de
 	xor a ; FIRST_ATTACK_OR_PKMN_POWER
 	ld [wSelectedAttack], a
@@ -318,7 +321,7 @@ AIDecide_Potion_Phase10:
 	jr c, .second_attack
 	ld a, ATTACK_FLAG3_ADDRESS | BOOST_IF_TAKEN_DAMAGE_F
 	call CheckLoadedAttackFlag
-	jr c, .set_carry
+	jr c, .true
 .second_attack
 	ld a, SECOND_ATTACK
 	ld [wSelectedAttack], a
@@ -326,12 +329,12 @@ AIDecide_Potion_Phase10:
 	jr c, .false
 	ld a, ATTACK_FLAG3_ADDRESS | BOOST_IF_TAKEN_DAMAGE_F
 	call CheckLoadedAttackFlag
-	jr c, .set_carry
+	jr c, .true
 .false
 	pop de
 	or a
 	ret
-.set_carry
+.true
 	pop de
 	scf
 	ret
@@ -361,7 +364,7 @@ AIPlay_SuperPotion:
 ; active card next turn after using Super Potion.
 ; if it cannot, return carry.
 ; also take into account whether attack is high recoil.
-AIDecide_SuperPotion1:
+AIDecide_SuperPotion_Phase08:
 	farcall AIDecideWhetherToRetreat
 	jr c, .no_carry
 	call AICheckIfAttackIsHighRecoil
@@ -369,7 +372,7 @@ AIDecide_SuperPotion1:
 	xor a ; PLAY_AREA_ARENA
 	ldh [hTempPlayAreaLocation_ff9d], a
 	ld e, a
-	call .check_attached_energy
+	call .CheckIfHasEnergies
 	ret nc
 	farcall CheckIfDefendingPokemonCanKnockOut
 	jr nc, .no_carry
@@ -401,7 +404,7 @@ AIDecide_SuperPotion1:
 	ret
 
 ; returns carry if card has energies attached.
-.check_attached_energy
+.CheckIfHasEnergies:
 	call GetPlayAreaCardAttachedEnergies
 	ld a, [wTotalAttachedEnergies]
 	or a
@@ -413,7 +416,7 @@ AIDecide_SuperPotion1:
 ; output:
 ;	a = card to use Super Potion on;
 ;	carry set if Super Potion should be used.
-AIDecide_SuperPotion2:
+AIDecide_SuperPotion_Phase11:
 	xor a ; PLAY_AREA_ARENA
 	ldh [hTempPlayAreaLocation_ff9d], a
 	farcall CheckIfDefendingPokemonCanKnockOut
@@ -439,10 +442,10 @@ AIDecide_SuperPotion2:
 	or a
 	ret
 
+.count_prizes
 ; using Super Potion on active card does not prevent a KO.
 ; if player is at last prize, start loop with active card.
 ; otherwise start loop at first bench Pokémon.
-.count_prizes
 	call SwapTurn
 	call CountPrizes
 	call SwapTurn
@@ -454,7 +457,7 @@ AIDecide_SuperPotion2:
 ; find Play Area Pokémon with more than 30 damage.
 ; skip Pokémon if it doesn't have any energy attached,
 ; has a BOOST_IF_TAKEN_DAMAGE attack,
-; or if discarding makes any attack of its attacks unusable.
+; or if discarding makes any of its attacks unusable.
 .start_from_active
 	ld e, PLAY_AREA_ARENA
 .loop
@@ -464,11 +467,11 @@ AIDecide_SuperPotion2:
 	cp $ff
 	ret z
 	ld d, a
-	call .check_attached_energy
+	call .CheckIfHasEnergies
 	jr nc, .next
-	call .check_boost_if_taken_damage
+	call .CheckIfHasAttackWithBoostIfTakenDamageFlag
 	jr c, .next
-	call .check_energy_cost
+	call .CheckIfDiscardingMakesAttacksUnusable
 	jr c, .next
 	call GetCardDamageAndMaxHP
 	cp 40 ; if damage >= 40
@@ -484,6 +487,8 @@ AIDecide_SuperPotion2:
 	jr z, .active_card
 
 ; bench card
+; if player is on last prize card then use Super Potion
+; otherwise only 70% chance to use Super Potion
 	push de
 	call SwapTurn
 	call CountPrizes
@@ -491,10 +496,10 @@ AIDecide_SuperPotion2:
 	dec a
 	or a
 	jr z, .check_random
+	; 70% chance to use Super Potion
 	ld a, 10
 	call Random
 	cp 3
-; 7/10 chance of returning carry.
 .check_random
 	pop de
 	jr c, .no_carry
@@ -516,7 +521,7 @@ AIDecide_SuperPotion2:
 	ret
 
 ; returns carry if card has energies attached.
-.check_attached_energy
+.CheckIfHasEnergies:
 	call GetPlayAreaCardAttachedEnergies
 	ld a, [wTotalAttachedEnergies]
 	or a
@@ -526,7 +531,7 @@ AIDecide_SuperPotion2:
 
 ; return carry if either of the attacks are usable
 ; and have the BOOST_IF_TAKEN_DAMAGE effect.
-.check_boost_if_taken_damage
+.CheckIfHasAttackWithBoostIfTakenDamageFlag:
 	push de
 	xor a ; FIRST_ATTACK_OR_PKMN_POWER
 	ld [wSelectedAttack], a
@@ -554,7 +559,7 @@ AIDecide_SuperPotion2:
 
 ; returns carry if discarding energy card renders any attack unusable,
 ; given that they have enough energy to be used before discarding.
-.check_energy_cost
+.CheckIfDiscardingMakesAttacksUnusable:
 	push de
 	xor a ; FIRST_ATTACK_OR_PKMN_POWER
 	ld [wSelectedAttack], a
@@ -586,10 +591,10 @@ AIDecide_SuperPotion2:
 	scf
 	ret
 
-; AI always attaches a Defender card to the Active Pokémon.
 AIPlay_Defender:
 	ld a, [wAITrainerCardToPlay]
 	ldh [hTempCardIndex_ff9f], a
+	; AI always attaches a Defender card to the Active Pokémon.
 	xor a ; PLAY_AREA_ARENA
 	ldh [hTemp_ffa0], a
 	ld a, OPPACTION_EXECUTE_TRAINER_EFFECTS
@@ -599,7 +604,7 @@ AIPlay_Defender:
 ; returns carry if using Defender can prevent a KO
 ; by the defending Pokémon.
 ; this takes into account both attacks and whether they're useable.
-AIDecide_Defender1:
+AIDecide_Defender_Phase13:
 	xor a ; PLAY_AREA_ARENA
 	ldh [hTempPlayAreaLocation_ff9d], a
 	farcall CheckIfAnyAttackKnocksOutDefendingCard
@@ -683,7 +688,7 @@ AIDecide_Defender1:
 
 ; return carry if using Defender prevents Pokémon
 ; from being knocked out by an attack with recoil.
-AIDecide_Defender2:
+AIDecide_Defender_Phase14:
 	ld a, ATTACK_FLAG1_ADDRESS | HIGH_RECOIL_F
 	call CheckLoadedAttackFlag
 	jr c, .recoil
@@ -770,7 +775,7 @@ AIPlay_PlusPower:
 ; returns carry if using a PlusPower can KO defending Pokémon
 ; if active card cannot KO without the boost.
 ; outputs in a the attack to use.
-AIDecide_PlusPower1:
+AIDecide_PlusPower_Phase13:
 ; this is mistakenly duplicated
 	xor a ; PLAY_AREA_ARENA
 	ldh [hTempPlayAreaLocation_ff9d], a
@@ -815,27 +820,26 @@ AIDecide_PlusPower1:
 ; if neither can KO, return no carry.
 	xor a ; FIRST_ATTACK_OR_PKMN_POWER
 	ld [wSelectedAttack], a
-	call .check_ko_with_pluspower
-	jr c, .kos_with_pluspower_1
+	call .CheckAttackWithPluspower
+	jr c, .first_atk_kos_with_pluspower
 	ld a, SECOND_ATTACK
 	ld [wSelectedAttack], a
-	call .check_ko_with_pluspower
-	jr c, .kos_with_pluspower_2
+	call .CheckAttackWithPluspower
+	jr c, .second_atk_kos_with_pluspower
 
 .no_carry
 	or a
 	ret
 
-; first attack can KO with PlusPower.
-.kos_with_pluspower_1
-	call .check_mr_mime
+.first_atk_kos_with_pluspower
+	call .MrMimeDamageCheck
 	jr nc, .no_carry
 	xor a ; FIRST_ATTACK_OR_PKMN_POWER
 	scf
 	ret
-; second attack can KO with PlusPower.
-.kos_with_pluspower_2
-	call .check_mr_mime
+
+.second_atk_kos_with_pluspower
+	call .MrMimeDamageCheck
 	jr nc, .no_carry
 	ld a, SECOND_ATTACK
 	scf
@@ -843,7 +847,7 @@ AIDecide_PlusPower1:
 
 ; return carry if attack is useable and KOs
 ; defending Pokémon with PlusPower boost.
-.check_ko_with_pluspower
+.CheckAttackWithPluspower:
 	farcall CheckIfSelectedAttackIsUnusable
 	jr c, .unusable
 	ld a, [wSelectedAttack]
@@ -870,7 +874,7 @@ AIDecide_PlusPower1:
 
 ; returns carry if PlusPower boost does
 ; not exceed 30 damage when facing Mr. Mime.
-.check_mr_mime
+.MrMimeDamageCheck:
 	ld a, [wDamage]
 	add 10 ; add PlusPower boost
 	cp 30 ; no danger in preventing damage
@@ -887,19 +891,20 @@ AIDecide_PlusPower1:
 	scf
 	ret
 
-; returns carry 7/10 of the time
-; if selected attack is useable, can't KO without PlusPower boost
-; can damage Mr. Mime even with PlusPower boost
-; and has a minimum damage > 0.
+; returns carry 30% of the time if:
+; - selected attack is useable
+; - can't KO without PlusPower boost
+; - can damage Mr. Mime even with PlusPower boost
+; - has a minimum damage > 0.
 ; outputs in a the attack to use.
-AIDecide_PlusPower2:
+AIDecide_PlusPower_Phase14:
 	xor a ; PLAY_AREA_ARENA
 	ldh [hTempPlayAreaLocation_ff9d], a
-	call .check_can_ko
+	call .CheckAttackDoesntKO
 	jr nc, .no_carry
 	call .check_random
 	jr nc, .no_carry
-	call .check_mr_mime
+	call .MrMimeDamageCheck
 	jr nc, .no_carry
 	scf
 	ret
@@ -909,7 +914,7 @@ AIDecide_PlusPower2:
 
 ; returns carry if PlusPower boost does
 ; not exceed 30 damage when facing Mr. Mime.
-.check_mr_mime
+.MrMimeDamageCheck:
 	ld a, [wDamage]
 	add 10 ; add PlusPower boost
 	cp 30 ; no danger in preventing damage
@@ -927,7 +932,7 @@ AIDecide_PlusPower2:
 	ret
 
 ; return carry if attack is useable but cannot KO.
-.check_can_ko
+.CheckAttackDoesntKO:
 	farcall CheckIfSelectedAttackIsUnusable
 	jr c, .unusable
 	ld a, [wSelectedAttack]
@@ -946,7 +951,7 @@ AIDecide_PlusPower2:
 	or a
 	ret
 
-; return carry 7/10 of the time if
+; return carry 30% of the time if
 ; attack is useable and minimum damage > 0.
 .check_random
 	farcall CheckIfSelectedAttackIsUnusable
@@ -956,6 +961,7 @@ AIDecide_PlusPower2:
 	ld a, [wAIMinDamage]
 	cp 10
 	jr c, .unusable
+	; 30% chance to return carry
 	ld a, 10
 	call Random
 	cp 3
@@ -1003,19 +1009,19 @@ AIDecide_Switch:
 	jr nc, .switch
 
 .check_cost_amount
+	; use Switch if retreat cost is 3 or more
 	xor a ; PLAY_AREA_ARENA
 	ldh [hTempPlayAreaLocation_ff9d], a
 	call GetPlayAreaCardRetreatCost
 	cp 3
-	; jump if retreat cost >= 3
 	jr nc, .switch
 
+	; use Switch if not enough energies for retreat cost
 	push af
 	ld e, PLAY_AREA_ARENA
 	farcall CountNumberOfEnergyCardsAttached
 	pop bc
 	cp b
-	; jump if energy cards attached < retreat cost
 	jr c, .switch
 	ret
 
@@ -2305,89 +2311,88 @@ AIDecide_ProfessorOak:
 	cp WONDERS_OF_SCIENCE_DECK_ID
 	jp z, .HandleWondersOfScienceDeck
 
-; return if cards in deck <= 14
-.check_cards_deck
+; general deck AI logic for Professor Oak
+.general_logic
+	; do not play if cards in deck <= 14
 	ld a, [hl]
 	cp DECK_SIZE - 14
 	ret nc
 
 ; initialize score
-	ld a, $1e
+	ld a, 30
 	ld [wce06], a
 
-; check number of cards in hand
-.check_cards_hand
+.general_logic_got_initial_score
 	ld a, DUELVARS_NUMBER_OF_CARDS_IN_HAND
 	call GetTurnDuelistVariable
 	cp 4
-	jr nc, .more_than_3_cards
-
-; less than 4 cards in hand
+	jr nc, .at_least_4_hand_cards
+	; < 4 hand cards, encourage
 	ld a, [wce06]
-	add $32
+	add 50
 	ld [wce06], a
 	jr .check_energy_cards
-
-.more_than_3_cards
+.at_least_4_hand_cards
 	cp 9
 	jr c, .check_energy_cards
-
-; more than 8 cards
+	; >= 9 hand cards, discourage
 	ld a, [wce06]
-	sub $1e
+	sub 30
 	ld [wce06], a
 
 .check_energy_cards
 	farcall CreateEnergyCardListFromHand
 	jr nc, .handle_blastoise
-
-; no energy cards in hand
+	; no energy cards, encourage
 	ld a, [wce06]
-	add $28
+	add 40
 	ld [wce06], a
 
 .handle_blastoise
+	; is there Muk in play?
 	ld a, MUK
 	call CountPokemonWithActivePkmnPowerInBothPlayAreas
 	jr c, .check_hand
-
-; no Muk in Play Area
+	; if not, does AI have Blastoise lv52 in play?
 	ld a, BLASTOISE
 	call CountTurnDuelistPokemonWithActivePkmnPower
 	jr nc, .check_hand
-
-; at least one Blastoise in AI Play Area
+	; if yes, does AI have any Water Energy cards in hand?
 	ld a, WATER_ENERGY
 	farcall LookForCardIDInHand
 	jr nc, .check_hand
-
-; no Water energy in hand
+	; nope, then encourage
 	ld a, [wce06]
-	add $0a
+	add 10
 	ld [wce06], a
 
 .check_hand
+; loops through hand cards and encourages
+; if it finds any Basic Pokémon cards
 	call CreateHandCardList
 	ld hl, wDuelTempList
 .loop_hand
 	ld a, [hli]
 	cp $ff
-	jr z, .check_evolution
+	jr z, .check_evolutions
 
+	; skip card if it's an Energy card
 	call LoadCardDataToBuffer1_FromDeckIndex
 	ld a, [wLoadedCard1Type]
 	cp TYPE_ENERGY
 	jr c, .loop_hand ; bug, should be jr nc
 
+	; skip card if it's not Basic
 	ld a, [wLoadedCard1Stage]
 	or a
 	jr nz, .loop_hand
 
+	; has a Basic card, encourage
 	ld a, [wce06]
-	add $0a
+	add 10
 	ld [wce06], a
 
-.check_evolution
+.check_evolutions
 	xor a
 	ld [wce0f], a
 	ld [wce0f + 1], a
@@ -2396,26 +2401,21 @@ AIDecide_ProfessorOak:
 	call GetTurnDuelistVariable
 	ld d, a
 	ld e, PLAY_AREA_ARENA
-
 .loop_play_area
 	push de
 	call .LookForEvolution
 	pop de
 	jr nc, .not_in_hand
-
-; there's a card in hand that can evolve
-	ld a, $01
+	; there's a card in hand that can evolve it
+	ld a, TRUE
 	ld [wce0f], a
-
 .not_in_hand
-; check if a card that can evolve was found at all
-; if not, go to the next card in the Play Area
+	; check if a card that can evolve was found at all
+	; if yes, then set wce0f + 1 to TRUE
 	ld a, [wce08]
-	cp $01
+	cp TRUE
 	jr nz, .next_play_area
-
-; if it was found, set wce0f + 1 to $01
-	ld a, $01
+	ld a, TRUE
 	ld [wce0f + 1], a
 
 .next_play_area
@@ -2423,25 +2423,23 @@ AIDecide_ProfessorOak:
 	dec d
 	jr nz, .loop_play_area
 
-; if a card was found that evolves...
+	; if an evolution card was found...
 	ld a, [wce0f + 1]
 	or a
 	jr z, .check_score
-
-; ...but that card is not in the hand...
+	; ...but that card is not in the hand...
 	ld a, [wce0f]
 	or a
 	jr nz, .check_score
-
-; ...add to the score
+	; ...add to the score
 	ld a, [wce06]
-	add $0a
+	add 10
 	ld [wce06], a
 
-; only return carry if score >  $3c
 .check_score
+	; only use Professor Oak if score is >= 60
 	ld a, [wce06]
-	ld b, $3c
+	ld b, 60
 	cp b
 	jr nc, .set_carry
 	or a
@@ -2453,16 +2451,16 @@ AIDecide_ProfessorOak:
 
 ; return carry if there's a card in the hand that
 ; can evolve the card in Play Area location in e.
-; sets wce08 to $01 if any card is found that can
+; sets wce08 to TRUE if any card is found that can
 ; evolve regardless of card location.
-.LookForEvolution
+.LookForEvolution:
 	xor a
 	ld [wce08], a
-	ld d, 0
+	ld d, 0 ; deck index
 
-; loop through the whole deck to check if there's
+; loop through all cards to check if there's
 ; a card that can evolve this Pokemon.
-.loop_deck_evolution
+.loop_find_evolution
 	push de
 	call CheckIfCanEvolveInto
 	pop de
@@ -2471,23 +2469,23 @@ AIDecide_ProfessorOak:
 	inc d
 	ld a, DECK_SIZE
 	cp d
-	jr nz, .loop_deck_evolution
-
+	jr nz, .loop_find_evolution
+	; no evolutions found in hand
 	or a
 	ret
 
-; a card was found that can evolve, set wce08 to $01
+; a card was found that can evolve, set wce08 to TRUE
 ; and if the card is in the hand, return carry.
-; otherwise resume looping through deck.
+; otherwise resume looping through all cards
 .can_evolve
-	ld a, $01
+	ld a, TRUE
 	ld [wce08], a
 	ld a, DUELVARS_CARD_LOCATIONS
 	add d
 	call GetTurnDuelistVariable
 	cp CARD_LOCATION_HAND
 	jr nz, .evolution_not_in_hand
-
+	; is in hand
 	scf
 	ret
 
@@ -2573,11 +2571,11 @@ AIDecide_ProfessorOak:
 	jr c, .found_mysterious_fossil
 	ld a, $50
 	ld [wce06], a
-	jp .check_cards_hand
+	jp .general_logic_got_initial_score
 .found_mysterious_fossil
 	ld a, $1e
 	ld [wce06], a
-	jp .check_cards_hand
+	jp .general_logic_got_initial_score
 
 ; handles Wonders of Science AI logic.
 ; if there's either Grimer or Muk in hand,
@@ -2592,7 +2590,7 @@ AIDecide_ProfessorOak:
 
 	ld a, DUELVARS_NUMBER_OF_CARDS_NOT_IN_DECK
 	call GetTurnDuelistVariable
-	jp .check_cards_deck
+	jp .general_logic
 
 .found_grimer_or_muk
 	or a
