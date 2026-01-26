@@ -1,5 +1,4 @@
 Palette100::
-	db 0
 	db 8
 
 	rgb 31, 31, 31
@@ -43,7 +42,6 @@ Palette100::
 	rgb 31, 31,  0
 
 Palette102::
-	db 0
 	db 7
 
 	rgb 28, 28, 28
@@ -82,7 +80,6 @@ Palette102::
 	rgb 28, 28,  0
 
 Palette103::
-	db 0
 	db 7
 
 	rgb 28, 28, 28
@@ -121,7 +118,6 @@ Palette103::
 	rgb 28, 28,  0
 
 Palette104::
-	db 0
 	db 7
 
 	rgb 28, 28, 28
@@ -160,7 +156,6 @@ Palette104::
 	rgb 28, 28,  0
 
 Palette105::
-	db 0
 	db 7
 
 	rgb  0,  0,  4
@@ -199,7 +194,6 @@ Palette105::
 	rgb 31, 24,  0
 
 Palette106::
-	db 0
 	db 7
 
 	rgb  8,  1,  1
@@ -238,7 +232,6 @@ Palette106::
 	rgb 31, 31,  0
 
 Palette107::
-	db 0
 	db 7
 
 	rgb  3,  1,  1
@@ -277,9 +270,6 @@ Palette107::
 	rgb 31, 31,  0
 
 Palette111::
-	db 1
-	gbpal SHADE_WHITE, SHADE_LIGHT, SHADE_DARK, SHADE_BLACK ; OBP0
-
 	db 8
 
 	rgb 28, 28, 24
@@ -323,9 +313,6 @@ Palette111::
 	rgb 31, 31,  0
 
 Palette112::
-	db 1
-	gbpal SHADE_WHITE, SHADE_LIGHT, SHADE_DARK, SHADE_BLACK ; OBP0
-
 	db 8
 
 	rgb 28, 28, 24
@@ -369,9 +356,6 @@ Palette112::
 	rgb 25, 14,  0
 
 Palette113::
-	db 1
-	gbpal SHADE_WHITE, SHADE_LIGHT, SHADE_DARK, SHADE_BLACK ; OBP0
-
 	db 8
 
 	rgb 28, 28, 24
@@ -415,10 +399,6 @@ Palette113::
 	rgb 31, 31,  0
 
 Palette114::
-	db 2
-	gbpal SHADE_WHITE, SHADE_LIGHT, SHADE_DARK, SHADE_BLACK ; OBP0
-	gbpal SHADE_BLACK, SHADE_WHITE, SHADE_WHITE, SHADE_WHITE ; OBP1
-
 	db 4
 
 	rgb  0,  0,  0
@@ -442,10 +422,6 @@ Palette114::
 	rgb 31, 31,  0
 
 Palette115::
-	db 2
-	gbpal SHADE_WHITE, SHADE_LIGHT, SHADE_DARK, SHADE_BLACK ; OBP0
-	gbpal SHADE_BLACK, SHADE_WHITE, SHADE_WHITE, SHADE_WHITE ; OBP1
-
 	db 4
 
 	rgb 28, 28, 24
@@ -469,10 +445,6 @@ Palette115::
 	rgb 31, 31,  0
 
 Palette116::
-	db 2
-	gbpal SHADE_DARK, SHADE_WHITE, SHADE_LIGHT, SHADE_BLACK ; OBP0
-	gbpal SHADE_WHITE, SHADE_LIGHT, SHADE_DARK, SHADE_BLACK ; OBP1
-
 	db 4
 
 	rgb 28, 28, 24
@@ -496,7 +468,6 @@ Palette116::
 	rgb 31, 31,  0
 
 Palette118::
-	db 0
 	db 6
 
 	rgb 28, 28, 24
@@ -530,7 +501,6 @@ Palette118::
 	rgb  0,  0,  0
 
 Palette120::
-	db 0
 	db 1
 
 	rgb 28, 28, 28
@@ -539,7 +509,6 @@ Palette120::
 	rgb  0,  1,  0
 
 Palette121::
-	db 0
 	db 1
 
 	rgb 24, 24, 28
@@ -548,7 +517,6 @@ Palette121::
 	rgb  0,  0, 12
 
 Palette122::
-	db 0
 	db 1
 
 	rgb 24, 28, 24
@@ -557,7 +525,6 @@ Palette122::
 	rgb  0,  4,  0
 
 Palette123::
-	db 0
 	db 1
 
 	rgb 28, 28, 24
@@ -566,7 +533,6 @@ Palette123::
 	rgb  4,  0,  0
 
 Palette124::
-	db 0
 	db 1
 
 	rgb 21, 30, 17
@@ -575,7 +541,6 @@ Palette124::
 	rgb  5,  0,  0
 
 Palette125::
-	db 0
 	db 1
 
 	rgb 21, 30, 17
@@ -584,7 +549,6 @@ Palette125::
 	rgb  5,  0,  0
 
 Palette126::
-	db 0
 	db 1
 
 	rgb 28, 28, 24
@@ -593,7 +557,6 @@ Palette126::
 	rgb  5,  0,  0
 
 Palette127::
-	db 0
 	db 1
 
 	rgb 24, 31, 31
@@ -602,7 +565,6 @@ Palette127::
 	rgb  5,  0,  0
 
 Palette128::
-	db 0
 	db 1
 
 	rgb 31, 31, 12
@@ -611,7 +573,6 @@ Palette128::
 	rgb  3,  1,  1
 
 Palette129::
-	db 0
 	db 1
 
 	rgb 28, 28, 24
@@ -620,7 +581,6 @@ Palette129::
 	rgb  4,  1,  0
 
 Palette130::
-	db 0
 	db 1
 
 	rgb 28, 28, 24
@@ -629,7 +589,6 @@ Palette130::
 	rgb  4,  0,  0
 
 Palette131::
-	db 0
 	db 1
 
 	rgb 25, 18, 31
@@ -638,7 +597,6 @@ Palette131::
 	rgb  5,  0,  0
 
 Palette132::
-	db 0
 	db 1
 
 	rgb 28, 28, 24
@@ -647,7 +605,6 @@ Palette132::
 	rgb  5,  0,  0
 
 Palette133::
-	db 0
 	db 1
 
 	rgb 31, 31, 25
@@ -656,7 +613,6 @@ Palette133::
 	rgb  2,  2,  0
 
 Palette134::
-	db 0
 	db 1
 
 	rgb 24, 31, 31
@@ -665,7 +621,6 @@ Palette134::
 	rgb  0,  0,  2
 
 Palette135::
-	db 0
 	db 1
 
 	rgb 20, 31, 20
@@ -674,7 +629,6 @@ Palette135::
 	rgb  0,  3,  0
 
 Palette136::
-	db 0
 	db 1
 
 	rgb 28, 28, 28
@@ -683,7 +637,6 @@ Palette136::
 	rgb  0,  1,  0
 
 Palette137::
-	db 0
 	db 1
 
 	rgb 28, 28, 28
@@ -692,7 +645,6 @@ Palette137::
 	rgb  0,  1,  0
 
 Palette138::
-	db 0
 	db 1
 
 	rgb 28, 28, 28
@@ -701,7 +653,6 @@ Palette138::
 	rgb  0,  1,  0
 
 Palette139::
-	db 0
 	db 1
 
 	rgb 28, 28, 24
@@ -710,7 +661,6 @@ Palette139::
 	rgb  4,  0,  0
 
 Palette140::
-	db 0
 	db 1
 
 	rgb 28, 28, 24
@@ -719,7 +669,6 @@ Palette140::
 	rgb  4,  0,  0
 
 Palette141::
-	db 0
 	db 1
 
 	rgb 28, 28, 24
@@ -728,7 +677,6 @@ Palette141::
 	rgb  4,  0,  0
 
 Palette142::
-	db 0
 	db 1
 
 	rgb 20, 28, 28
@@ -737,7 +685,6 @@ Palette142::
 	rgb  0,  0,  4
 
 Palette143::
-	db 0
 	db 1
 
 	rgb 28, 28, 12
@@ -746,7 +693,6 @@ Palette143::
 	rgb  2,  1,  1
 
 Palette144::
-	db 0
 	db 1
 
 	rgb 28, 28, 12
@@ -755,7 +701,6 @@ Palette144::
 	rgb  2,  1,  1
 
 Palette145::
-	db 0
 	db 1
 
 	rgb 24, 24, 24
@@ -764,7 +709,6 @@ Palette145::
 	rgb  2,  0,  0
 
 Palette146::
-	db 0
 	db 1
 
 	rgb 24, 24, 24
@@ -773,7 +717,6 @@ Palette146::
 	rgb  2,  0,  0
 
 Palette147::
-	db 0
 	db 1
 
 	rgb 24, 24, 24
@@ -782,7 +725,6 @@ Palette147::
 	rgb  2,  0,  0
 
 Palette148::
-	db 0
 	db 1
 
 	rgb 28, 24, 24
@@ -791,7 +733,6 @@ Palette148::
 	rgb  2,  0,  0
 
 Palette149::
-	db 0
 	db 1
 
 	rgb 28, 24, 24
@@ -800,7 +741,6 @@ Palette149::
 	rgb  2,  0,  0
 
 Palette150::
-	db 0
 	db 1
 
 	rgb 28, 20, 24
@@ -809,7 +749,6 @@ Palette150::
 	rgb  2,  1,  1
 
 Palette151::
-	db 0
 	db 1
 
 	rgb 28, 20, 24
@@ -818,7 +757,6 @@ Palette151::
 	rgb  2,  1,  1
 
 Palette152::
-	db 0
 	db 1
 
 	rgb 24, 28, 16
@@ -827,7 +765,6 @@ Palette152::
 	rgb  0,  2,  0
 
 Palette153::
-	db 0
 	db 1
 
 	rgb 24, 28, 16
@@ -836,7 +773,6 @@ Palette153::
 	rgb  0,  2,  0
 
 Palette154::
-	db 0
 	db 1
 
 	rgb 24, 28, 16
@@ -845,7 +781,6 @@ Palette154::
 	rgb  0,  2,  0
 
 Palette155::
-	db 0
 	db 1
 
 	rgb 20, 28, 28
@@ -854,7 +789,6 @@ Palette155::
 	rgb  0,  0,  2
 
 Palette156::
-	db 0
 	db 1
 
 	rgb 20, 28, 28
@@ -863,7 +797,6 @@ Palette156::
 	rgb  0,  0,  2
 
 Palette157::
-	db 0
 	db 1
 
 	rgb 28, 28, 12
@@ -872,7 +805,6 @@ Palette157::
 	rgb  2,  1,  1
 
 Palette158::
-	db 0
 	db 1
 
 	rgb 28, 24, 24
@@ -881,7 +813,6 @@ Palette158::
 	rgb  1,  0,  0
 
 Palette159::
-	db 0
 	db 1
 
 	rgb 28, 20, 24
@@ -890,7 +821,6 @@ Palette159::
 	rgb  2,  1,  1
 
 Palette160::
-	db 0
 	db 1
 
 	rgb 29, 22, 25

@@ -339,7 +339,6 @@ AnimData2::
 	frame_data 0, 0, 0, 0
 
 Palette109::
-	db 1, %11100100
 	db 0
 
 SECTION "Gfx 5", ROMX
@@ -796,7 +795,6 @@ DuelSmallStarGfx::
 	INCBIN "gfx/duel/anims/small_star.2bpp"
 
 Palette117::
-	db 0
 	db 1
 
 	rgb 27, 27, 24
@@ -1082,7 +1080,6 @@ SECTION "Anims 3", ROMX
 	INCLUDE "data/duel/animations/anims3.asm"
 
 Palette31::
-	db 1, %11010010
 	db 1
 
 	rgb  0,  0,  0
@@ -1091,7 +1088,6 @@ Palette31::
 	rgb 11,  3,  0
 
 Palette119::
-	db 0
 	db 1
 
 	rgb 28, 28, 24

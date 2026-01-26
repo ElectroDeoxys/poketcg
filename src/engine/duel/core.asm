@@ -3782,8 +3782,6 @@ SetBGP6ToCardPalette:
 	jp CopyCGBCardPalette
 
 SetOBP1ToCardPalette:
-	ldgbpal a, SHADE_WHITE, SHADE_LIGHT, SHADE_DARK, SHADE_BLACK
-	ld [wOBP0], a
 	ld a, $09 ; CGB Object Palette 1
 ;	fallthrough
 
