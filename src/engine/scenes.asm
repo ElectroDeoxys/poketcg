@@ -38,12 +38,12 @@ _LoadScene::
 	ld a, [hli]
 	push af ; palette
 	xor a
-	ld [wd4ca], a
+	ld [wWhichOBP], a ; not used
 	ld a, [hli]
-	ld [wd4cb], a ; palette offset
+	ld [wWhichBGPalIndex], a ; palette offset
 	ld [wd291], a ; palette offset
 	pop af ; palette
-	farcall SetBGPAndLoadedPal ; load palette
+	farcall LoadBGPalette ; load palette
 	ld a, [hli]
 	ld [wCurTilemap], a
 	pop bc
@@ -51,9 +51,9 @@ _LoadScene::
 	farcall LoadTilemap_ToVRAM
 	pop bc ; base x,y
 	ld a, [hli]
-	ld [wd4ca], a ; tile offset
+	ld [wVRAMTileOffset], a ; tile offset
 	ld a, [hli]
-	ld [wd4cb], a ; vram0 or vram1
+	ld [wWhichVRAMBank], a ; vram0 or vram1
 	farcall LoadTilesetGfx
 .next_sprite
 	ld a, [hli]
@@ -63,11 +63,12 @@ _LoadScene::
 	ld a, [hli]
 	push af ; sprite palette
 	xor a
-	ld [wd4ca], a
+	ld [wWhichOBP], a ; OBP0
 	ld a, [hli]
-	ld [wd4cb], a ; palette offset
+	ld [wWhichOBPalIndex], a ; palette index
 	pop af ; sprite palette
-	farcall LoadPaletteData
+	farcall LoadOBPalette
+
 .next_animation
 	ld a, [hli]
 	or a
@@ -135,17 +136,17 @@ _DrawPortrait::
 	push hl
 	ld [wCurTileset], a
 	ld a, d
-	ld [wd4ca], a
+	ld [wVRAMTileOffset], a
 	xor a
-	ld [wd4cb], a
+	ld [wWhichVRAMBank], a ; VRAM0
 	farcall LoadTilesetGfx
 	pop hl
 	xor a
-	ld [wd4ca], a
+	ld [wWhichOBP], a ; not used
 	ld a, [wd291]
-	ld [wd4cb], a
+	ld [wWhichBGPalIndex], a
 	ld a, [hli]
-	farcall SetBGPAndLoadedPal
+	farcall LoadBGPalette
 	pop bc
 	pop de
 	pop af
@@ -180,10 +181,10 @@ SetBoosterLogoOAM:
 	push de
 	push bc
 	xor a
-	ld [wd4cb], a
-	ld [wd4ca], a
+	ld [wWhichVRAMBank], a ; VRAM0
+	ld [wVRAMTileOffset], a
 	ld a, SPRITE_BOOSTER_PACK_OAM
-	farcall Func_8025b
+	farcall LoadSpriteGfx
 	pop bc
 	call ZeroObjectPositions
 	ld hl, BoosterLogoOAM
